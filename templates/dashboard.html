@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<h1>GuardianNode Dashboard</h1>
+
+<div class="container">
+
+<canvas id="lineChart"></canvas>
+<canvas id="pieChart"></canvas>
+
+<div class="card">
+<a href="/export/csv">Download CSV</a>
+<a href="/export/pdf">Download PDF</a>
+</div>
+
+<div class="card">
+<h3>Logs</h3>
+{% for log in logs %}
+<p>{{ log }}</p>
+{% endfor %}
+</div>
+
+</div>
+
+<script>
+let line = new Chart(document.getElementById('lineChart'), {
+    type:'line',
+    data:{labels:[], datasets:[
+        {label:'Normal', data:[]},
+        {label:'Alerts', data:[]}
+    ]}
+});
+
+let pie = new Chart(document.getElementById('pieChart'), {
+    type:'pie',
+    data:{labels:[], datasets:[{data:[]}]}
+});
+
+async function update(){
+    let t = await fetch('/timeseries').then(r=>r.json());
+    line.data.labels = t.labels;
+    line.data.datasets[0].data = t.normal;
+    line.data.datasets[1].data = t.alerts;
+    line.update();
+
+    let d = await fetch('/distribution').then(r=>r.json());
+    pie.data.labels = d.ports;
+    pie.data.datasets[0].data = d.counts;
+    pie.update();
+}
+
+setInterval(update,2000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+body {
+    background: #0d1117;
+    color: #00ffcc;
+    font-family: 'Segoe UI';
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+}
+
+.card {
+    background: #161b22;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+button {
+    background: #00ffcc;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
