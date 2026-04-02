@@ -4,6 +4,8 @@ import pandas as pd
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
+# threading.Thread(target=detector.start_sniffing, daemon=True).start()
+
 app = Flask(__name__)
 app.secret_key = "guardian_secret"
 
