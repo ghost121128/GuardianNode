@@ -1,0 +1,1 @@
+JWT_SECRET_KEY = "guardian_secret_key"
