@@ -1,0 +1,339 @@
+type,ip,severity,time
+Brute Force Login,153.168.55.30,CRITICAL,Just now
+SQL Injection Attempt,246.119.112.51,HIGH,Just now
+Brute Force Login,229.76.65.200,CRITICAL,Just now
+Malware Activity,66.212.34.166,MEDIUM,Just now
+SQL Injection Attempt,188.61.154.255,MEDIUM,Just now
+Malware Activity,242.38.113.4,HIGH,Just now
+Unauthorized Access,69.19.152.70,MEDIUM,Just now
+SQL Injection Attempt,90.99.35.150,CRITICAL,Just now
+DDoS Activity,253.182.3.39,CRITICAL,Just now
+Unauthorized Access,23.60.246.196,HIGH,Just now
+Brute Force Login,79.92.101.254,MEDIUM,Just now
+Unauthorized Access,207.22.180.181,HIGH,Just now
+Port Scanning,212.247.93.104,CRITICAL,Just now
+Port Scanning,156.99.214.175,CRITICAL,Just now
+Unauthorized Access,155.111.190.63,CRITICAL,Just now
+Port Scanning,82.234.62.246,CRITICAL,Just now
+Unauthorized Access,110.190.63.116,MEDIUM,Just now
+DDoS Activity,97.107.130.214,CRITICAL,Just now
+DDoS Activity,168.192.203.26,HIGH,Just now
+Unauthorized Access,89.5.183.207,HIGH,Just now
+SQL Injection Attempt,218.129.15.49,MEDIUM,Just now
+Unauthorized Access,188.147.98.195,CRITICAL,Just now
+Brute Force Login,179.216.57.98,CRITICAL,Just now
+Brute Force Login,205.11.226.239,CRITICAL,Just now
+SQL Injection Attempt,145.117.219.66,HIGH,Just now
+Brute Force Login,196.5.4.183,CRITICAL,Just now
+Brute Force Login,42.33.83.63,CRITICAL,Just now
+Malware Activity,32.185.214.133,HIGH,Just now
+SQL Injection Attempt,120.124.58.47,MEDIUM,Just now
+Unauthorized Access,66.120.58.139,MEDIUM,Just now
+DDoS Activity,208.122.190.11,MEDIUM,Just now
+Unauthorized Access,155.137.130.121,MEDIUM,Just now
+Port Scanning,38.81.93.80,HIGH,Just now
+Brute Force Login,203.254.208.247,HIGH,Just now
+Unauthorized Access,224.44.51.87,HIGH,Just now
+Malware Activity,50.74.170.44,MEDIUM,Just now
+Port Scanning,212.48.12.54,CRITICAL,Just now
+Unauthorized Access,59.163.41.64,MEDIUM,Just now
+Malware Activity,194.9.203.239,HIGH,Just now
+Unauthorized Access,139.250.189.135,HIGH,Just now
+DDoS Activity,31.98.195.24,CRITICAL,Just now
+Unauthorized Access,76.34.236.86,CRITICAL,Just now
+Port Scanning,146.167.101.157,HIGH,Just now
+Port Scanning,122.58.54.82,CRITICAL,Just now
+DDoS Activity,63.217.75.55,CRITICAL,Just now
+Unauthorized Access,125.49.83.254,HIGH,Just now
+Unauthorized Access,204.95.194.219,MEDIUM,Just now
+Unauthorized Access,87.204.232.219,HIGH,Just now
+Malware Activity,95.70.159.58,HIGH,Just now
+DDoS Activity,119.77.139.115,MEDIUM,Just now
+SQL Injection Attempt,194.229.117.24,HIGH,Just now
+DDoS Activity,77.158.126.105,CRITICAL,Just now
+Unauthorized Access,198.68.239.20,MEDIUM,Just now
+Brute Force Login,62.56.97.47,MEDIUM,Just now
+Brute Force Login,161.78.159.72,MEDIUM,Just now
+Unauthorized Access,22.205.175.97,MEDIUM,Just now
+Unauthorized Access,217.161.55.29,HIGH,Just now
+DDoS Activity,194.55.56.227,CRITICAL,Just now
+Brute Force Login,54.217.244.125,HIGH,Just now
+DDoS Activity,202.40.206.216,CRITICAL,Just now
+Brute Force Login,27.37.71.156,HIGH,Just now
+SQL Injection Attempt,90.5.127.174,HIGH,Just now
+Unauthorized Access,176.135.105.248,CRITICAL,Just now
+Malware Activity,102.203.126.157,HIGH,Just now
+DDoS Activity,193.206.133.249,CRITICAL,Just now
+DDoS Activity,221.48.62.190,MEDIUM,Just now
+SQL Injection Attempt,130.120.18.158,MEDIUM,Just now
+Malware Activity,46.232.205.116,HIGH,Just now
+DDoS Activity,100.252.70.185,MEDIUM,Just now
+Malware Activity,132.54.195.57,CRITICAL,Just now
+Port Scanning,231.229.132.30,CRITICAL,Just now
+Brute Force Login,97.106.197.55,MEDIUM,Just now
+Brute Force Login,123.172.147.231,CRITICAL,Just now
+Brute Force Login,21.248.12.21,HIGH,Just now
+Brute Force Login,55.64.87.230,HIGH,Just now
+Malware Activity,215.18.169.121,CRITICAL,Just now
+Malware Activity,14.63.100.189,HIGH,Just now
+DDoS Activity,233.115.49.190,HIGH,Just now
+Malware Activity,208.227.57.96,CRITICAL,Just now
+Port Scanning,162.191.238.255,MEDIUM,Just now
+Malware Activity,193.243.241.9,HIGH,Just now
+Port Scanning,13.198.29.48,CRITICAL,Just now
+DDoS Activity,49.40.175.191,HIGH,Just now
+Port Scanning,80.46.208.18,HIGH,Just now
+SQL Injection Attempt,133.74.205.9,CRITICAL,Just now
+SQL Injection Attempt,248.175.135.64,MEDIUM,Just now
+Brute Force Login,244.69.170.177,MEDIUM,Just now
+Malware Activity,9.71.47.29,HIGH,Just now
+Brute Force Login,13.36.100.199,HIGH,Just now
+Brute Force Login,4.131.28.191,HIGH,Just now
+DDoS Activity,55.212.39.230,HIGH,Just now
+Brute Force Login,188.169.147.12,CRITICAL,Just now
+DDoS Activity,113.7.54.16,CRITICAL,Just now
+Port Scanning,72.156.208.179,HIGH,Just now
+Port Scanning,76.83.102.148,HIGH,Just now
+Malware Activity,175.53.153.236,HIGH,Just now
+Port Scanning,49.178.197.209,HIGH,Just now
+Unauthorized Access,178.151.189.126,MEDIUM,Just now
+SQL Injection Attempt,155.140.22.190,HIGH,Just now
+DDoS Activity,100.45.192.205,HIGH,Just now
+Unauthorized Access,11.55.86.221,CRITICAL,Just now
+SQL Injection Attempt,48.69.206.155,MEDIUM,Just now
+Unauthorized Access,142.183.199.76,MEDIUM,Just now
+Brute Force Login,3.130.5.161,MEDIUM,Just now
+Port Scanning,4.54.140.244,HIGH,Just now
+Unauthorized Access,198.91.88.138,CRITICAL,Just now
+Brute Force Login,193.8.137.243,CRITICAL,Just now
+DDoS Activity,88.147.26.61,MEDIUM,Just now
+Brute Force Login,81.160.235.229,MEDIUM,Just now
+Unauthorized Access,229.98.75.81,MEDIUM,Just now
+SQL Injection Attempt,171.182.37.254,MEDIUM,Just now
+Port Scanning,77.255.153.79,CRITICAL,Just now
+DDoS Activity,11.243.109.238,CRITICAL,Just now
+Brute Force Login,128.197.67.124,CRITICAL,Just now
+DDoS Activity,195.218.55.212,HIGH,Just now
+DDoS Activity,75.8.7.249,CRITICAL,Just now
+SQL Injection Attempt,63.215.161.190,MEDIUM,Just now
+Malware Activity,151.205.155.38,CRITICAL,Just now
+Unauthorized Access,85.131.138.208,CRITICAL,Just now
+SQL Injection Attempt,65.146.22.224,MEDIUM,Just now
+Brute Force Login,169.8.2.189,HIGH,Just now
+Brute Force Login,65.200.34.13,MEDIUM,Just now
+Malware Activity,84.180.86.161,MEDIUM,Just now
+Malware Activity,32.236.224.85,MEDIUM,Just now
+DDoS Activity,23.66.130.128,MEDIUM,Just now
+Unauthorized Access,96.2.187.109,HIGH,Just now
+Unauthorized Access,200.175.118.244,MEDIUM,Just now
+Brute Force Login,202.173.242.35,CRITICAL,Just now
+SQL Injection Attempt,139.112.38.105,MEDIUM,Just now
+Malware Activity,81.143.150.4,MEDIUM,Just now
+SQL Injection Attempt,242.181.169.85,HIGH,Just now
+DDoS Activity,33.156.249.35,MEDIUM,Just now
+Unauthorized Access,98.221.200.248,HIGH,Just now
+Port Scanning,98.148.82.74,MEDIUM,Just now
+Port Scanning,185.15.200.153,CRITICAL,Just now
+Brute Force Login,174.193.215.13,HIGH,Just now
+SQL Injection Attempt,204.129.249.69,MEDIUM,Just now
+SQL Injection Attempt,83.212.233.35,MEDIUM,Just now
+DDoS Activity,95.241.3.205,MEDIUM,Just now
+Port Scanning,16.174.56.32,CRITICAL,Just now
+Unauthorized Access,96.25.162.125,MEDIUM,Just now
+Unauthorized Access,248.10.200.128,HIGH,Just now
+Unauthorized Access,130.120.137.174,CRITICAL,Just now
+Malware Activity,166.218.58.194,HIGH,Just now
+DDoS Activity,123.26.62.71,CRITICAL,Just now
+Unauthorized Access,196.59.47.141,CRITICAL,Just now
+Unauthorized Access,22.108.190.160,MEDIUM,Just now
+Unauthorized Access,24.191.170.148,MEDIUM,Just now
+Malware Activity,134.155.215.203,CRITICAL,Just now
+Brute Force Login,158.136.91.9,CRITICAL,Just now
+DDoS Activity,63.57.121.223,MEDIUM,Just now
+Malware Activity,8.103.144.175,CRITICAL,Just now
+DDoS Activity,184.254.193.229,HIGH,Just now
+DDoS Activity,33.66.65.31,HIGH,Just now
+Port Scanning,78.125.177.31,MEDIUM,Just now
+Brute Force Login,60.183.80.223,HIGH,Just now
+Unauthorized Access,72.148.13.213,CRITICAL,Just now
+Port Scanning,2.191.195.29,MEDIUM,Just now
+Port Scanning,48.224.228.130,MEDIUM,Just now
+DDoS Activity,13.73.91.90,MEDIUM,Just now
+SQL Injection Attempt,215.161.111.176,HIGH,Just now
+DDoS Activity,201.8.144.156,MEDIUM,Just now
+SQL Injection Attempt,147.167.78.27,HIGH,Just now
+Port Scanning,67.194.139.247,MEDIUM,Just now
+Malware Activity,242.211.252.121,MEDIUM,Just now
+DDoS Activity,224.207.225.51,MEDIUM,Just now
+Unauthorized Access,47.60.55.75,HIGH,Just now
+Port Scanning,11.85.199.140,CRITICAL,Just now
+DDoS Activity,182.248.54.113,MEDIUM,Just now
+Brute Force Login,80.116.156.10,HIGH,Just now
+Brute Force Login,226.149.210.153,CRITICAL,Just now
+Brute Force Login,171.213.64.198,CRITICAL,Just now
+DDoS Activity,2.106.66.78,CRITICAL,Just now
+DDoS Activity,46.247.127.206,MEDIUM,Just now
+Malware Activity,10.112.179.11,CRITICAL,Just now
+SQL Injection Attempt,205.247.233.234,MEDIUM,Just now
+SQL Injection Attempt,42.26.17.247,HIGH,Just now
+Port Scanning,20.157.252.110,MEDIUM,Just now
+Port Scanning,23.142.132.31,CRITICAL,Just now
+Port Scanning,148.135.86.177,HIGH,Just now
+SQL Injection Attempt,214.244.3.16,HIGH,Just now
+Unauthorized Access,4.132.69.201,MEDIUM,Just now
+Brute Force Login,25.244.202.21,CRITICAL,Just now
+Unauthorized Access,235.32.237.42,MEDIUM,Just now
+Brute Force Login,215.139.126.97,MEDIUM,Just now
+Malware Activity,176.227.137.153,MEDIUM,Just now
+SQL Injection Attempt,251.89.73.90,MEDIUM,Just now
+DDoS Activity,148.54.223.141,HIGH,Just now
+Brute Force Login,194.167.225.211,MEDIUM,Just now
+Unauthorized Access,97.54.4.176,HIGH,Just now
+DDoS Activity,134.58.90.188,MEDIUM,Just now
+Malware Activity,217.218.186.245,MEDIUM,Just now
+Unauthorized Access,186.96.165.4,MEDIUM,Just now
+Malware Activity,58.178.96.85,HIGH,Just now
+DDoS Activity,196.250.58.240,HIGH,Just now
+Brute Force Login,225.157.230.70,HIGH,Just now
+Malware Activity,157.42.128.128,MEDIUM,Just now
+DDoS Activity,25.147.238.2,MEDIUM,Just now
+SQL Injection Attempt,99.220.111.154,HIGH,Just now
+Port Scanning,234.23.71.13,MEDIUM,Just now
+Malware Activity,182.44.138.134,CRITICAL,Just now
+Brute Force Login,29.57.158.5,HIGH,Just now
+Malware Activity,171.244.9.153,CRITICAL,Just now
+Malware Activity,207.149.122.136,HIGH,Just now
+Port Scanning,92.251.66.50,CRITICAL,Just now
+DDoS Activity,163.39.90.164,CRITICAL,Just now
+Malware Activity,47.133.249.166,MEDIUM,Just now
+Unauthorized Access,61.104.234.100,HIGH,Just now
+DDoS Activity,130.191.200.31,HIGH,Just now
+Brute Force Login,206.5.106.165,MEDIUM,Just now
+Brute Force Login,217.244.199.57,MEDIUM,Just now
+Unauthorized Access,186.252.43.7,HIGH,Just now
+SQL Injection Attempt,138.13.166.103,HIGH,Just now
+Port Scanning,208.170.60.43,MEDIUM,Just now
+DDoS Activity,197.39.96.164,CRITICAL,Just now
+Malware Activity,45.3.69.118,MEDIUM,Just now
+Malware Activity,155.239.49.198,MEDIUM,Just now
+Brute Force Login,195.192.106.253,MEDIUM,Just now
+Port Scanning,235.50.212.186,MEDIUM,Just now
+Unauthorized Access,236.177.229.48,HIGH,Just now
+DDoS Activity,126.136.241.13,MEDIUM,Just now
+Malware Activity,52.206.80.57,HIGH,Just now
+SQL Injection Attempt,213.233.191.204,HIGH,Just now
+DDoS Activity,82.104.48.16,MEDIUM,Just now
+Port Scanning,95.180.49.11,HIGH,Just now
+Malware Activity,79.233.164.36,HIGH,Just now
+SQL Injection Attempt,24.255.152.96,MEDIUM,Just now
+Port Scanning,209.79.4.163,HIGH,Just now
+SQL Injection Attempt,84.236.251.127,MEDIUM,Just now
+Unauthorized Access,155.29.122.242,MEDIUM,Just now
+Unauthorized Access,194.78.125.154,HIGH,Just now
+SQL Injection Attempt,147.79.73.43,MEDIUM,Just now
+Brute Force Login,127.25.158.20,MEDIUM,Just now
+Unauthorized Access,178.228.148.233,HIGH,Just now
+DDoS Activity,150.215.151.37,HIGH,Just now
+SQL Injection Attempt,52.113.198.130,CRITICAL,Just now
+DDoS Activity,87.123.174.145,MEDIUM,Just now
+Port Scanning,234.89.94.1,CRITICAL,Just now
+Unauthorized Access,249.159.88.115,CRITICAL,Just now
+DDoS Activity,6.103.184.95,HIGH,Just now
+Malware Activity,219.124.220.136,CRITICAL,Just now
+Malware Activity,142.51.113.160,CRITICAL,Just now
+Malware Activity,222.184.116.166,MEDIUM,Just now
+DDoS Activity,149.147.39.194,CRITICAL,Just now
+DDoS Activity,14.165.187.175,MEDIUM,Just now
+Unauthorized Access,13.76.202.186,MEDIUM,Just now
+Unauthorized Access,184.128.139.113,MEDIUM,Just now
+SQL Injection Attempt,181.99.252.5,HIGH,Just now
+Unauthorized Access,93.87.136.2,HIGH,Just now
+Malware Activity,80.238.23.7,MEDIUM,Just now
+Unauthorized Access,35.41.35.35,MEDIUM,Just now
+DDoS Activity,253.245.84.147,MEDIUM,Just now
+Unauthorized Access,234.226.57.208,CRITICAL,Just now
+Port Scanning,82.155.164.136,MEDIUM,Just now
+DDoS Activity,145.76.142.27,HIGH,Just now
+Unauthorized Access,221.184.42.115,HIGH,Just now
+Malware Activity,11.217.233.11,CRITICAL,Just now
+DDoS Activity,200.70.177.179,HIGH,Just now
+Unauthorized Access,158.69.24.102,CRITICAL,Just now
+Unauthorized Access,220.64.16.220,MEDIUM,Just now
+Unauthorized Access,200.227.192.248,HIGH,Just now
+Port Scanning,187.60.29.174,HIGH,Just now
+DDoS Activity,36.254.102.27,CRITICAL,Just now
+Brute Force Login,182.9.234.80,HIGH,Just now
+DDoS Activity,248.200.45.10,HIGH,Just now
+Brute Force Login,57.248.120.190,MEDIUM,Just now
+Port Scanning,102.204.235.90,HIGH,Just now
+SQL Injection Attempt,139.241.148.155,CRITICAL,Just now
+DDoS Activity,44.23.41.146,CRITICAL,Just now
+Brute Force Login,171.231.42.24,MEDIUM,Just now
+DDoS Activity,150.162.151.151,CRITICAL,Just now
+SQL Injection Attempt,12.227.179.236,MEDIUM,Just now
+Brute Force Login,50.171.124.11,CRITICAL,Just now
+Unauthorized Access,51.136.168.13,CRITICAL,Just now
+Malware Activity,28.19.189.179,HIGH,Just now
+Brute Force Login,219.115.96.141,HIGH,Just now
+Brute Force Login,10.217.194.7,HIGH,Just now
+SQL Injection Attempt,36.60.97.223,HIGH,Just now
+Port Scanning,214.104.240.53,HIGH,Just now
+Malware Activity,209.187.126.154,MEDIUM,Just now
+Brute Force Login,116.22.216.186,MEDIUM,Just now
+Port Scanning,151.170.18.219,HIGH,Just now
+Port Scanning,170.129.245.54,HIGH,Just now
+Brute Force Login,226.86.48.143,CRITICAL,Just now
+DDoS Activity,14.223.109.131,MEDIUM,Just now
+Unauthorized Access,210.81.31.3,MEDIUM,Just now
+Unauthorized Access,69.45.1.105,HIGH,Just now
+Malware Activity,32.228.105.27,CRITICAL,Just now
+Brute Force Login,211.181.153.198,HIGH,Just now
+Port Scanning,76.96.8.130,MEDIUM,Just now
+Brute Force Login,247.27.2.253,MEDIUM,Just now
+SQL Injection Attempt,4.255.156.184,MEDIUM,Just now
+DDoS Activity,18.198.222.147,MEDIUM,Just now
+DDoS Activity,2.225.99.198,MEDIUM,Just now
+Port Scanning,223.156.215.91,CRITICAL,Just now
+SQL Injection Attempt,241.54.76.43,HIGH,Just now
+Port Scanning,79.38.161.98,MEDIUM,Just now
+Port Scanning,4.4.199.236,MEDIUM,Just now
+Port Scanning,11.251.218.65,CRITICAL,Just now
+SQL Injection Attempt,144.8.1.208,HIGH,Just now
+Malware Activity,186.104.40.2,MEDIUM,Just now
+DDoS Activity,157.118.252.63,HIGH,Just now
+Malware Activity,37.129.112.37,CRITICAL,Just now
+DDoS Activity,251.80.10.40,MEDIUM,Just now
+Port Scanning,168.67.63.140,CRITICAL,Just now
+Port Scanning,154.216.168.192,CRITICAL,Just now
+SQL Injection Attempt,245.58.252.67,MEDIUM,Just now
+Malware Activity,62.117.84.211,MEDIUM,Just now
+Brute Force Login,224.226.41.116,CRITICAL,Just now
+Port Scanning,250.136.112.166,HIGH,Just now
+Unauthorized Access,197.152.169.162,CRITICAL,Just now
+DDoS Activity,139.52.129.193,MEDIUM,Just now
+SQL Injection Attempt,14.192.31.66,HIGH,Just now
+Malware Activity,127.152.242.250,CRITICAL,Just now
+Port Scanning,238.36.253.113,CRITICAL,Just now
+Brute Force Login,13.12.32.187,HIGH,Just now
+Malware Activity,84.214.62.241,MEDIUM,Just now
+Unauthorized Access,216.178.60.218,HIGH,Just now
+Unauthorized Access,25.250.211.149,HIGH,Just now
+Brute Force Login,195.27.147.163,HIGH,Just now
+Unauthorized Access,209.172.178.178,MEDIUM,Just now
+Malware Activity,233.40.248.160,HIGH,Just now
+Unauthorized Access,50.78.77.43,CRITICAL,Just now
+SQL Injection Attempt,217.218.76.103,MEDIUM,Just now
+Port Scanning,195.42.62.111,CRITICAL,Just now
+Malware Activity,199.55.93.245,MEDIUM,Just now
+SQL Injection Attempt,67.44.41.25,HIGH,Just now
+Malware Activity,166.113.203.49,MEDIUM,Just now
+Port Scanning,3.72.103.60,CRITICAL,Just now
+Brute Force Login,170.187.67.148,HIGH,Just now
+Brute Force Login,3.45.47.9,CRITICAL,Just now
+Port Scanning,168.154.116.151,HIGH,Just now
+Malware Activity,97.3.220.1,CRITICAL,Just now
+Port Scanning,175.146.93.212,CRITICAL,Just now
+Malware Activity,167.172.86.203,MEDIUM,Just now
+DDoS Activity,126.242.84.105,HIGH,Just now
+Malware Activity,91.24.224.101,MEDIUM,Just now
+Unauthorized Access,188.252.154.225,HIGH,Just now
