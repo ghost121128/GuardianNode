@@ -277,6 +277,105 @@ const ThreatFeed = ({
 
         </div>
 
+        {/* Info */}
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+
+  <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-5 md:p-6`}>
+
+    <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
+
+      IP Address
+
+    </p>
+
+    <h2 className="text-lg md:text-2xl font-black break-all">
+
+      {selectedThreat.ip || "Unknown"}
+
+    </h2>
+
+  </div>
+
+  <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-5 md:p-6`}>
+
+    <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
+
+      Severity
+
+    </p>
+
+    <h2 className="text-lg md:text-2xl font-black text-orange-500">
+
+      {selectedThreat.severity || "N/A"}
+
+    </h2>
+
+  </div>
+
+  <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-5 md:p-6`}>
+
+    <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
+
+      Status
+
+    </p>
+
+    <h2 className="text-lg md:text-2xl font-black text-green-500">
+
+      {selectedThreat.status || "Monitoring"}
+
+    </h2>
+
+  </div>
+
+  <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-5 md:p-6`}>
+
+    <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
+
+      Timestamp
+
+    </p>
+
+    <h2 className="text-xs md:text-lg font-black break-all">
+
+      {selectedThreat.timestamp || "No Timestamp"}
+
+    </h2>
+
+  </div>
+
+</div>
+
+{/* Analysis */}
+
+<div className="mt-6 md:mt-8 bg-red-500/10 border border-red-500/20 rounded-3xl p-5 md:p-6">
+
+  <h2 className="text-xl md:text-2xl font-black mb-4 text-red-500">
+
+    Threat Analysis
+
+  </h2>
+
+  <p className={`${darkMode ? "text-gray-300" : "text-gray-700"} leading-relaxed text-sm md:text-base`}>
+
+    GuardianNode detected suspicious
+    network activity matching
+    behavioral patterns of
+    {` ${selectedThreat.type} `}
+    attacks.
+
+    The system classified this
+    threat as
+    {` ${selectedThreat.severity} `}
+    severity and automatically
+    triggered defensive monitoring
+    protocols.
+
+  </p>
+
+</div>
+
         {/* Search + Filter */}
 
         <div className="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
