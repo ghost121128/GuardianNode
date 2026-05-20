@@ -1,76 +1,65 @@
 import createGlobe from "cobe";
-import { useEffect, useRef } from "react";
-
+import {
+  useEffect,
+  useRef,
+} from "react";
 export default function Globe() {
-
-  const canvasRef = useRef();
-
+  const canvasRef = useRef(null);
   useEffect(() => {
-
     let phi = 0;
-
-    const globe = createGlobe(canvasRef.current, {
-
+    const canvas =
+      canvasRef.current;
+    if (!canvas) return;
+    const globe = createGlobe(canvas, {
       devicePixelRatio: 2,
-
-      width: 1200,
-
-      height: 1200,
-
+      width: canvas.offsetWidth * 2,
+      height: canvas.offsetHeight * 2,
       phi: 0,
-
       theta: 0.3,
-
       dark: 1,
-
-      diffuse: 1.2,
-
-      mapSamples: 16000,
-
-      mapBrightness: 6,
-
-      baseColor: [0.05, 0.1, 0.2],
-
+      diffuse: 1.5,
+      mapSamples: 20000,
+      mapBrightness: 8,
+      baseColor: [0.02, 0.08, 0.18],
       markerColor: [0, 1, 1],
-
       glowColor: [0, 1, 1],
-
       markers: [
-
-        { location: [28.6139, 77.2090], size: 0.1 },
-
-        { location: [40.7128, -74.0060], size: 0.1 },
-
-        { location: [51.5072, -0.1276], size: 0.1 },
-
-        { location: [35.6762, 139.6503], size: 0.1 },
-
+        {
+          location: [28.6139, 77.2090],
+          size: 0.08,
+        },
+        {
+          location: [40.7128, -74.0060],
+          size: 0.08,
+        },
+        {
+          location: [51.5072, -0.1276],
+          size: 0.08,
+        },
+        {
+          location: [35.6762, 139.6503],
+          size: 0.08,
+        },
       ],
-
       onRender: (state) => {
-
         state.phi = phi;
-
-        phi += 0.003;
-
+        phi += 0.0025;
       },
-
     });
-
-    return () => globe.destroy();
-
+    return () => {
+      globe.destroy();
+    };
   }, []);
-
   return (
-
-    <canvas
-      ref={canvasRef}
-      style={{
-        width: "100%",
-        height: "700px",
-      }}
-    />
-
+    <div className="w-full h-full flex items-center justify-center overflow-hidden">
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full"
+        style={{
+          maxWidth: "100%",
+          aspectRatio: "1 / 1",
+        }}
+      />
+    </div>
   );
-
 }

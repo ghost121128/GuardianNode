@@ -75,8 +75,6 @@ const Dashboard = ({ darkMode }) => {
 
     fetchStats();
 
-    // Auto Refresh Every 5 Sec
-
     const interval = setInterval(
       fetchStats,
       5000
@@ -95,13 +93,13 @@ const Dashboard = ({ darkMode }) => {
 
     return (
 
-      <div className={`min-h-screen flex items-center justify-center transition-all duration-500 ${
+      <div className={`min-h-screen flex items-center justify-center ${
         darkMode
           ? "bg-[#040816] text-white"
-          : "bg-gray-100 text-black"
+          : "bg-[#f4f7fb] text-black"
       }`}>
 
-        <h1 className="text-2xl md:text-3xl font-black animate-pulse text-center px-4">
+        <h1 className="text-3xl font-black animate-pulse">
 
           Loading GuardianNode...
 
@@ -121,19 +119,19 @@ const Dashboard = ({ darkMode }) => {
 
     return (
 
-      <div className={`min-h-screen flex flex-col items-center justify-center transition-all duration-500 px-4 ${
+      <div className={`min-h-screen flex flex-col items-center justify-center ${
         darkMode
           ? "bg-[#040816] text-white"
-          : "bg-gray-100 text-black"
+          : "bg-[#f4f7fb] text-black"
       }`}>
 
-        <h1 className="text-2xl md:text-3xl font-black text-red-500 mb-4 text-center">
+        <h1 className="text-3xl font-black text-red-500 mb-4">
 
           Backend Connection Failed
 
         </h1>
 
-        <p className="text-gray-400 text-center break-all">
+        <p className="text-gray-400">
 
           {error}
 
@@ -151,17 +149,19 @@ const Dashboard = ({ darkMode }) => {
 
   return (
 
-    <div className={`min-h-screen p-4 md:p-8 transition-all duration-500 ${
+    <div className={`min-h-screen p-6 md:p-8 transition-all duration-500 ${
       darkMode
         ? "bg-[#040816] text-white"
-        : "bg-gray-100 text-gray-900"
+        : "bg-[#f4f7fb] text-black"
     }`}>
 
+      {/* ========================= */}
       {/* Header */}
+      {/* ========================= */}
 
       <div className="mb-10">
 
-        <h1 className="text-3xl md:text-6xl font-black mb-4 leading-tight">
+        <h1 className="text-4xl md:text-6xl font-black leading-tight">
 
           Real-Time{" "}
 
@@ -173,7 +173,7 @@ const Dashboard = ({ darkMode }) => {
 
         </h1>
 
-        <p className={`text-sm md:text-lg max-w-3xl ${
+        <p className={`mt-4 text-base md:text-lg max-w-3xl ${
           darkMode
             ? "text-gray-400"
             : "text-gray-600"
@@ -186,21 +186,23 @@ const Dashboard = ({ darkMode }) => {
 
       </div>
 
+      {/* ========================= */}
       {/* Stats Cards */}
+      {/* ========================= */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
         {/* Total Threats */}
 
-        <div className={`rounded-3xl p-6 shadow-xl border transition-all duration-500 ${
+        <div className={`rounded-3xl p-6 border shadow-xl ${
           darkMode
-            ? "bg-[#0B1120] border-cyan-500/20 text-white"
-            : "bg-white border-gray-200 text-gray-900"
+            ? "bg-[#0B1120] border-cyan-500/20"
+            : "bg-white border-gray-200"
         }`}>
 
           <div className="flex justify-between items-center mb-4">
 
-            <p className={`text-sm md:text-base ${
+            <p className={`${
               darkMode
                 ? "text-gray-400"
                 : "text-gray-500"
@@ -214,7 +216,7 @@ const Dashboard = ({ darkMode }) => {
 
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-black break-words">
+          <h1 className="text-5xl font-black">
 
             {stats.totalThreats}
 
@@ -224,15 +226,15 @@ const Dashboard = ({ darkMode }) => {
 
         {/* Critical Alerts */}
 
-        <div className={`rounded-3xl p-6 shadow-xl border transition-all duration-500 ${
+        <div className={`rounded-3xl p-6 border shadow-xl ${
           darkMode
-            ? "bg-[#0B1120] border-red-500/20 text-white"
-            : "bg-white border-gray-200 text-gray-900"
+            ? "bg-[#0B1120] border-red-500/20"
+            : "bg-white border-gray-200"
         }`}>
 
           <div className="flex justify-between items-center mb-4">
 
-            <p className={`text-sm md:text-base ${
+            <p className={`${
               darkMode
                 ? "text-gray-400"
                 : "text-gray-500"
@@ -246,7 +248,7 @@ const Dashboard = ({ darkMode }) => {
 
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-black break-words">
+          <h1 className="text-5xl font-black">
 
             {stats.criticalAlerts}
 
@@ -254,17 +256,17 @@ const Dashboard = ({ darkMode }) => {
 
         </div>
 
-        {/* Blocked */}
+        {/* Blocked Attacks */}
 
-        <div className={`rounded-3xl p-6 shadow-xl border transition-all duration-500 ${
+        <div className={`rounded-3xl p-6 border shadow-xl ${
           darkMode
-            ? "bg-[#0B1120] border-orange-500/20 text-white"
-            : "bg-white border-gray-200 text-gray-900"
+            ? "bg-[#0B1120] border-orange-500/20"
+            : "bg-white border-gray-200"
         }`}>
 
           <div className="flex justify-between items-center mb-4">
 
-            <p className={`text-sm md:text-base ${
+            <p className={`${
               darkMode
                 ? "text-gray-400"
                 : "text-gray-500"
@@ -278,7 +280,7 @@ const Dashboard = ({ darkMode }) => {
 
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-black break-words">
+          <h1 className="text-5xl font-black">
 
             {stats.blockedAttacks}
 
@@ -288,15 +290,15 @@ const Dashboard = ({ darkMode }) => {
 
         {/* Monitoring */}
 
-        <div className={`rounded-3xl p-6 shadow-xl border transition-all duration-500 ${
+        <div className={`rounded-3xl p-6 border shadow-xl ${
           darkMode
-            ? "bg-[#0B1120] border-green-500/20 text-white"
-            : "bg-white border-gray-200 text-gray-900"
+            ? "bg-[#0B1120] border-green-500/20"
+            : "bg-white border-gray-200"
         }`}>
 
           <div className="flex justify-between items-center mb-4">
 
-            <p className={`text-sm md:text-base ${
+            <p className={`${
               darkMode
                 ? "text-gray-400"
                 : "text-gray-500"
@@ -310,7 +312,7 @@ const Dashboard = ({ darkMode }) => {
 
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-black break-words">
+          <h1 className="text-5xl font-black">
 
             {stats.monitoringCount}
 
@@ -320,27 +322,29 @@ const Dashboard = ({ darkMode }) => {
 
       </div>
 
+      {/* ========================= */}
       {/* Globe Section */}
+      {/* ========================= */}
 
       <div className="mt-10">
 
-        <div className={`rounded-[32px] overflow-hidden shadow-2xl border transition-all duration-500 ${
+        <div className={`rounded-[32px] overflow-hidden border shadow-2xl ${
           darkMode
-            ? "bg-[#0B1120] border-cyan-500/10"
+            ? "bg-[#081120] border-cyan-500/10"
             : "bg-white border-gray-200"
         }`}>
 
-          {/* Header */}
+          {/* Globe Header */}
 
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 px-6 md:px-8 pt-8">
+          <div className="flex items-center justify-between px-6 md:px-8 pt-8">
 
-            <h2 className="text-2xl md:text-4xl font-black text-cyan-400">
+            <h2 className="text-3xl md:text-5xl font-black text-cyan-400">
 
               Global Cyber Activity
 
             </h2>
 
-            <div className="bg-cyan-500/10 text-cyan-400 px-5 py-2 rounded-2xl font-bold w-fit">
+            <div className="bg-cyan-500/10 text-cyan-400 px-5 py-2 rounded-2xl font-bold">
 
               LIVE
 
@@ -348,9 +352,9 @@ const Dashboard = ({ darkMode }) => {
 
           </div>
 
-          {/* Globe */}
+          {/* Globe Container */}
 
-          <div className="mt-6 h-[350px] md:h-[700px] w-full">
+          <div className="w-full h-[400px] md:h-[700px] relative">
 
             <Globe />
 
