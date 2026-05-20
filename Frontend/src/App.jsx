@@ -24,11 +24,9 @@ import BottomNav from "./components/ui/BottomNav";
 // =========================
 
 const ProtectedLayout = ({
-
   children,
   darkMode,
   setDarkMode,
-
 }) => {
 
   const isAuth =
@@ -44,13 +42,13 @@ const ProtectedLayout = ({
 
   return (
 
-    <div className={`flex min-h-screen transition-all duration-500 ${
-      darkMode
-
-        ? "bg-[#040816] text-white"
-
-        : "bg-white text-black"
-    }`}>
+    <div
+      className={`flex min-h-screen transition-all duration-500 ${
+        darkMode
+          ? "bg-[#040816] text-white"
+          : "bg-[#F4F7FB] text-black"
+      }`}
+    >
 
       {/* Desktop Sidebar */}
 
@@ -65,7 +63,7 @@ const ProtectedLayout = ({
 
       {/* Main Content */}
 
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-x-hidden pb-24 md:pb-0">
 
         {children}
 
