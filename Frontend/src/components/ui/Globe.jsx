@@ -1,23 +1,15 @@
 import createGlobe from "cobe";
-import {
-  useEffect,
-  useRef,
-} from "react";
+import { useEffect, useRef } from "react";
 
 export default function Globe() {
 
-  const canvasRef = useRef();
+  const canvasRef = useRef(null);
 
   useEffect(() => {
 
     let phi = 0;
 
-    const canvas =
-      canvasRef.current;
-
-    if (!canvas) return;
-
-    const globe = createGlobe(canvas, {
+    const globe = createGlobe(canvasRef.current, {
 
       devicePixelRatio: 2,
 
@@ -27,25 +19,27 @@ export default function Globe() {
 
       phi: 0,
 
-      theta: 0.3,
+      theta: 0.25,
 
-      dark: 0,
+      dark: 1,
 
-      diffuse: 2,
+      diffuse: 1.4,
 
-      mapSamples: 16000,
+      mapSamples: 30000,
 
-      mapBrightness: 12,
+      mapBrightness: 1.8,
 
-      baseColor: [0.3, 0.3, 0.3],
+      baseColor: [0.1, 0.1, 0.1],
 
-      markerColor: [0, 1, 1],
+      markerColor: [0.0, 1.0, 1.0],
 
-      glowColor: [0, 0.8, 1],
+      glowColor: [0.0, 0.8, 1.0],
 
-      atmosphereColor: [0, 0.8, 1],
+      opacity: 1,
 
-      atmosphereAltitude: 0.2,
+      offset: [0, 0],
+
+      scale: 1,
 
       markers: [
 
@@ -74,28 +68,19 @@ export default function Globe() {
           size: 0.08,
         },
 
-        {
-          location: [55.7558, 37.6173],
-          size: 0.08,
-        },
-
       ],
 
       onRender: (state) => {
 
         state.phi = phi;
 
-        phi += 0.002;
+        phi += 0.004;
 
       },
 
     });
 
-    return () => {
-
-      globe.destroy();
-
-    };
+    return () => globe.destroy();
 
   }, []);
 
@@ -104,21 +89,12 @@ export default function Globe() {
     <div className="w-full h-full flex items-center justify-center overflow-hidden">
 
       <canvas
-
         ref={canvasRef}
-
+        className="w-full h-full"
         style={{
-
-          width: "100%",
-
-          height: "100%",
-
-          maxWidth: "850px",
-
-          aspectRatio: "1 / 1",
-
+          maxWidth: "1000px",
+          aspectRatio: "1/1",
         }}
-
       />
 
     </div>
