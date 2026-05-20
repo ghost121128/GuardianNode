@@ -33,20 +33,26 @@ const Dashboard = ({ darkMode }) => {
         );
 
         if (!response.ok) {
+
           throw new Error("Failed to fetch stats");
+
         }
 
         const data = await response.json();
 
         setStats(data);
 
-      } catch (err) {
+      }
+
+      catch (err) {
 
         console.error(err);
 
         setError(err.message);
 
-      } finally {
+      }
+
+      finally {
 
         setLoading(false);
 
@@ -56,9 +62,11 @@ const Dashboard = ({ darkMode }) => {
 
     fetchStats();
 
-    const interval = setInterval(fetchStats, 5000);
+    const interval =
+      setInterval(fetchStats, 5000);
 
-    return () => clearInterval(interval);
+    return () =>
+      clearInterval(interval);
 
   }, []);
 
@@ -114,7 +122,7 @@ const Dashboard = ({ darkMode }) => {
 
   return (
 
-    <div className={`min-h-screen w-full overflow-x-hidden pb-28 md:pb-10 ${
+    <div className={`min-h-screen w-full overflow-x-hidden pb-28 md:pb-10 transition-all duration-300 ${
       darkMode
         ? "bg-[#040816] text-white"
         : "bg-[#F4F7FB] text-black"
@@ -132,7 +140,11 @@ const Dashboard = ({ darkMode }) => {
 
           </h1>
 
-          <p className="text-gray-400 mt-2 text-sm sm:text-base">
+          <p className={`mt-2 text-sm sm:text-base ${
+            darkMode
+              ? "text-gray-400"
+              : "text-gray-600"
+          }`}>
 
             Monitor live threats, analyze suspicious activity, and defend your infrastructure using GuardianNode IDS + IPS architecture.
 
@@ -146,11 +158,19 @@ const Dashboard = ({ darkMode }) => {
 
           {/* Total Threats */}
 
-          <div className="bg-[#0B1120] rounded-3xl p-5 border border-cyan-500/20 shadow-xl">
+          <div className={`rounded-3xl p-5 shadow-xl border transition-all duration-300 ${
+            darkMode
+              ? "bg-[#0B1120] border-cyan-500/20"
+              : "bg-white border-gray-200"
+          }`}>
 
             <div className="flex justify-between items-center mb-4">
 
-              <p className="text-gray-400 text-sm md:text-base">
+              <p className={`text-sm md:text-base ${
+                darkMode
+                  ? "text-gray-400"
+                  : "text-gray-500"
+              }`}>
 
                 Total Threats
 
@@ -160,7 +180,11 @@ const Dashboard = ({ darkMode }) => {
 
             </div>
 
-            <h1 className="text-5xl font-black">
+            <h1 className={`text-5xl font-black ${
+              darkMode
+                ? "text-white"
+                : "text-black"
+            }`}>
 
               {stats.totalThreats}
 
@@ -170,11 +194,19 @@ const Dashboard = ({ darkMode }) => {
 
           {/* Critical */}
 
-          <div className="bg-[#0B1120] rounded-3xl p-5 border border-red-500/20 shadow-xl">
+          <div className={`rounded-3xl p-5 shadow-xl border transition-all duration-300 ${
+            darkMode
+              ? "bg-[#0B1120] border-red-500/20"
+              : "bg-white border-gray-200"
+          }`}>
 
             <div className="flex justify-between items-center mb-4">
 
-              <p className="text-gray-400 text-sm md:text-base">
+              <p className={`text-sm md:text-base ${
+                darkMode
+                  ? "text-gray-400"
+                  : "text-gray-500"
+              }`}>
 
                 Critical Alerts
 
@@ -184,7 +216,11 @@ const Dashboard = ({ darkMode }) => {
 
             </div>
 
-            <h1 className="text-5xl font-black">
+            <h1 className={`text-5xl font-black ${
+              darkMode
+                ? "text-white"
+                : "text-black"
+            }`}>
 
               {stats.criticalAlerts}
 
@@ -194,11 +230,19 @@ const Dashboard = ({ darkMode }) => {
 
           {/* Blocked */}
 
-          <div className="bg-[#0B1120] rounded-3xl p-5 border border-orange-500/20 shadow-xl">
+          <div className={`rounded-3xl p-5 shadow-xl border transition-all duration-300 ${
+            darkMode
+              ? "bg-[#0B1120] border-orange-500/20"
+              : "bg-white border-gray-200"
+          }`}>
 
             <div className="flex justify-between items-center mb-4">
 
-              <p className="text-gray-400 text-sm md:text-base">
+              <p className={`text-sm md:text-base ${
+                darkMode
+                  ? "text-gray-400"
+                  : "text-gray-500"
+              }`}>
 
                 Blocked Attacks
 
@@ -208,7 +252,11 @@ const Dashboard = ({ darkMode }) => {
 
             </div>
 
-            <h1 className="text-5xl font-black">
+            <h1 className={`text-5xl font-black ${
+              darkMode
+                ? "text-white"
+                : "text-black"
+            }`}>
 
               {stats.blockedAttacks}
 
@@ -218,11 +266,19 @@ const Dashboard = ({ darkMode }) => {
 
           {/* Monitoring */}
 
-          <div className="bg-[#0B1120] rounded-3xl p-5 border border-green-500/20 shadow-xl">
+          <div className={`rounded-3xl p-5 shadow-xl border transition-all duration-300 ${
+            darkMode
+              ? "bg-[#0B1120] border-green-500/20"
+              : "bg-white border-gray-200"
+          }`}>
 
             <div className="flex justify-between items-center mb-4">
 
-              <p className="text-gray-400 text-sm md:text-base">
+              <p className={`text-sm md:text-base ${
+                darkMode
+                  ? "text-gray-400"
+                  : "text-gray-500"
+              }`}>
 
                 Monitoring
 
@@ -232,7 +288,11 @@ const Dashboard = ({ darkMode }) => {
 
             </div>
 
-            <h1 className="text-5xl font-black">
+            <h1 className={`text-5xl font-black ${
+              darkMode
+                ? "text-white"
+                : "text-black"
+            }`}>
 
               {stats.monitoringCount}
 
@@ -242,39 +302,41 @@ const Dashboard = ({ darkMode }) => {
 
         </div>
 
-       {/* Globe Section */}
+        {/* Globe Section */}
 
-<div className="mt-8 bg-[#020B1D] rounded-[32px] border border-cyan-500/10 overflow-hidden shadow-2xl relative">
+        <div className={`mt-8 rounded-[32px] border overflow-hidden shadow-2xl relative transition-all duration-300 ${
+          darkMode
+            ? "bg-[#020B1D] border-cyan-500/10"
+            : "bg-white border-gray-200"
+        }`}>
 
-  <div className="flex items-center justify-between px-5 md:px-8 pt-5 md:pt-8">
+          <div className="flex items-center justify-between px-5 md:px-8 pt-5 md:pt-8">
 
-    <h1 className="text-3xl md:text-5xl font-black text-cyan-400 leading-tight">
+            <h1 className="text-3xl md:text-5xl font-black text-cyan-400 leading-tight">
 
-      Global Cyber Activity
+              Global Cyber Activity
 
-    </h1>
+            </h1>
 
-    <div className="bg-cyan-500/10 text-cyan-400 px-4 py-2 rounded-2xl font-bold text-sm md:text-lg">
+            <div className="bg-cyan-500/10 text-cyan-400 px-4 py-2 rounded-2xl font-bold text-sm md:text-lg">
 
-      LIVE
+              LIVE
 
-    </div>
+            </div>
 
-  </div>
+          </div>
 
-  <div className="w-full h-[500px] md:h-[700px] flex items-center justify-center overflow-hidden">
+          <div className="w-full h-[500px] md:h-[700px] flex items-center justify-center overflow-hidden">
 
-   <CyberGlobe />
+            <CyberGlobe />
 
-  </div>
-
-</div>
-
-</div>
+          </div>
 
         </div>
 
-    
+      </div>
+
+    </div>
 
   );
 
