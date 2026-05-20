@@ -267,7 +267,15 @@ const Dashboard = ({ darkMode }) => {
 
   <div className="w-full flex items-center justify-center scale-[0.9] md:scale-100">
 
-    <Globe />
+   <div className="w-full h-full flex items-center justify-center">
+
+  <img
+    src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
+    alt="Cyber Globe"
+    className="w-full h-full object-cover rounded-b-[32px]"
+  />
+
+</div>
 
   </div>
 

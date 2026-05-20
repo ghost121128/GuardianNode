@@ -23,43 +23,31 @@ export default function Globe() {
 
       dark: 1,
 
-      diffuse: 1.2,
+      diffuse: 1.4,
 
-      mapSamples: 20000,
+      mapSamples: 40000,
 
-      mapBrightness: 4,
+      mapBrightness: 1.2,
 
       baseColor: [0.1, 0.1, 0.1],
 
-      markerColor: [0, 1, 1],
+      markerColor: [0.1, 0.8, 1],
 
-      glowColor: [0, 1, 1],
+      glowColor: [0, 0.8, 1],
 
-      opacity: 1,
+      atmosphereColor: [0, 0.8, 1],
 
-      scale: 1,
+      atmosphereAltitude: 0.18,
 
       markers: [
 
-        {
-          location: [28.6139, 77.2090],
-          size: 0.08,
-        },
+        { location: [28.6139, 77.2090], size: 0.06 },
 
-        {
-          location: [40.7128, -74.0060],
-          size: 0.08,
-        },
+        { location: [40.7128, -74.0060], size: 0.06 },
 
-        {
-          location: [51.5072, -0.1276],
-          size: 0.08,
-        },
+        { location: [51.5072, -0.1276], size: 0.06 },
 
-        {
-          location: [35.6762, 139.6503],
-          size: 0.08,
-        },
+        { location: [35.6762, 139.6503], size: 0.06 },
 
       ],
 
@@ -67,7 +55,7 @@ export default function Globe() {
 
         state.phi = phi;
 
-        phi += 0.003;
+        phi += 0.002;
 
       },
 
@@ -79,15 +67,14 @@ export default function Globe() {
 
   return (
 
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full flex items-center justify-center">
 
       <canvas
         ref={canvasRef}
         style={{
-          width: "650px",
-          height: "650px",
-          maxWidth: "100%",
-          aspectRatio: "1 / 1",
+          width: "100%",
+          maxWidth: "700px",
+          aspectRatio: "1/1",
         }}
       />
 
