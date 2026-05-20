@@ -14,7 +14,7 @@ import ThreatFeed from "./pages/ThreatFeed";
 import Analytics from "./pages/Analytics";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
-import Login from "./pages/Login";
+import Login from "./pages/login";
 
 import Sidebar from "./components/ui/Sidebar";
 import BottomNav from "./components/ui/BottomNav";
