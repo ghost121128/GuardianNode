@@ -36,9 +36,13 @@ socketio = SocketIO(
 # MongoDB Connection
 # =========================
 
-MONGO_URI = os.environ.get(
-    "mongodb+srv://GuardianAdmin:GNode@cluster0.ifqkmq1.mongodb.net/?appName=Cluster0"
-)
+MONGO_URI = os.environ.get("MONGO_URI")
+
+if not MONGO_URI:
+
+    raise Exception(
+        "MONGO_URI not found"
+    )
 
 client = MongoClient(MONGO_URI)
 
