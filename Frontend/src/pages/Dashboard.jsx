@@ -10,7 +10,7 @@ import {
   Activity,
 } from "lucide-react";
 
-import Globe from "../components/Globe.jsx";
+import Globe from "../components/ui/Globe";
 
 const Dashboard = ({ darkMode }) => {
 
