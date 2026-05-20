@@ -34,6 +34,9 @@ const ThreatFeed = ({
   const [selectedThreat, setSelectedThreat] =
     useState(null);
 
+  const isMobile =
+    window.innerWidth < 768;
+
   // =========================
   // Fetch Threats
   // =========================
@@ -51,10 +54,6 @@ const ThreatFeed = ({
         await response.json();
 
       setThreats(data);
-
-      // =========================
-      // Optimized Popup Alerts
-      // =========================
 
       if (data.length > 0) {
 
@@ -160,7 +159,7 @@ const ThreatFeed = ({
 
   return (
 
-    <div className={`min-h-screen p-8 transition-colors duration-300 ${
+    <div className={`min-h-screen p-4 md:p-8 transition-colors duration-300 ${
       darkMode
 
         ? "bg-[#050816] text-white"
@@ -168,11 +167,9 @@ const ThreatFeed = ({
         : "bg-gray-100 text-gray-900"
     }`}>
 
-      {/* ========================= */}
       {/* Popup Alerts */}
-      {/* ========================= */}
 
-      <div className="fixed top-6 right-6 z-50 space-y-4">
+      <div className="fixed top-4 md:top-6 right-4 md:right-6 z-50 space-y-4">
 
         {popups.map((popup) => (
 
@@ -199,22 +196,26 @@ const ThreatFeed = ({
               duration: 0.25,
             }}
 
-            className="bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl"
+            className="bg-red-500 text-white px-4 md:px-6 py-3 md:py-4 rounded-2xl shadow-2xl max-w-[280px] md:max-w-none"
           >
 
             <div className="flex items-center gap-3">
 
-              <AlertTriangle />
+              <AlertTriangle size={
+                isMobile
+                  ? 18
+                  : 24
+              } />
 
               <div>
 
-                <h2 className="font-black">
+                <h2 className="font-black text-sm md:text-base">
 
                   Threat Detected
 
                 </h2>
 
-                <p className="text-sm">
+                <p className="text-xs md:text-sm">
 
                   {popup.type}
 
@@ -230,21 +231,19 @@ const ThreatFeed = ({
 
       </div>
 
-      {/* ========================= */}
       {/* Header */}
-      {/* ========================= */}
 
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
 
         <div>
 
-          <h1 className="text-5xl font-black mb-3">
+          <h1 className="text-3xl md:text-5xl font-black mb-3">
 
             Threat Feed
 
           </h1>
 
-          <p className={`text-lg ${
+          <p className={`text-sm md:text-lg ${
             darkMode
 
               ? "text-gray-400"
@@ -260,11 +259,11 @@ const ThreatFeed = ({
 
         {/* Search + Filter */}
 
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
 
           {/* Search */}
 
-          <div className={`border rounded-2xl px-5 py-3 flex items-center gap-3 shadow-lg ${
+          <div className={`border rounded-2xl px-4 md:px-5 py-3 flex items-center gap-3 shadow-lg w-full ${
             darkMode
 
               ? "bg-[#0B1120] border-[#1E293B]"
@@ -274,7 +273,7 @@ const ThreatFeed = ({
 
             <Search
               className="text-gray-400"
-              size={20}
+              size={18}
             />
 
             <input
@@ -289,7 +288,7 @@ const ThreatFeed = ({
                 )
               }
 
-              className="bg-transparent outline-none"
+              className="bg-transparent outline-none w-full text-sm md:text-base"
             />
 
           </div>
@@ -306,7 +305,7 @@ const ThreatFeed = ({
               )
             }
 
-            className={`rounded-2xl px-5 py-3 shadow-lg border ${
+            className={`rounded-2xl px-4 md:px-5 py-3 shadow-lg border text-sm md:text-base ${
               darkMode
 
                 ? "bg-[#0B1120] border-[#1E293B] text-white"
@@ -351,9 +350,7 @@ const ThreatFeed = ({
 
       </div>
 
-      {/* ========================= */}
       {/* Threat Cards */}
-      {/* ========================= */}
 
       <div className="space-y-5">
 
@@ -389,7 +386,7 @@ const ThreatFeed = ({
                     setSelectedThreat(threat)
                   }
 
-                  className={`cursor-pointer border rounded-[28px] p-6 shadow-xl hover:shadow-2xl transition-all duration-300 ${
+                  className={`cursor-pointer border rounded-[28px] p-4 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 ${
                     darkMode
 
                       ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -400,17 +397,17 @@ const ThreatFeed = ({
 
                   {/* Top */}
 
-                  <div className="flex justify-between items-center mb-6">
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
 
                     <div>
 
-                      <h2 className="text-3xl font-black mb-2">
+                      <h2 className="text-2xl md:text-3xl font-black mb-2">
 
                         {threat.type}
 
                       </h2>
 
-                      <p className={`${
+                      <p className={`text-sm md:text-base ${
                         darkMode
 
                           ? "text-gray-400"
@@ -424,7 +421,7 @@ const ThreatFeed = ({
 
                     </div>
 
-                    <div className="bg-orange-500/10 text-orange-500 px-5 py-2 rounded-full font-bold">
+                    <div className="bg-orange-500/10 text-orange-500 px-4 md:px-5 py-2 rounded-full font-bold w-fit text-sm md:text-base">
 
                       {threat.severity}
 
@@ -434,36 +431,37 @@ const ThreatFeed = ({
 
                   {/* Grid */}
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
 
                     {/* IP */}
 
-                    <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-5`}>
+                    <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-4 md:p-5`}>
 
-                      <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+                      <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
 
                         IP Address
 
                       </p>
 
-                      <h3 className="text-xl font-bold">
+                      <h3 className="text-base md:text-xl font-bold break-all">
 
                         {threat.ip}
 
                       </h3>
 
                     </div>
-                                        {/* Status */}
 
-                    <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-5`}>
+                    {/* Status */}
 
-                      <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+                    <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-4 md:p-5`}>
+
+                      <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
 
                         Status
 
                       </p>
 
-                      <h3 className="text-xl font-bold text-green-500">
+                      <h3 className="text-base md:text-xl font-bold text-green-500">
 
                         {threat.status}
 
@@ -473,15 +471,15 @@ const ThreatFeed = ({
 
                     {/* Timestamp */}
 
-                    <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-5`}>
+                    <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-4 md:p-5`}>
 
-                      <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+                      <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
 
                         Timestamp
 
                       </p>
 
-                      <h3 className="text-sm font-bold break-all">
+                      <h3 className="text-xs md:text-sm font-bold break-all">
 
                         {threat.timestamp}
 
@@ -500,9 +498,7 @@ const ThreatFeed = ({
 
       </div>
 
-      {/* ========================= */}
-      {/* Optimized Modal */}
-      {/* ========================= */}
+      {/* Modal */}
 
       <AnimatePresence>
 
@@ -526,7 +522,7 @@ const ThreatFeed = ({
               duration: 0.2,
             }}
 
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 md:p-6 overflow-y-auto"
           >
 
             <motion.div
@@ -550,7 +546,7 @@ const ThreatFeed = ({
                 duration: 0.2,
               }}
 
-              className={`border p-8 w-full max-w-3xl rounded-[32px] shadow-2xl relative overflow-hidden ${
+              className={`border p-5 md:p-8 w-full max-w-3xl rounded-[32px] shadow-2xl relative ${
                 darkMode
 
                   ? "bg-[#0B1120] border-[#1E293B]"
@@ -567,7 +563,7 @@ const ThreatFeed = ({
                   setSelectedThreat(null)
                 }
 
-                className="absolute top-5 right-5 bg-red-500 text-white w-10 h-10 rounded-full font-black"
+                className="absolute top-4 right-4 bg-red-500 text-white w-9 h-9 md:w-10 md:h-10 rounded-full font-black"
               >
 
                 X
@@ -578,13 +574,13 @@ const ThreatFeed = ({
 
               <div className="mb-8">
 
-                <h1 className="text-5xl font-black mb-3">
+                <h1 className="text-3xl md:text-5xl font-black mb-3 pr-10">
 
                   {selectedThreat.type}
 
                 </h1>
 
-                <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} text-lg`}>
+                <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} text-sm md:text-lg`}>
 
                   Full threat intelligence report
 
@@ -594,17 +590,17 @@ const ThreatFeed = ({
 
               {/* Info */}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 
-                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-6`}>
+                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-5 md:p-6`}>
 
-                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
 
                     IP Address
 
                   </p>
 
-                  <h2 className="text-2xl font-black">
+                  <h2 className="text-lg md:text-2xl font-black break-all">
 
                     {selectedThreat.ip}
 
@@ -612,15 +608,15 @@ const ThreatFeed = ({
 
                 </div>
 
-                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-6`}>
+                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-5 md:p-6`}>
 
-                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
 
                     Severity
 
                   </p>
 
-                  <h2 className="text-2xl font-black text-orange-500">
+                  <h2 className="text-lg md:text-2xl font-black text-orange-500">
 
                     {selectedThreat.severity}
 
@@ -628,15 +624,15 @@ const ThreatFeed = ({
 
                 </div>
 
-                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-6`}>
+                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-5 md:p-6`}>
 
-                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
 
                     Status
 
                   </p>
 
-                  <h2 className="text-2xl font-black text-green-500">
+                  <h2 className="text-lg md:text-2xl font-black text-green-500">
 
                     {selectedThreat.status}
 
@@ -644,15 +640,15 @@ const ThreatFeed = ({
 
                 </div>
 
-                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-6`}>
+                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-5 md:p-6`}>
 
-                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
 
                     Timestamp
 
                   </p>
 
-                  <h2 className="text-lg font-black break-all">
+                  <h2 className="text-xs md:text-lg font-black break-all">
 
                     {selectedThreat.timestamp}
 
@@ -664,15 +660,15 @@ const ThreatFeed = ({
 
               {/* Analysis */}
 
-              <div className="mt-8 bg-red-500/10 border border-red-500/20 rounded-3xl p-6">
+              <div className="mt-6 md:mt-8 bg-red-500/10 border border-red-500/20 rounded-3xl p-5 md:p-6">
 
-                <h2 className="text-2xl font-black mb-4 text-red-500">
+                <h2 className="text-xl md:text-2xl font-black mb-4 text-red-500">
 
                   Threat Analysis
 
                 </h2>
 
-                <p className={`${darkMode ? "text-gray-300" : "text-gray-700"} leading-relaxed`}>
+                <p className={`${darkMode ? "text-gray-300" : "text-gray-700"} leading-relaxed text-sm md:text-base`}>
 
                   GuardianNode detected suspicious
                   network activity matching

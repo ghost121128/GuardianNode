@@ -86,6 +86,9 @@ const Dashboard = ({
   const [threats, setThreats] =
     useState([]);
 
+  const isMobile =
+    window.innerWidth < 768;
+
   // =========================
   // Fetch Stats
   // =========================
@@ -416,7 +419,7 @@ const Dashboard = ({
 
       {/* Navbar */}
 
-      <div className={`relative z-10 flex items-center justify-between px-10 py-6 border-b backdrop-blur-md ${
+      <div className={`relative z-10 flex items-center justify-between px-4 md:px-10 py-6 border-b backdrop-blur-md ${
         darkMode
 
           ? "border-white/10"
@@ -426,13 +429,13 @@ const Dashboard = ({
 
         <div>
 
-          <h1 className="text-4xl font-black tracking-tight">
+          <h1 className="text-2xl md:text-4xl font-black tracking-tight">
 
             GuardianNode
 
           </h1>
 
-          <p className={`${
+          <p className={`text-sm md:text-base ${
             darkMode
 
               ? "text-gray-400"
@@ -450,7 +453,7 @@ const Dashboard = ({
 
       {/* Main */}
 
-      <div className="relative z-10 p-10">
+      <div className="relative z-10 p-4 md:p-10">
 
         {/* Hero */}
 
@@ -473,7 +476,7 @@ const Dashboard = ({
           className="mb-10"
         >
 
-          <h1 className="text-5xl md:text-6xl font-black mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-black mb-4 leading-tight">
 
             Real-Time
             <span className="text-cyan-400">
@@ -483,7 +486,7 @@ const Dashboard = ({
 
           </h1>
 
-          <p className={`text-lg max-w-3xl ${
+          <p className={`text-sm sm:text-base md:text-lg max-w-3xl ${
             darkMode
 
               ? "text-gray-400"
@@ -500,7 +503,7 @@ const Dashboard = ({
 
         {/* Stats */}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
 
           {
 
@@ -529,14 +532,14 @@ const Dashboard = ({
                         ? "bg-white/5"
 
                         : "bg-black/5"
-                    } border ${card.border} backdrop-blur-md rounded-[28px] p-7 shadow-xl`}
+                    } border ${card.border} backdrop-blur-md rounded-[28px] p-4 md:p-7 shadow-xl`}
                   >
 
-                    <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center justify-between mb-4 md:mb-6">
 
                       <div>
 
-                        <p className={`mb-3 ${
+                        <p className={`mb-2 md:mb-3 text-xs md:text-base ${
                           darkMode
 
                             ? "text-gray-400"
@@ -548,7 +551,7 @@ const Dashboard = ({
 
                         </p>
 
-                        <h2 className="text-5xl font-black">
+                        <h2 className="text-2xl md:text-5xl font-black">
 
                           {card.value}
 
@@ -556,10 +559,14 @@ const Dashboard = ({
 
                       </div>
 
-                      <div className="w-16 h-16 rounded-3xl bg-white/5 flex items-center justify-center">
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-3xl bg-white/5 flex items-center justify-center">
 
                         <Icon
-                          size={32}
+                          size={
+                            isMobile
+                              ? 22
+                              : 32
+                          }
                           className={card.color}
                         />
 
@@ -586,17 +593,17 @@ const Dashboard = ({
             ? "bg-white/5"
 
             : "bg-black/5"
-        } border border-cyan-500/20 rounded-[28px] p-7 shadow-xl overflow-hidden`}>
+        } border border-cyan-500/20 rounded-[28px] p-4 md:p-7 shadow-xl overflow-hidden`}>
 
           <div className="flex items-center justify-between mb-6">
 
-            <h2 className="text-3xl font-black text-cyan-400">
+            <h2 className="text-xl md:text-3xl font-black text-cyan-400">
 
               Global Cyber Activity
 
             </h2>
 
-            <div className="px-4 py-2 rounded-xl bg-cyan-500/10 text-cyan-400 font-bold">
+            <div className="px-3 md:px-4 py-2 rounded-xl bg-cyan-500/10 text-cyan-400 font-bold text-xs md:text-base">
 
               LIVE
 
@@ -611,14 +618,22 @@ const Dashboard = ({
               alignItems: "center",
             }}
 
-            className="h-[700px] w-full rounded-3xl overflow-hidden relative"
+            className="h-[320px] md:h-[700px] w-full rounded-3xl overflow-hidden relative"
           >
 
             <Globe
 
-              width={1200}
+              width={
+                isMobile
+                  ? 320
+                  : 1200
+              }
 
-              height={700}
+              height={
+                isMobile
+                  ? 320
+                  : 700
+              }
 
               globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
 

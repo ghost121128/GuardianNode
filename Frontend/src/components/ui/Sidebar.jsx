@@ -30,6 +30,9 @@ const Sidebar = ({
   const navigate =
     useNavigate();
 
+  const isMobile =
+    window.innerWidth < 768;
+
   const menuItems = [
 
     {
@@ -96,7 +99,14 @@ const Sidebar = ({
 
   return (
 
-    <div className={`w-[300px] min-h-screen border-r transition-all duration-500 flex flex-col justify-between ${
+    <div className={`${
+      isMobile
+
+        ? "w-[85px]"
+
+        : "w-[300px]"
+
+    } h-screen sticky top-0 border-r transition-all duration-500 flex flex-col justify-between overflow-hidden ${
       darkMode
 
         ? "bg-[#050b1a] border-white/10 text-white"
@@ -106,19 +116,31 @@ const Sidebar = ({
 
       {/* Top */}
 
-      <div>
+      <div className="overflow-y-auto">
 
         {/* Logo */}
 
-        <div className="p-8">
+        <div className="p-5 md:p-8">
 
-          <h1 className="text-4xl font-black text-cyan-400">
+          <h1 className={`font-black text-cyan-400 ${
+            isMobile
+
+              ? "text-lg"
+
+              : "text-4xl"
+          }`}>
 
             GuardianNode
 
           </h1>
 
           <p className={`mt-2 ${
+            isMobile
+
+              ? "hidden"
+
+              :
+
             darkMode
 
               ? "text-gray-400"
@@ -134,7 +156,7 @@ const Sidebar = ({
 
         {/* Navigation */}
 
-        <div className="px-4 space-y-3">
+        <div className="px-3 md:px-4 space-y-3">
 
           {
 
@@ -159,7 +181,13 @@ const Sidebar = ({
 
                       isActive,
 
-                    }) => `flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 ${
+                    }) => `flex items-center ${
+                      isMobile
+
+                        ? "justify-center"
+
+                        : "gap-4"
+                    } px-4 py-4 rounded-2xl transition-all duration-300 ${
                       isActive
 
                         ?
@@ -190,7 +218,13 @@ const Sidebar = ({
 
                     <Icon size={22} />
 
-                    <span className="font-semibold">
+                    <span className={`font-semibold ${
+                      isMobile
+
+                        ? "hidden"
+
+                        : "block"
+                    }`}>
 
                       {item.name}
 
@@ -211,11 +245,9 @@ const Sidebar = ({
 
       {/* Bottom */}
 
-      <div className="p-6">
+      <div className="p-4 md:p-6 border-t border-white/5">
 
-        {/* ========================= */}
         {/* Theme Switch */}
-        {/* ========================= */}
 
         <div className="w-full flex items-center justify-center mb-6">
 
@@ -272,10 +304,24 @@ const Sidebar = ({
 
           onClick={handleLogout}
 
-          className="w-full rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 px-5 py-4 font-bold transition-all duration-300 hover:bg-red-500/20"
+          className={`w-full rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 py-4 font-bold transition-all duration-300 hover:bg-red-500/20 ${
+            isMobile
+
+              ? "px-2 text-xs"
+
+              : "px-5"
+          }`}
         >
 
-          Logout
+          {
+
+            isMobile
+
+              ? "⎋"
+
+              : "Logout"
+
+          }
 
         </button>
 

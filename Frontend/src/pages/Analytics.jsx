@@ -38,9 +38,12 @@ const Analytics = ({
 
 }) => {
 
+  const isMobile =
+    window.innerWidth < 768;
+
   return (
 
-    <div className={`min-h-screen p-8 transition-all duration-500 ${
+    <div className={`min-h-screen p-4 md:p-8 transition-all duration-500 ${
       darkMode
 
         ? "bg-[#040816] text-white"
@@ -50,17 +53,17 @@ const Analytics = ({
 
       {/* Header */}
 
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
 
         <div>
 
-          <h1 className="text-5xl font-black mb-2">
+          <h1 className="text-3xl md:text-5xl font-black mb-2">
 
             Analytics
 
           </h1>
 
-          <p className={`${
+          <p className={`text-sm md:text-base ${
             darkMode
 
               ? "text-gray-400"
@@ -74,7 +77,7 @@ const Analytics = ({
 
         </div>
 
-        <div className={`border rounded-2xl px-5 py-3 flex items-center gap-3 ${
+        <div className={`border rounded-2xl px-4 md:px-5 py-3 flex items-center gap-3 w-fit ${
           darkMode
 
             ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -82,9 +85,16 @@ const Analytics = ({
             : "bg-gray-100 border-gray-200"
         }`}>
 
-          <TrendingUp className="text-cyan-400" />
+          <TrendingUp
+            className="text-cyan-400"
+            size={
+              isMobile
+                ? 18
+                : 24
+            }
+          />
 
-          <span className="text-cyan-400 font-semibold">
+          <span className="text-cyan-400 font-semibold text-sm md:text-base">
 
             LIVE ANALYTICS
 
@@ -96,7 +106,7 @@ const Analytics = ({
 
       {/* Top Stats */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-10">
 
         {[
           {
@@ -131,7 +141,7 @@ const Analytics = ({
           <div
             key={index}
 
-            className={`backdrop-blur-xl border rounded-[32px] p-6 shadow-xl ${
+            className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-6 shadow-xl ${
               darkMode
 
                 ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -140,9 +150,9 @@ const Analytics = ({
             }`}
           >
 
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4 md:mb-6">
 
-              <div className={`p-4 rounded-2xl ${
+              <div className={`p-3 md:p-4 rounded-2xl ${
                 darkMode
 
                   ? "bg-black/20"
@@ -156,7 +166,7 @@ const Analytics = ({
 
             </div>
 
-            <p className={`text-sm mb-2 ${
+            <p className={`text-xs md:text-sm mb-2 ${
               darkMode
 
                 ? "text-gray-400"
@@ -168,7 +178,7 @@ const Analytics = ({
 
             </p>
 
-            <h2 className={`text-4xl font-black ${card.color}`}>
+            <h2 className={`text-2xl md:text-4xl font-black ${card.color}`}>
 
               {card.value}
 
@@ -182,11 +192,11 @@ const Analytics = ({
 
       {/* Charts */}
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8">
 
         {/* Threat Trend */}
 
-        <div className={`backdrop-blur-xl border rounded-[32px] p-8 shadow-xl ${
+        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl ${
           darkMode
 
             ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -194,13 +204,13 @@ const Analytics = ({
             : "bg-gray-100 border-gray-200"
         }`}>
 
-          <h2 className="text-3xl font-black mb-8">
+          <h2 className="text-2xl md:text-3xl font-black mb-6 md:mb-8">
 
             Threat Trend
 
           </h2>
 
-          <div className="h-[320px]">
+          <div className="h-[250px] md:h-[320px]">
 
             <ResponsiveContainer width="100%" height="100%">
 
@@ -208,7 +218,13 @@ const Analytics = ({
 
                 <defs>
 
-                  <linearGradient id="colorThreats" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient
+                    id="colorThreats"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
 
                     <stop
                       offset="5%"
@@ -229,6 +245,12 @@ const Analytics = ({
                 <XAxis
                   dataKey="day"
                   stroke="#64748B"
+                  tick={{
+                    fontSize:
+                    isMobile
+                      ? 10
+                      : 14,
+                  }}
                 />
 
                 <Tooltip />
@@ -237,7 +259,11 @@ const Analytics = ({
                   type="monotone"
                   dataKey="threats"
                   stroke="#22D3EE"
-                  strokeWidth={4}
+                  strokeWidth={
+                    isMobile
+                      ? 2
+                      : 4
+                  }
                   fillOpacity={1}
                   fill="url(#colorThreats)"
                 />
@@ -252,7 +278,7 @@ const Analytics = ({
 
         {/* Attack Sources */}
 
-        <div className={`backdrop-blur-xl border rounded-[32px] p-8 shadow-xl ${
+        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl ${
           darkMode
 
             ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -260,13 +286,13 @@ const Analytics = ({
             : "bg-gray-100 border-gray-200"
         }`}>
 
-          <h2 className="text-3xl font-black mb-8">
+          <h2 className="text-2xl md:text-3xl font-black mb-6 md:mb-8">
 
             Attack Sources
 
           </h2>
 
-          <div className="h-[320px]">
+          <div className="h-[250px] md:h-[320px]">
 
             <ResponsiveContainer width="100%" height="100%">
 
@@ -275,6 +301,12 @@ const Analytics = ({
                 <XAxis
                   dataKey="country"
                   stroke="#64748B"
+                  tick={{
+                    fontSize:
+                    isMobile
+                      ? 10
+                      : 14,
+                  }}
                 />
 
                 <Tooltip />
