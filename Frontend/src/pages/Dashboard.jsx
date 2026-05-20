@@ -242,50 +242,39 @@ const Dashboard = ({ darkMode }) => {
 
         </div>
 
-        {/* Globe Section */}
+       {/* Globe Section */}
+
 <div className="mt-8 bg-[#020B1D] rounded-[32px] border border-cyan-500/10 overflow-hidden shadow-2xl relative">
 
-          <div className="flex items-center justify-between px-5 md:px-8 pt-5 md:pt-8">
+  <div className="flex items-center justify-between px-5 md:px-8 pt-5 md:pt-8">
 
-            <h1 className="text-3xl md:text-5xl font-black text-cyan-400 leading-tight">
+    <h1 className="text-3xl md:text-5xl font-black text-cyan-400 leading-tight">
 
-              Global Cyber Activity
+      Global Cyber Activity
 
-            </h1>
+    </h1>
 
-            <div className="bg-cyan-500/10 text-cyan-400 px-4 py-2 rounded-2xl font-bold text-sm md:text-lg">
+    <div className="bg-cyan-500/10 text-cyan-400 px-4 py-2 rounded-2xl font-bold text-sm md:text-lg">
 
-              LIVE
+      LIVE
 
-            </div>
+    </div>
 
-          </div>
+  </div>
 
-          <div className="w-full min-h-[700px] flex items-center justify-center overflow-hidden relative">
+  <div className="w-full h-[500px] md:h-[700px] flex items-center justify-center overflow-hidden">
 
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.08),transparent_70%)]" />
-
-  <div className="w-full flex items-center justify-center scale-[0.9] md:scale-100">
-
-   <div className="w-full h-full flex items-center justify-center">
-
-  <img
-    src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
-    alt="Cyber Globe"
-    className="w-full h-full object-cover rounded-b-[32px]"
-  />
-
-</div>
+    <Globe />
 
   </div>
 
 </div>
 
+</div>
+
         </div>
 
-      </div>
-
-    </div>
+    
 
   );
 

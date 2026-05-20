@@ -3,51 +3,53 @@ import { useEffect, useRef } from "react";
 
 export default function Globe() {
 
-  const canvasRef = useRef(null);
+  const canvasRef = useRef();
 
   useEffect(() => {
 
     let phi = 0;
 
-    const globe = createGlobe(canvasRef.current, {
+    const canvas = canvasRef.current;
+
+    const globe = createGlobe(canvas, {
 
       devicePixelRatio: 2,
 
-      width: 800,
+      width: 1000,
 
-      height: 800,
+      height: 1000,
 
       phi: 0,
 
-      theta: 0.3,
+      theta: 0.25,
 
       dark: 1,
 
-      diffuse: 1.4,
+      diffuse: 1.5,
 
-      mapSamples: 40000,
+      mapSamples: 20000,
 
       mapBrightness: 1.2,
 
-      baseColor: [0.1, 0.1, 0.1],
-
-      markerColor: [0.1, 0.8, 1],
+      baseColor: [0.15, 0.15, 0.15],
 
       glowColor: [0, 0.8, 1],
 
       atmosphereColor: [0, 0.8, 1],
 
-      atmosphereAltitude: 0.18,
+      atmosphereAltitude: 0.15,
+
+      markerColor: [0, 1, 1],
 
       markers: [
 
-        { location: [28.6139, 77.2090], size: 0.06 },
+        { location: [28.6139, 77.2090], size: 0.05 },
 
-        { location: [40.7128, -74.0060], size: 0.06 },
+        { location: [40.7128, -74.006], size: 0.05 },
 
-        { location: [51.5072, -0.1276], size: 0.06 },
+        { location: [51.5072, -0.1276], size: 0.05 },
 
-        { location: [35.6762, 139.6503], size: 0.06 },
+        { location: [35.6762, 139.6503], size: 0.05 },
 
       ],
 
@@ -55,7 +57,7 @@ export default function Globe() {
 
         state.phi = phi;
 
-        phi += 0.002;
+        phi += 0.003;
 
       },
 
@@ -67,15 +69,11 @@ export default function Globe() {
 
   return (
 
-    <div className="w-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center overflow-hidden">
 
       <canvas
         ref={canvasRef}
-        style={{
-          width: "100%",
-          maxWidth: "700px",
-          aspectRatio: "1/1",
-        }}
+        className="w-[700px] h-[700px] max-w-full max-h-full"
       />
 
     </div>
