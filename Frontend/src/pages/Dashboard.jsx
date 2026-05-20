@@ -1,7 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   ShieldCheck,
@@ -15,26 +12,15 @@ import Globe from "../components/ui/Globe";
 const Dashboard = ({ darkMode }) => {
 
   const [stats, setStats] = useState({
-
     totalThreats: 0,
-
     criticalAlerts: 0,
-
     blockedAttacks: 0,
-
     monitoringCount: 0,
-
   });
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
 
-  const [error, setError] =
-    useState(null);
-
-  // =========================
-  // Fetch Dashboard Stats
-  // =========================
+  const [error, setError] = useState(null);
 
   useEffect(() => {
 
@@ -47,15 +33,10 @@ const Dashboard = ({ darkMode }) => {
         );
 
         if (!response.ok) {
-
-          throw new Error(
-            "Failed to fetch stats"
-          );
-
+          throw new Error("Failed to fetch stats");
         }
 
-        const data =
-          await response.json();
+        const data = await response.json();
 
         setStats(data);
 
@@ -75,19 +56,11 @@ const Dashboard = ({ darkMode }) => {
 
     fetchStats();
 
-    const interval = setInterval(
-      fetchStats,
-      5000
-    );
+    const interval = setInterval(fetchStats, 5000);
 
-    return () =>
-      clearInterval(interval);
+    return () => clearInterval(interval);
 
   }, []);
-
-  // =========================
-  // Loading State
-  // =========================
 
   if (loading) {
 
@@ -96,10 +69,10 @@ const Dashboard = ({ darkMode }) => {
       <div className={`min-h-screen flex items-center justify-center ${
         darkMode
           ? "bg-[#040816] text-white"
-          : "bg-[#f4f7fb] text-black"
+          : "bg-[#F4F7FB] text-black"
       }`}>
 
-        <h1 className="text-3xl font-black animate-pulse">
+        <h1 className="text-2xl md:text-4xl font-black animate-pulse">
 
           Loading GuardianNode...
 
@@ -111,27 +84,23 @@ const Dashboard = ({ darkMode }) => {
 
   }
 
-  // =========================
-  // Error State
-  // =========================
-
   if (error) {
 
     return (
 
-      <div className={`min-h-screen flex flex-col items-center justify-center ${
+      <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${
         darkMode
           ? "bg-[#040816] text-white"
-          : "bg-[#f4f7fb] text-black"
+          : "bg-[#F4F7FB] text-black"
       }`}>
 
-        <h1 className="text-3xl font-black text-red-500 mb-4">
+        <h1 className="text-2xl md:text-4xl font-black text-red-500 mb-4 text-center">
 
           Backend Connection Failed
 
         </h1>
 
-        <p className="text-gray-400">
+        <p className="text-gray-400 text-center">
 
           {error}
 
@@ -143,208 +112,149 @@ const Dashboard = ({ darkMode }) => {
 
   }
 
-  // =========================
-  // Dashboard UI
-  // =========================
-
   return (
 
-    <div className={`min-h-screen p-6 md:p-8 transition-all duration-500 ${
+    <div className={`min-h-screen w-full overflow-x-hidden pb-28 md:pb-10 ${
       darkMode
         ? "bg-[#040816] text-white"
-        : "bg-[#f4f7fb] text-black"
+        : "bg-[#F4F7FB] text-black"
     }`}>
 
-      {/* ========================= */}
-      {/* Header */}
-      {/* ========================= */}
+      <div className="p-4 sm:p-6 md:p-8">
 
-      <div className="mb-10">
+        {/* Heading */}
 
-        <h1 className="text-4xl md:text-6xl font-black leading-tight">
+        <div className="mb-8">
 
-          Real-Time{" "}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight">
 
-          <span className="text-cyan-400">
-
-            Cyber Defense
-
-          </span>
-
-        </h1>
-
-        <p className={`mt-4 text-base md:text-lg max-w-3xl ${
-          darkMode
-            ? "text-gray-400"
-            : "text-gray-600"
-        }`}>
-
-          Monitor live threats, analyze suspicious activity,
-          and defend your infrastructure using GuardianNode IDS + IPS architecture.
-
-        </p>
-
-      </div>
-
-      {/* ========================= */}
-      {/* Stats Cards */}
-      {/* ========================= */}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-
-        {/* Total Threats */}
-
-        <div className={`rounded-3xl p-6 border shadow-xl ${
-          darkMode
-            ? "bg-[#0B1120] border-cyan-500/20"
-            : "bg-white border-gray-200"
-        }`}>
-
-          <div className="flex justify-between items-center mb-4">
-
-            <p className={`${
-              darkMode
-                ? "text-gray-400"
-                : "text-gray-500"
-            }`}>
-
-              Total Threats
-
-            </p>
-
-            <ShieldCheck className="text-cyan-400" />
-
-          </div>
-
-          <h1 className="text-5xl font-black">
-
-            {stats.totalThreats}
+            Real-Time Cyber Defense
 
           </h1>
 
+          <p className="text-gray-400 mt-2 text-sm sm:text-base">
+
+            Monitor live threats, analyze suspicious activity, and defend your infrastructure using GuardianNode IDS + IPS architecture.
+
+          </p>
+
         </div>
 
-        {/* Critical Alerts */}
+        {/* Stats */}
 
-        <div className={`rounded-3xl p-6 border shadow-xl ${
-          darkMode
-            ? "bg-[#0B1120] border-red-500/20"
-            : "bg-white border-gray-200"
-        }`}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
 
-          <div className="flex justify-between items-center mb-4">
+          {/* Total Threats */}
 
-            <p className={`${
-              darkMode
-                ? "text-gray-400"
-                : "text-gray-500"
-            }`}>
+          <div className="bg-[#0B1120] rounded-3xl p-5 border border-cyan-500/20 shadow-xl">
 
-              Critical Alerts
+            <div className="flex justify-between items-center mb-4">
 
-            </p>
+              <p className="text-gray-400 text-sm md:text-base">
 
-            <AlertTriangle className="text-red-400" />
+                Total Threats
+
+              </p>
+
+              <ShieldCheck className="text-cyan-400" />
+
+            </div>
+
+            <h1 className="text-5xl font-black">
+
+              {stats.totalThreats}
+
+            </h1>
 
           </div>
 
-          <h1 className="text-5xl font-black">
+          {/* Critical */}
 
-            {stats.criticalAlerts}
+          <div className="bg-[#0B1120] rounded-3xl p-5 border border-red-500/20 shadow-xl">
 
-          </h1>
+            <div className="flex justify-between items-center mb-4">
 
-        </div>
+              <p className="text-gray-400 text-sm md:text-base">
 
-        {/* Blocked Attacks */}
+                Critical Alerts
 
-        <div className={`rounded-3xl p-6 border shadow-xl ${
-          darkMode
-            ? "bg-[#0B1120] border-orange-500/20"
-            : "bg-white border-gray-200"
-        }`}>
+              </p>
 
-          <div className="flex justify-between items-center mb-4">
+              <AlertTriangle className="text-red-400" />
 
-            <p className={`${
-              darkMode
-                ? "text-gray-400"
-                : "text-gray-500"
-            }`}>
+            </div>
 
-              Blocked Attacks
+            <h1 className="text-5xl font-black">
 
-            </p>
+              {stats.criticalAlerts}
 
-            <Ban className="text-orange-400" />
+            </h1>
 
           </div>
 
-          <h1 className="text-5xl font-black">
+          {/* Blocked */}
 
-            {stats.blockedAttacks}
+          <div className="bg-[#0B1120] rounded-3xl p-5 border border-orange-500/20 shadow-xl">
 
-          </h1>
+            <div className="flex justify-between items-center mb-4">
 
-        </div>
+              <p className="text-gray-400 text-sm md:text-base">
 
-        {/* Monitoring */}
+                Blocked Attacks
 
-        <div className={`rounded-3xl p-6 border shadow-xl ${
-          darkMode
-            ? "bg-[#0B1120] border-green-500/20"
-            : "bg-white border-gray-200"
-        }`}>
+              </p>
 
-          <div className="flex justify-between items-center mb-4">
+              <Ban className="text-orange-400" />
 
-            <p className={`${
-              darkMode
-                ? "text-gray-400"
-                : "text-gray-500"
-            }`}>
+            </div>
 
-              Monitoring
+            <h1 className="text-5xl font-black">
 
-            </p>
+              {stats.blockedAttacks}
 
-            <Activity className="text-green-400" />
+            </h1>
 
           </div>
 
-          <h1 className="text-5xl font-black">
+          {/* Monitoring */}
 
-            {stats.monitoringCount}
+          <div className="bg-[#0B1120] rounded-3xl p-5 border border-green-500/20 shadow-xl">
 
-          </h1>
+            <div className="flex justify-between items-center mb-4">
+
+              <p className="text-gray-400 text-sm md:text-base">
+
+                Monitoring
+
+              </p>
+
+              <Activity className="text-green-400" />
+
+            </div>
+
+            <h1 className="text-5xl font-black">
+
+              {stats.monitoringCount}
+
+            </h1>
+
+          </div>
 
         </div>
 
-      </div>
+        {/* Globe Section */}
 
-      {/* ========================= */}
-      {/* Globe Section */}
-      {/* ========================= */}
+        <div className="mt-8 bg-[#020B1D] rounded-[32px] border border-cyan-500/10 overflow-hidden shadow-2xl">
 
-      <div className="mt-10">
+          <div className="flex items-center justify-between px-5 md:px-8 pt-5 md:pt-8">
 
-        <div className={`rounded-[32px] overflow-hidden border shadow-2xl ${
-          darkMode
-            ? "bg-[#081120] border-cyan-500/10"
-            : "bg-white border-gray-200"
-        }`}>
-
-          {/* Globe Header */}
-
-          <div className="flex items-center justify-between px-6 md:px-8 pt-8">
-
-            <h2 className="text-3xl md:text-5xl font-black text-cyan-400">
+            <h1 className="text-3xl md:text-5xl font-black text-cyan-400 leading-tight">
 
               Global Cyber Activity
 
-            </h2>
+            </h1>
 
-            <div className="bg-cyan-500/10 text-cyan-400 px-5 py-2 rounded-2xl font-bold">
+            <div className="bg-cyan-500/10 text-cyan-400 px-4 py-2 rounded-2xl font-bold text-sm md:text-lg">
 
               LIVE
 
@@ -352,9 +262,7 @@ const Dashboard = ({ darkMode }) => {
 
           </div>
 
-          {/* Globe Container */}
-
-          <div className="w-full h-[400px] md:h-[700px] relative">
+          <div className="w-full h-[320px] sm:h-[450px] md:h-[650px] flex items-center justify-center">
 
             <Globe />
 

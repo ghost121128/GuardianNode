@@ -1,281 +1,128 @@
-import React, { useEffect, useState } from "react";
-
+import createGlobe from "cobe";
 import {
-  ShieldCheck,
-  AlertTriangle,
-  Ban,
-  Activity,
-} from "lucide-react";
+  useEffect,
+  useRef,
+} from "react";
 
-import Globe from "../components/ui/Globe";
+export default function Globe() {
 
-const Dashboard = ({ darkMode }) => {
-
-  const [stats, setStats] = useState({
-    totalThreats: 0,
-    criticalAlerts: 0,
-    blockedAttacks: 0,
-    monitoringCount: 0,
-  });
-
-  const [loading, setLoading] = useState(true);
-
-  const [error, setError] = useState(null);
+  const canvasRef = useRef();
 
   useEffect(() => {
 
-    const fetchStats = async () => {
+    let phi = 0;
 
-      try {
+    const canvas =
+      canvasRef.current;
 
-        const response = await fetch(
-          "https://guardiannode-1.onrender.com/dashboard-stats"
-        );
+    if (!canvas) return;
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch stats");
-        }
+    const globe = createGlobe(canvas, {
 
-        const data = await response.json();
+      devicePixelRatio: 2,
 
-        setStats(data);
+      width: 1200,
 
-      } catch (err) {
+      height: 1200,
 
-        console.error(err);
+      phi: 0,
 
-        setError(err.message);
+      theta: 0.3,
 
-      } finally {
+      dark: 0,
 
-        setLoading(false);
+      diffuse: 2,
 
-      }
+      mapSamples: 16000,
+
+      mapBrightness: 12,
+
+      baseColor: [0.3, 0.3, 0.3],
+
+      markerColor: [0, 1, 1],
+
+      glowColor: [0, 0.8, 1],
+
+      atmosphereColor: [0, 0.8, 1],
+
+      atmosphereAltitude: 0.2,
+
+      markers: [
+
+        {
+          location: [28.6139, 77.2090],
+          size: 0.08,
+        },
+
+        {
+          location: [40.7128, -74.0060],
+          size: 0.08,
+        },
+
+        {
+          location: [51.5072, -0.1276],
+          size: 0.08,
+        },
+
+        {
+          location: [35.6762, 139.6503],
+          size: 0.08,
+        },
+
+        {
+          location: [48.8566, 2.3522],
+          size: 0.08,
+        },
+
+        {
+          location: [55.7558, 37.6173],
+          size: 0.08,
+        },
+
+      ],
+
+      onRender: (state) => {
+
+        state.phi = phi;
+
+        phi += 0.002;
+
+      },
+
+    });
+
+    return () => {
+
+      globe.destroy();
 
     };
 
-    fetchStats();
-
-    const interval = setInterval(fetchStats, 5000);
-
-    return () => clearInterval(interval);
-
   }, []);
-
-  if (loading) {
-
-    return (
-
-      <div className={`min-h-screen flex items-center justify-center ${
-        darkMode
-          ? "bg-[#040816] text-white"
-          : "bg-[#F4F7FB] text-black"
-      }`}>
-
-        <h1 className="text-2xl md:text-4xl font-black animate-pulse">
-
-          Loading GuardianNode...
-
-        </h1>
-
-      </div>
-
-    );
-
-  }
-
-  if (error) {
-
-    return (
-
-      <div className={`min-h-screen flex flex-col items-center justify-center p-6 ${
-        darkMode
-          ? "bg-[#040816] text-white"
-          : "bg-[#F4F7FB] text-black"
-      }`}>
-
-        <h1 className="text-2xl md:text-4xl font-black text-red-500 mb-4 text-center">
-
-          Backend Connection Failed
-
-        </h1>
-
-        <p className="text-gray-400 text-center">
-
-          {error}
-
-        </p>
-
-      </div>
-
-    );
-
-  }
 
   return (
 
-    <div className={`min-h-screen w-full overflow-x-hidden pb-28 md:pb-10 ${
-      darkMode
-        ? "bg-[#040816] text-white"
-        : "bg-[#F4F7FB] text-black"
-    }`}>
+    <div className="w-full h-full flex items-center justify-center overflow-hidden">
 
-      <div className="p-4 sm:p-6 md:p-8">
+      <canvas
 
-        {/* Heading */}
+        ref={canvasRef}
 
-        <div className="mb-8">
+        style={{
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black leading-tight">
+          width: "100%",
 
-            Real-Time Cyber Defense
+          height: "100%",
 
-          </h1>
+          maxWidth: "850px",
 
-          <p className="text-gray-400 mt-2 text-sm sm:text-base">
+          aspectRatio: "1 / 1",
 
-            Monitor live threats, analyze suspicious activity, and defend your infrastructure using GuardianNode IDS + IPS architecture.
+        }}
 
-          </p>
-
-        </div>
-
-        {/* Stats */}
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-
-          {/* Total Threats */}
-
-          <div className="bg-[#0B1120] rounded-3xl p-5 border border-cyan-500/20 shadow-xl">
-
-            <div className="flex justify-between items-center mb-4">
-
-              <p className="text-gray-400 text-sm md:text-base">
-
-                Total Threats
-
-              </p>
-
-              <ShieldCheck className="text-cyan-400" />
-
-            </div>
-
-            <h1 className="text-5xl font-black">
-
-              {stats.totalThreats}
-
-            </h1>
-
-          </div>
-
-          {/* Critical */}
-
-          <div className="bg-[#0B1120] rounded-3xl p-5 border border-red-500/20 shadow-xl">
-
-            <div className="flex justify-between items-center mb-4">
-
-              <p className="text-gray-400 text-sm md:text-base">
-
-                Critical Alerts
-
-              </p>
-
-              <AlertTriangle className="text-red-400" />
-
-            </div>
-
-            <h1 className="text-5xl font-black">
-
-              {stats.criticalAlerts}
-
-            </h1>
-
-          </div>
-
-          {/* Blocked */}
-
-          <div className="bg-[#0B1120] rounded-3xl p-5 border border-orange-500/20 shadow-xl">
-
-            <div className="flex justify-between items-center mb-4">
-
-              <p className="text-gray-400 text-sm md:text-base">
-
-                Blocked Attacks
-
-              </p>
-
-              <Ban className="text-orange-400" />
-
-            </div>
-
-            <h1 className="text-5xl font-black">
-
-              {stats.blockedAttacks}
-
-            </h1>
-
-          </div>
-
-          {/* Monitoring */}
-
-          <div className="bg-[#0B1120] rounded-3xl p-5 border border-green-500/20 shadow-xl">
-
-            <div className="flex justify-between items-center mb-4">
-
-              <p className="text-gray-400 text-sm md:text-base">
-
-                Monitoring
-
-              </p>
-
-              <Activity className="text-green-400" />
-
-            </div>
-
-            <h1 className="text-5xl font-black">
-
-              {stats.monitoringCount}
-
-            </h1>
-
-          </div>
-
-        </div>
-
-        {/* Globe Section */}
-
-        <div className="mt-8 bg-[#020B1D] rounded-[32px] border border-cyan-500/10 overflow-hidden shadow-2xl">
-
-          <div className="flex items-center justify-between px-5 md:px-8 pt-5 md:pt-8">
-
-            <h1 className="text-3xl md:text-5xl font-black text-cyan-400 leading-tight">
-
-              Global Cyber Activity
-
-            </h1>
-
-            <div className="bg-cyan-500/10 text-cyan-400 px-4 py-2 rounded-2xl font-bold text-sm md:text-lg">
-
-              LIVE
-
-            </div>
-
-          </div>
-
-          <div className="w-full h-[320px] sm:h-[450px] md:h-[650px] flex items-center justify-center">
-
-            <Globe />
-
-          </div>
-
-        </div>
-
-      </div>
+      />
 
     </div>
 
   );
 
-};
-
-export default Dashboard;
+}
