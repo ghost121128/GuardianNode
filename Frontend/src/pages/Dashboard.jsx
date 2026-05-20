@@ -243,8 +243,7 @@ const Dashboard = ({ darkMode }) => {
         </div>
 
         {/* Globe Section */}
-
-        <div className="mt-8 bg-[#020B1D] rounded-[32px] border border-cyan-500/10 overflow-hidden shadow-2xl">
+<div className="mt-8 bg-[#020B1D] rounded-[32px] border border-cyan-500/10 overflow-hidden shadow-2xl relative">
 
           <div className="flex items-center justify-between px-5 md:px-8 pt-5 md:pt-8">
 
@@ -262,11 +261,17 @@ const Dashboard = ({ darkMode }) => {
 
           </div>
 
-          <div className="w-full h-[320px] sm:h-[450px] md:h-[650px] flex items-center justify-center">
+          <div className="w-full min-h-[700px] flex items-center justify-center overflow-hidden relative">
 
-            <Globe />
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.08),transparent_70%)]" />
 
-          </div>
+  <div className="w-full flex items-center justify-center scale-[0.9] md:scale-100">
+
+    <Globe />
+
+  </div>
+
+</div>
 
         </div>
 

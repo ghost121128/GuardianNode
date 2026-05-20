@@ -13,31 +13,29 @@ export default function Globe() {
 
       devicePixelRatio: 2,
 
-      width: 1200,
+      width: 800,
 
-      height: 1200,
+      height: 800,
 
       phi: 0,
 
-      theta: 0.25,
+      theta: 0.3,
 
       dark: 1,
 
-      diffuse: 1.4,
+      diffuse: 1.2,
 
-      mapSamples: 30000,
+      mapSamples: 20000,
 
-      mapBrightness: 1.8,
+      mapBrightness: 4,
 
       baseColor: [0.1, 0.1, 0.1],
 
-      markerColor: [0.0, 1.0, 1.0],
+      markerColor: [0, 1, 1],
 
-      glowColor: [0.0, 0.8, 1.0],
+      glowColor: [0, 1, 1],
 
       opacity: 1,
-
-      offset: [0, 0],
 
       scale: 1,
 
@@ -63,18 +61,13 @@ export default function Globe() {
           size: 0.08,
         },
 
-        {
-          location: [48.8566, 2.3522],
-          size: 0.08,
-        },
-
       ],
 
       onRender: (state) => {
 
         state.phi = phi;
 
-        phi += 0.004;
+        phi += 0.003;
 
       },
 
@@ -86,14 +79,15 @@ export default function Globe() {
 
   return (
 
-    <div className="w-full h-full flex items-center justify-center overflow-hidden">
+    <div className="w-full h-full flex items-center justify-center">
 
       <canvas
         ref={canvasRef}
-        className="w-full h-full"
         style={{
-          maxWidth: "1000px",
-          aspectRatio: "1/1",
+          width: "650px",
+          height: "650px",
+          maxWidth: "100%",
+          aspectRatio: "1 / 1",
         }}
       />
 
