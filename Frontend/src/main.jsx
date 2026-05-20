@@ -1,13 +1,43 @@
 import React from "react";
+
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+
+import {
+  BrowserRouter,
+} from "react-router-dom";
+
 import App from "./App";
+
 import "./index.css";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+import {
+  ThemeProvider,
+} from "./context/ThemeContext";
+
+import {
+  Toaster,
+} from "react-hot-toast";
+
+ReactDOM.createRoot(
+  document.getElementById("root")
+).render(
+
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+
+    <ThemeProvider>
+
+      <BrowserRouter>
+
+        <App />
+
+        <Toaster
+          position="top-right"
+        />
+
+      </BrowserRouter>
+
+    </ThemeProvider>
+
   </React.StrictMode>
+
 );

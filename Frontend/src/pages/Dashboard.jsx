@@ -1,134 +1,684 @@
-import { useEffect, useState } from "react";
-
-import { motion } from "framer-motion";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
 import {
-  ShieldAlert,
+  Shield,
   AlertTriangle,
+  Ban,
   Activity,
-  ShieldCheck,
-  Globe,
-  Bell,
 } from "lucide-react";
 
-const Dashboard = () => {
+import {
+  motion,
+} from "framer-motion";
 
-  const [stats, setStats] = useState({
-    total_threats: 0,
-    critical_threats: 0,
-    high_threats: 0,
-    medium_threats: 0,
-  });
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  AreaChart,
+  Area,
+} from "recharts";
+
+import toast, {
+  Toaster,
+} from "react-hot-toast";
+
+import {
+  io,
+} from "socket.io-client";
+
+import Globe from "react-globe.gl";
+
+// =========================
+// Socket Connection
+// =========================
+
+const socket = io(
+  "http://127.0.0.1:5000"
+);
+
+const Dashboard = ({
+
+  darkMode,
+
+}) => {
+
+  // =========================
+  // Dashboard Stats
+  // =========================
+
+  const [stats, setStats] =
+    useState({
+
+      totalThreats: 0,
+      criticalAlerts: 0,
+      blockedAttacks: 0,
+      monitoringCount: 0,
+
+    });
+
+  // =========================
+  // Metrics
+  // =========================
+
+  const [metrics, setMetrics] =
+    useState({
+
+      cpu: 0,
+      ram: 0,
+      disk: 0,
+      uptime: 0,
+
+    });
+
+  // =========================
+  // Threats
+  // =========================
+
+  const [threats, setThreats] =
+    useState([]);
+
+  // =========================
+  // Fetch Stats
+  // =========================
+
+  const fetchStats = async () => {
+
+    try {
+
+      const response =
+        await fetch(
+          "http://127.0.0.1:5000/dashboard-stats"
+        );
+
+      const data =
+        await response.json();
+
+      setStats(data);
+
+    }
+
+    catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
+
+  // =========================
+  // Fetch Metrics
+  // =========================
+
+  const fetchMetrics = async () => {
+
+    try {
+
+      const response =
+        await fetch(
+          "http://127.0.0.1:5000/system-metrics"
+        );
+
+      const data =
+        await response.json();
+
+      setMetrics(data);
+
+    }
+
+    catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
+
+  // =========================
+  // Fetch Threats
+  // =========================
+
+  const fetchThreats = async () => {
+
+    try {
+
+      const response =
+        await fetch(
+          "http://127.0.0.1:5000/threats"
+        );
+
+      const data =
+        await response.json();
+
+      setThreats(data);
+
+    }
+
+    catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
+
+  // =========================
+  // Initial Load
+  // =========================
 
   useEffect(() => {
 
-    const fetchStats = async () => {
+    fetchStats();
 
-      try {
+    fetchMetrics();
 
-        const response = await fetch(
-          "http://127.0.0.1:5000/api/stats"
+    fetchThreats();
+
+    socket.on(
+
+      "new_threat",
+
+      (
+        newThreat
+      ) => {
+
+        setThreats(
+          (
+            prev
+          ) => [
+
+            newThreat,
+            ...prev,
+
+          ]
         );
 
-        const data = await response.json();
+        fetchStats();
 
-        setStats(data);
+        if (
+          newThreat.severity ===
+          "Critical"
+        ) {
 
-      } catch (error) {
+          toast.error(
 
-        console.log(
-          "Failed to fetch stats:",
-          error
-        );
+            `Critical Threat: ${newThreat.type}`,
+
+            {
+
+              duration: 4000,
+
+            }
+
+          );
+
+        }
 
       }
 
-    };
-
-    fetchStats();
-
-    const interval = setInterval(
-      fetchStats,
-      5000
     );
 
-    return () => clearInterval(interval);
+    const interval =
+      setInterval(() => {
+
+        fetchMetrics();
+
+      }, 5000);
+
+    return () => {
+
+      clearInterval(interval);
+
+      socket.off(
+        "new_threat"
+      );
+
+    };
 
   }, []);
 
+  // =========================
+  // Cards
+  // =========================
+
   const cards = [
+
     {
-      title: "Total Threats",
-      value: stats.total_threats,
-      icon: <ShieldAlert size={28} />,
-      color: "text-cyan-400",
-      bg: "bg-cyan-500/10",
+
+      title:
+      "Total Threats",
+
+      value:
+      stats.totalThreats,
+
+      icon:
+      Shield,
+
+      color:
+      "text-cyan-400",
+
+      border:
+      "border-cyan-500/20",
+
     },
+
     {
-      title: "Critical Threats",
-      value: stats.critical_threats,
-      icon: <AlertTriangle size={28} />,
-      color: "text-red-400",
-      bg: "bg-red-500/10",
+
+      title:
+      "Critical Alerts",
+
+      value:
+      stats.criticalAlerts,
+
+      icon:
+      AlertTriangle,
+
+      color:
+      "text-red-400",
+
+      border:
+      "border-red-500/20",
+
     },
+
     {
-      title: "High Severity",
-      value: stats.high_threats,
-      icon: <Activity size={28} />,
-      color: "text-orange-400",
-      bg: "bg-orange-500/10",
+
+      title:
+      "Blocked Attacks",
+
+      value:
+      stats.blockedAttacks,
+
+      icon:
+      Ban,
+
+      color:
+      "text-orange-400",
+
+      border:
+      "border-orange-500/20",
+
     },
+
     {
-      title: "Medium Severity",
-      value: stats.medium_threats,
-      icon: <ShieldCheck size={28} />,
-      color: "text-yellow-400",
-      bg: "bg-yellow-500/10",
+
+      title:
+      "Monitoring",
+
+      value:
+      stats.monitoringCount,
+
+      icon:
+      Activity,
+
+      color:
+      "text-green-400",
+
+      border:
+      "border-green-500/20",
+
     },
+
+  ];
+
+  // =========================
+  // Chart Data
+  // =========================
+
+  const severityData = [
+
+    {
+      name: "Low",
+      value:
+      threats.filter(
+        (
+          t
+        ) =>
+          t.severity === "Low"
+      ).length,
+    },
+
+    {
+      name: "Medium",
+      value:
+      threats.filter(
+        (
+          t
+        ) =>
+          t.severity === "Medium"
+      ).length,
+    },
+
+    {
+      name: "High",
+      value:
+      threats.filter(
+        (
+          t
+        ) =>
+          t.severity === "High"
+      ).length,
+    },
+
+    {
+      name: "Critical",
+      value:
+      threats.filter(
+        (
+          t
+        ) =>
+          t.severity === "Critical"
+      ).length,
+    },
+
+  ];
+
+  const COLORS = [
+
+    "#22c55e",
+    "#eab308",
+    "#f97316",
+    "#ef4444",
+
   ];
 
   return (
-    <div className="min-h-screen bg-[#050816] text-white p-8 overflow-hidden relative">
+
+    <div
+      className={`min-h-screen relative overflow-hidden transition-all duration-500 ${
+        darkMode
+
+          ? "bg-[#030712] text-white"
+
+          : "bg-[#f4f7fb] text-black"
+      }`}
+    >
+
+      <Toaster position="top-right" />
 
       {/* Background Glow */}
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-cyan-500/10 blur-[120px] rounded-full" />
 
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-500/10 blur-[120px] rounded-full" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
 
-      {/* Header */}
-      <div className="relative z-10 flex justify-between items-center mb-12">
+        <div className="absolute w-[400px] h-[400px] bg-cyan-500/10 blur-[90px] rounded-full top-[-150px] left-[-100px]" />
+
+        <div className="absolute w-[400px] h-[400px] bg-blue-500/10 blur-[90px] rounded-full bottom-[-150px] right-[-100px]" />
+
+      </div>
+
+      {/* Navbar */}
+
+      <div className={`relative z-10 flex items-center justify-between px-10 py-6 border-b backdrop-blur-md ${
+        darkMode
+
+          ? "border-white/10"
+
+          : "border-black/10"
+      }`}>
 
         <div>
 
-          <h1 className="text-6xl font-black mb-3">
-            Welcome, Kalpesh
+          <h1 className="text-4xl font-black tracking-tight">
+
+            GuardianNode
+
           </h1>
 
-          <p className="text-gray-400 text-xl">
-            Real-time intrusion detection and cyber threat monitoring platform.
+          <p className={`${
+            darkMode
+
+              ? "text-gray-400"
+
+              : "text-gray-600"
+          }`}>
+
+            Cyber Defense Monitoring System
+
           </p>
 
         </div>
 
-        {/* Right Header */}
-        <div className="flex items-center gap-4">
+      </div>
 
-          <div className="bg-green-500/10 border border-green-500/30 px-5 py-3 rounded-2xl flex items-center gap-3 min-w-[190px] justify-center">
+      {/* Main */}
 
-            <Globe
-              size={22}
-              className="text-green-400"
-            />
+      <div className="relative z-10 p-10">
 
-            <span className="font-semibold text-green-400">
-              System Secure
+        {/* Hero */}
+
+        <motion.div
+
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+
+          transition={{
+            duration: 0.5,
+          }}
+
+          className="mb-10"
+        >
+
+          <h1 className="text-5xl md:text-6xl font-black mb-4 leading-tight">
+
+            Real-Time
+            <span className="text-cyan-400">
+              {" "}
+              Cyber Defense
             </span>
+
+          </h1>
+
+          <p className={`text-lg max-w-3xl ${
+            darkMode
+
+              ? "text-gray-400"
+
+              : "text-gray-600"
+          }`}>
+
+            Monitor live threats, analyze suspicious activity,
+            and defend your infrastructure using GuardianNode IDS + IPS architecture.
+
+          </p>
+
+        </motion.div>
+
+        {/* Stats */}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+          {
+
+            cards.map(
+              (
+                card,
+                index
+              ) => {
+
+                const Icon =
+                  card.icon;
+
+                return (
+
+                  <motion.div
+
+                    key={index}
+
+                    whileHover={{
+                      scale: 1.02,
+                    }}
+
+                    className={`${
+                      darkMode
+
+                        ? "bg-white/5"
+
+                        : "bg-black/5"
+                    } border ${card.border} backdrop-blur-md rounded-[28px] p-7 shadow-xl`}
+                  >
+
+                    <div className="flex items-center justify-between mb-6">
+
+                      <div>
+
+                        <p className={`mb-3 ${
+                          darkMode
+
+                            ? "text-gray-400"
+
+                            : "text-gray-600"
+                        }`}>
+
+                          {card.title}
+
+                        </p>
+
+                        <h2 className="text-5xl font-black">
+
+                          {card.value}
+
+                        </h2>
+
+                      </div>
+
+                      <div className="w-16 h-16 rounded-3xl bg-white/5 flex items-center justify-center">
+
+                        <Icon
+                          size={32}
+                          className={card.color}
+                        />
+
+                      </div>
+
+                    </div>
+
+                  </motion.div>
+
+                );
+
+              }
+            )
+
+          }
+
+        </div>
+
+        {/* Globe */}
+
+        <div className={`mt-10 ${
+          darkMode
+
+            ? "bg-white/5"
+
+            : "bg-black/5"
+        } border border-cyan-500/20 rounded-[28px] p-7 shadow-xl overflow-hidden`}>
+
+          <div className="flex items-center justify-between mb-6">
+
+            <h2 className="text-3xl font-black text-cyan-400">
+
+              Global Cyber Activity
+
+            </h2>
+
+            <div className="px-4 py-2 rounded-xl bg-cyan-500/10 text-cyan-400 font-bold">
+
+              LIVE
+
+            </div>
 
           </div>
 
-          <div className="bg-[#111827] border border-gray-800 p-4 rounded-2xl">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
 
-            <Bell className="text-white" />
+            className="h-[700px] w-full rounded-3xl overflow-hidden relative"
+          >
+
+            <Globe
+
+              width={1200}
+
+              height={700}
+
+              globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
+
+              backgroundColor="rgba(0,0,0,0)"
+
+              pointsData={threats.map(
+                (
+                  threat
+                ) => ({
+
+                  lat:
+                  threat.lat,
+
+                  lng:
+                  threat.lon,
+
+                  size:
+                  threat.severity ===
+                  "Critical"
+
+                    ? 0.45
+
+                    : 0.22,
+
+                  color:
+
+                    threat.severity ===
+                    "Critical"
+
+                      ? "#ef4444"
+
+                      :
+
+                    threat.severity ===
+                    "High"
+
+                      ? "#f97316"
+
+                      :
+
+                    "#06b6d4",
+
+                }))
+              }
+
+              pointAltitude={0.015}
+
+              pointRadius="size"
+
+              pointColor="color"
+
+              atmosphereColor="#06b6d4"
+
+              atmosphereAltitude={0.12}
+
+              enablePointerInteraction={true}
+
+              animateIn={true}
+
+            />
 
           </div>
 
@@ -136,219 +686,10 @@ const Dashboard = () => {
 
       </div>
 
-      {/* Stats Cards */}
-      <div className="relative z-10 grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-
-        {cards.map((card, index) => (
-
-          <motion.div
-            key={index}
-
-            initial={{
-              opacity: 0,
-              y: 40,
-            }}
-
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-
-            transition={{
-              delay: index * 0.1,
-            }}
-
-            whileHover={{
-              scale: 1.03,
-            }}
-
-            className="bg-[#0B1120] border border-gray-800 rounded-3xl p-6 hover:border-cyan-500/30 transition-all duration-300 shadow-xl"
-          >
-
-            <div
-              className={`${card.bg} w-fit p-4 rounded-2xl mb-5`}
-            >
-
-              <div className={card.color}>
-                {card.icon}
-              </div>
-
-            </div>
-
-            <p className="text-gray-400 mb-3 text-lg">
-              {card.title}
-            </p>
-
-            <h2
-              className={`text-5xl font-black ${card.color}`}
-            >
-              {card.value}
-            </h2>
-
-          </motion.div>
-
-        ))}
-
-      </div>
-
-      {/* Lower Widgets */}
-      <div className="relative z-10 grid lg:grid-cols-2 gap-8">
-
-        {/* Threat Analytics */}
-        <motion.div
-          initial={{
-            opacity: 0,
-            x: -30,
-          }}
-
-          animate={{
-            opacity: 1,
-            x: 0,
-          }}
-
-          className="bg-[#0B1120] border border-gray-800 rounded-3xl p-8"
-        >
-
-          <div className="flex justify-between items-center mb-8">
-
-            <div>
-
-              <h2 className="text-4xl font-black mb-2">
-                Threat Analytics
-              </h2>
-
-              <p className="text-gray-400">
-                Real-time cyber attack monitoring
-              </p>
-
-            </div>
-
-            <div className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-4 py-2 rounded-2xl font-semibold">
-              LIVE
-            </div>
-
-          </div>
-
-          {/* Fake Graph */}
-          <div className="flex items-end gap-4 h-[220px]">
-
-            {[60, 120, 90, 180, 140, 200, 170].map(
-              (height, index) => (
-
-                <motion.div
-                  key={index}
-
-                  initial={{
-                    height: 0,
-                  }}
-
-                  animate={{
-                    height,
-                  }}
-
-                  transition={{
-                    duration: 1,
-                    delay: index * 0.1,
-                  }}
-
-                  className="flex-1 bg-gradient-to-t from-cyan-500 to-blue-500 rounded-t-2xl"
-                />
-
-              )
-            )}
-
-          </div>
-
-        </motion.div>
-
-        {/* AI Insights */}
-        <motion.div
-          initial={{
-            opacity: 0,
-            x: 30,
-          }}
-
-          animate={{
-            opacity: 1,
-            x: 0,
-          }}
-
-          className="bg-[#0B1120] border border-gray-800 rounded-3xl p-8"
-        >
-
-          <div className="flex justify-between items-center mb-8">
-
-            <div>
-
-              <h2 className="text-4xl font-black mb-2">
-                AI Insights
-              </h2>
-
-              <p className="text-gray-400">
-                Threat intelligence engine
-              </p>
-
-            </div>
-
-            <div className="w-4 h-4 bg-cyan-400 rounded-full animate-pulse" />
-
-          </div>
-
-          <div className="space-y-5">
-
-            {[
-              "Critical increase in port scanning activity",
-              "Multiple suspicious IPs detected globally",
-              "Brute force attempts rising rapidly",
-              "AI predicts elevated attack probability",
-            ].map((item, index) => (
-
-              <motion.div
-                key={index}
-
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
-
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-
-                transition={{
-                  delay: index * 0.2,
-                }}
-
-                className="bg-[#111827] border border-gray-800 rounded-2xl p-5"
-              >
-
-                <div className="flex gap-4">
-
-                  <div className="bg-cyan-500/10 p-3 rounded-2xl h-fit">
-
-                    <ShieldAlert className="text-cyan-400" />
-
-                  </div>
-
-                  <p className="text-lg text-gray-300">
-                    {item}
-                  </p>
-
-                </div>
-
-              </motion.div>
-
-            ))}
-
-          </div>
-
-        </motion.div>
-
-      </div>
-
     </div>
+
   );
+
 };
 
 export default Dashboard;

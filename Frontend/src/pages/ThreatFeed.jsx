@@ -1,24 +1,23 @@
-import { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  Search,
+  AlertTriangle,
+} from "lucide-react";
 
 import {
   motion,
   AnimatePresence,
 } from "framer-motion";
 
-import { io } from "socket.io-client";
+const ThreatFeed = ({
 
-import {
-  ShieldAlert,
-  Globe,
-  Clock3,
-  Activity,
-  Search,
-  X,
-} from "lucide-react";
+  darkMode,
 
-const socket = io("http://127.0.0.1:5000");
-
-const ThreatFeed = () => {
+}) => {
 
   const [threats, setThreats] =
     useState([]);
@@ -26,423 +25,669 @@ const ThreatFeed = () => {
   const [search, setSearch] =
     useState("");
 
-  const [severityFilter, setSeverityFilter] =
+  const [filter, setFilter] =
     useState("ALL");
+
+  const [popups, setPopups] =
+    useState([]);
 
   const [selectedThreat, setSelectedThreat] =
     useState(null);
 
-  // Fetch stored threats
-  useEffect(() => {
+  // =========================
+  // Fetch Threats
+  // =========================
 
-    const fetchThreats = async () => {
+  const fetchThreats = async () => {
 
-      try {
+    try {
 
-        const response = await fetch(
-          "http://127.0.0.1:5000/api/threats"
+      const response =
+        await fetch(
+          "http://127.0.0.1:5000/threats"
         );
 
-        const data = await response.json();
+      const data =
+        await response.json();
 
-        const formattedThreats = data.map(
-          (threat, index) => ({
-            ...threat,
-            id: index + 1,
-            status: "Detected",
-          })
-        );
+      setThreats(data);
 
-        setThreats(
-          formattedThreats.slice(0, 20)
-        );
+      // =========================
+      // Optimized Popup Alerts
+      // =========================
 
-      } catch (error) {
+      if (data.length > 0) {
 
-        console.log(
-          "Failed to fetch threats:",
-          error
-        );
+        const latestThreat =
+          data[0];
+
+        const popupId =
+          Date.now();
+
+        const newPopup = {
+
+          ...latestThreat,
+
+          id: popupId,
+
+        };
+
+        setPopups((prev) => [
+
+          newPopup,
+
+          ...prev.slice(0, 1),
+
+        ]);
+
+        setTimeout(() => {
+
+          setPopups((prev) =>
+
+            prev.filter(
+              (p) =>
+                p.id !== popupId
+            )
+
+          );
+
+        }, 3500);
 
       }
 
-    };
+    }
+
+    catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
+
+  useEffect(() => {
 
     fetchThreats();
 
-  }, []);
+    const interval =
+      setInterval(
+        fetchThreats,
+        5000
+      );
 
-  // Live socket updates
-  useEffect(() => {
-
-    socket.on(
-      "new_threat",
-      (newThreat) => {
-
-        setThreats((prev) => [
-          {
-            ...newThreat,
-            id: Date.now(),
-            status: "Detected",
-          },
-          ...prev.slice(0, 19),
-        ]);
-
-      }
-    );
-
-    return () => {
-      socket.off("new_threat");
-    };
+    return () =>
+      clearInterval(interval);
 
   }, []);
 
-  // Filtering
-  const filteredThreats = threats.filter(
-    (threat) => {
+  // =========================
+  // Filter Logic
+  // =========================
+
+  const filteredThreats =
+    threats.filter((threat) => {
 
       const matchesSearch =
+
         threat.ip
           .toLowerCase()
-          .includes(search.toLowerCase()) ||
+          .includes(
+            search.toLowerCase()
+          )
+
+        ||
 
         threat.type
           .toLowerCase()
-          .includes(search.toLowerCase());
+          .includes(
+            search.toLowerCase()
+          );
 
-      const matchesSeverity =
-        severityFilter === "ALL" ||
-        threat.severity === severityFilter;
+      const matchesFilter =
+
+        filter === "ALL"
+
+        ||
+
+        threat.severity === filter;
 
       return (
         matchesSearch &&
-        matchesSeverity
+        matchesFilter
       );
 
-    }
-  );
-
-  const severityStyles = {
-    CRITICAL:
-      "bg-red-600/20 text-red-400 border border-red-500 shadow-red-500/20",
-
-    HIGH:
-      "bg-orange-500/20 text-orange-400 border border-orange-500 shadow-orange-500/20",
-
-    MEDIUM:
-      "bg-yellow-500/20 text-yellow-300 border border-yellow-500 shadow-yellow-500/20",
-  };
+    });
 
   return (
-    <div className="min-h-screen bg-[#050816] text-white p-8">
 
+    <div className={`min-h-screen p-8 transition-colors duration-300 ${
+      darkMode
+
+        ? "bg-[#050816] text-white"
+
+        : "bg-gray-100 text-gray-900"
+    }`}>
+
+      {/* ========================= */}
+      {/* Popup Alerts */}
+      {/* ========================= */}
+
+      <div className="fixed top-6 right-6 z-50 space-y-4">
+
+        {popups.map((popup) => (
+
+          <motion.div
+
+            key={popup.id}
+
+            initial={{
+              opacity: 0,
+              x: 80,
+            }}
+
+            animate={{
+              opacity: 1,
+              x: 0,
+            }}
+
+            exit={{
+              opacity: 0,
+              x: 80,
+            }}
+
+            transition={{
+              duration: 0.25,
+            }}
+
+            className="bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl"
+          >
+
+            <div className="flex items-center gap-3">
+
+              <AlertTriangle />
+
+              <div>
+
+                <h2 className="font-black">
+
+                  Threat Detected
+
+                </h2>
+
+                <p className="text-sm">
+
+                  {popup.type}
+
+                </p>
+
+              </div>
+
+            </div>
+
+          </motion.div>
+
+        ))}
+
+      </div>
+
+      {/* ========================= */}
       {/* Header */}
-      <div className="flex items-center justify-between mb-10">
+      {/* ========================= */}
+
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
 
         <div>
 
-          <h1 className="text-5xl font-bold mb-2">
+          <h1 className="text-5xl font-black mb-3">
+
             Threat Feed
+
           </h1>
 
-          <p className="text-gray-400 text-lg">
+          <p className={`text-lg ${
+            darkMode
+
+              ? "text-gray-400"
+
+              : "text-gray-500"
+          }`}>
+
             Real-time cyber attack monitoring
+
           </p>
 
         </div>
 
-        <div className="flex items-center gap-3 bg-[#0B1120] border border-gray-800 px-5 py-3 rounded-2xl">
+        {/* Search + Filter */}
 
-          <Activity className="text-green-400 animate-pulse" />
+        <div className="flex gap-4 flex-wrap">
 
-          <span className="text-green-400 font-semibold">
-            LIVE
-          </span>
+          {/* Search */}
 
-        </div>
+          <div className={`border rounded-2xl px-5 py-3 flex items-center gap-3 shadow-lg ${
+            darkMode
 
-      </div>
+              ? "bg-[#0B1120] border-[#1E293B]"
 
-      {/* Filters */}
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
+              : "bg-white border-gray-200"
+          }`}>
 
-        {/* Search */}
-        <div className="bg-[#0B1120] border border-gray-800 rounded-2xl px-5 py-4 flex items-center gap-4">
+            <Search
+              className="text-gray-400"
+              size={20}
+            />
 
-          <Search className="text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search threats..."
 
-          <input
-            type="text"
-            placeholder="Search by IP or threat type..."
-            value={search}
-            onChange={(e) =>
-              setSearch(e.target.value)
-            }
-            className="bg-transparent outline-none w-full text-white"
-          />
+              value={search}
 
-        </div>
-
-        {/* Severity Filter */}
-        <select
-          value={severityFilter}
-          onChange={(e) =>
-            setSeverityFilter(e.target.value)
-          }
-          className="bg-[#0B1120] border border-gray-800 rounded-2xl px-5 py-4 outline-none"
-        >
-
-          <option value="ALL">
-            All Severities
-          </option>
-
-          <option value="CRITICAL">
-            Critical
-          </option>
-
-          <option value="HIGH">
-            High
-          </option>
-
-          <option value="MEDIUM">
-            Medium
-          </option>
-
-        </select>
-
-      </div>
-
-      {/* Threat Feed */}
-      <div className="grid gap-6">
-
-        <AnimatePresence>
-
-          {filteredThreats.map((threat) => (
-
-            <motion.div
-              key={threat.id}
-
-              onClick={() =>
-                setSelectedThreat(threat)
+              onChange={(e) =>
+                setSearch(
+                  e.target.value
+                )
               }
 
-              initial={{
-                opacity: 0,
-                y: -40,
-                scale: 0.95,
-              }}
+              className="bg-transparent outline-none"
+            />
 
-              animate={{
-                opacity: 1,
-                y: 0,
-                scale: 1,
-              }}
+          </div>
 
-              exit={{
-                opacity: 0,
-                scale: 0.9,
-              }}
+          {/* Filter */}
 
-              transition={{
-                duration: 0.4,
-              }}
+          <select
 
-              whileHover={{
-                scale: 1.02,
-              }}
+            value={filter}
 
-              className="bg-[#0B1120] border border-gray-800 rounded-3xl p-6 shadow-xl hover:border-cyan-500/40 transition-all duration-300 cursor-pointer"
-            >
+            onChange={(e) =>
+              setFilter(
+                e.target.value
+              )
+            }
 
-              <div className="flex justify-between items-start mb-6">
+            className={`rounded-2xl px-5 py-3 shadow-lg border ${
+              darkMode
 
-                <div className="flex items-center gap-4">
+                ? "bg-[#0B1120] border-[#1E293B] text-white"
 
-                  <div className="bg-cyan-500/10 p-4 rounded-2xl">
+                : "bg-white border-gray-200 text-black"
+            }`}
+          >
 
-                    <ShieldAlert className="text-cyan-400" />
+            <option value="ALL">
 
-                  </div>
+              All
 
-                  <div>
+            </option>
 
-                    <h2 className="text-2xl font-bold">
-                      {threat.type}
-                    </h2>
+            <option value="High">
 
-                    <p className="text-gray-400">
-                      Suspicious activity detected
-                    </p>
+              High
 
-                  </div>
+            </option>
 
-                </div>
+            <option value="Medium">
 
-                <div
-                  className={`px-4 py-2 rounded-full text-sm font-bold shadow-lg
-                  ${severityStyles[threat.severity]}`}
-                >
-                  {threat.severity}
-                </div>
+              Medium
 
-              </div>
+            </option>
 
-              {/* Threat Info */}
-              <div className="grid md:grid-cols-3 gap-4">
+            <option value="Critical">
 
-                <div className="bg-[#111827] rounded-2xl p-4 border border-gray-800">
+              Critical
 
-                  <div className="flex items-center gap-2 mb-2 text-gray-400">
+            </option>
 
-                    <Globe size={18} />
+            <option value="Low">
 
-                    <span>IP Address</span>
+              Low
 
-                  </div>
+            </option>
 
-                  <p className="text-lg font-semibold">
-                    {threat.ip}
-                  </p>
+          </select>
 
-                </div>
-
-                <div className="bg-[#111827] rounded-2xl p-4 border border-gray-800">
-
-                  <div className="flex items-center gap-2 mb-2 text-gray-400">
-
-                    <ShieldAlert size={18} />
-
-                    <span>Status</span>
-
-                  </div>
-
-                  <p className="text-lg font-semibold">
-                    {threat.status}
-                  </p>
-
-                </div>
-
-                <div className="bg-[#111827] rounded-2xl p-4 border border-gray-800">
-
-                  <div className="flex items-center gap-2 mb-2 text-gray-400">
-
-                    <Clock3 size={18} />
-
-                    <span>Detected</span>
-
-                  </div>
-
-                  <p className="text-lg font-semibold">
-                    {threat.time}
-                  </p>
-
-                </div>
-
-              </div>
-
-            </motion.div>
-
-          ))}
-
-        </AnimatePresence>
+        </div>
 
       </div>
 
-      {/* Threat Modal */}
+      {/* ========================= */}
+      {/* Threat Cards */}
+      {/* ========================= */}
+
+      <div className="space-y-5">
+
+        {
+
+          filteredThreats
+            .slice(0, 15)
+            .map(
+              (
+                threat,
+                index
+              ) => (
+
+                <motion.div
+
+                  key={index}
+
+                  initial={{
+                    opacity: 0,
+                    y: 15,
+                  }}
+
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+
+                  transition={{
+                    duration: 0.2,
+                  }}
+
+                  onClick={() =>
+                    setSelectedThreat(threat)
+                  }
+
+                  className={`cursor-pointer border rounded-[28px] p-6 shadow-xl hover:shadow-2xl transition-all duration-300 ${
+                    darkMode
+
+                      ? "bg-[#0B1120]/80 border-[#1E293B]"
+
+                      : "bg-white border-gray-200"
+                  }`}
+                >
+
+                  {/* Top */}
+
+                  <div className="flex justify-between items-center mb-6">
+
+                    <div>
+
+                      <h2 className="text-3xl font-black mb-2">
+
+                        {threat.type}
+
+                      </h2>
+
+                      <p className={`${
+                        darkMode
+
+                          ? "text-gray-400"
+
+                          : "text-gray-500"
+                      }`}>
+
+                        Suspicious activity detected
+
+                      </p>
+
+                    </div>
+
+                    <div className="bg-orange-500/10 text-orange-500 px-5 py-2 rounded-full font-bold">
+
+                      {threat.severity}
+
+                    </div>
+
+                  </div>
+
+                  {/* Grid */}
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+                    {/* IP */}
+
+                    <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-5`}>
+
+                      <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+
+                        IP Address
+
+                      </p>
+
+                      <h3 className="text-xl font-bold">
+
+                        {threat.ip}
+
+                      </h3>
+
+                    </div>
+                                        {/* Status */}
+
+                    <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-5`}>
+
+                      <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+
+                        Status
+
+                      </p>
+
+                      <h3 className="text-xl font-bold text-green-500">
+
+                        {threat.status}
+
+                      </h3>
+
+                    </div>
+
+                    {/* Timestamp */}
+
+                    <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-5`}>
+
+                      <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+
+                        Timestamp
+
+                      </p>
+
+                      <h3 className="text-sm font-bold break-all">
+
+                        {threat.timestamp}
+
+                      </h3>
+
+                    </div>
+
+                  </div>
+
+                </motion.div>
+
+              )
+            )
+
+        }
+
+      </div>
+
+      {/* ========================= */}
+      {/* Optimized Modal */}
+      {/* ========================= */}
+
       <AnimatePresence>
 
         {selectedThreat && (
 
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
 
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-6"
+            initial={{
+              opacity: 0,
+            }}
+
+            animate={{
+              opacity: 1,
+            }}
+
+            exit={{
+              opacity: 0,
+            }}
+
+            transition={{
+              duration: 0.2,
+            }}
+
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6"
           >
 
             <motion.div
+
               initial={{
-                scale: 0.8,
-                opacity: 0,
+                scale: 0.9,
+                y: 40,
               }}
 
               animate={{
                 scale: 1,
-                opacity: 1,
+                y: 0,
               }}
 
               exit={{
-                scale: 0.8,
-                opacity: 0,
+                scale: 0.9,
+                y: 40,
               }}
 
-              className="bg-[#0B1120] border border-gray-800 rounded-3xl w-full max-w-2xl p-8 relative"
+              transition={{
+                duration: 0.2,
+              }}
+
+              className={`border p-8 w-full max-w-3xl rounded-[32px] shadow-2xl relative overflow-hidden ${
+                darkMode
+
+                  ? "bg-[#0B1120] border-[#1E293B]"
+
+                  : "bg-white border-gray-200"
+              }`}
             >
 
-              {/* Close Button */}
+              {/* Close */}
+
               <button
+
                 onClick={() =>
                   setSelectedThreat(null)
                 }
-                className="absolute top-5 right-5 bg-[#111827] p-2 rounded-xl hover:bg-red-500/20 transition-all"
+
+                className="absolute top-5 right-5 bg-red-500 text-white w-10 h-10 rounded-full font-black"
               >
 
-                <X className="text-white" />
+                X
 
               </button>
 
+              {/* Header */}
+
               <div className="mb-8">
 
-                <h2 className="text-4xl font-bold mb-3">
-                  {selectedThreat.type}
-                </h2>
+                <h1 className="text-5xl font-black mb-3">
 
-                <p className="text-gray-400">
-                  Detailed threat analysis and incident overview.
+                  {selectedThreat.type}
+
+                </h1>
+
+                <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} text-lg`}>
+
+                  Full threat intelligence report
+
                 </p>
 
               </div>
 
-              <div className="grid gap-5">
+              {/* Info */}
 
-                <div className="bg-[#111827] border border-gray-800 rounded-2xl p-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                  <p className="text-gray-400 mb-2">
-                    Source IP
+                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-6`}>
+
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+
+                    IP Address
+
                   </p>
 
-                  <h3 className="text-2xl font-bold">
+                  <h2 className="text-2xl font-black">
+
                     {selectedThreat.ip}
-                  </h3>
+
+                  </h2>
 
                 </div>
 
-                <div className="bg-[#111827] border border-gray-800 rounded-2xl p-5">
+                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-6`}>
 
-                  <p className="text-gray-400 mb-2">
-                    Severity Level
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+
+                    Severity
+
                   </p>
 
-                  <h3 className="text-2xl font-bold">
+                  <h2 className="text-2xl font-black text-orange-500">
+
                     {selectedThreat.severity}
-                  </h3>
+
+                  </h2>
 
                 </div>
 
-                <div className="bg-[#111827] border border-gray-800 rounded-2xl p-5">
+                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-6`}>
 
-                  <p className="text-gray-400 mb-2">
-                    Recommended Action
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+
+                    Status
+
                   </p>
 
-                  <p className="text-lg text-gray-300">
-                    Immediately investigate suspicious activity,
-                    block malicious IP address, and monitor network traffic
-                    for further intrusion attempts.
-                  </p>
+                  <h2 className="text-2xl font-black text-green-500">
+
+                    {selectedThreat.status}
+
+                  </h2>
 
                 </div>
+
+                <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-3xl p-6`}>
+
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2`}>
+
+                    Timestamp
+
+                  </p>
+
+                  <h2 className="text-lg font-black break-all">
+
+                    {selectedThreat.timestamp}
+
+                  </h2>
+
+                </div>
+
+              </div>
+
+              {/* Analysis */}
+
+              <div className="mt-8 bg-red-500/10 border border-red-500/20 rounded-3xl p-6">
+
+                <h2 className="text-2xl font-black mb-4 text-red-500">
+
+                  Threat Analysis
+
+                </h2>
+
+                <p className={`${darkMode ? "text-gray-300" : "text-gray-700"} leading-relaxed`}>
+
+                  GuardianNode detected suspicious
+                  network activity matching
+                  behavioral patterns of
+                  {` ${selectedThreat.type} `}
+                  attacks.
+
+                  The system classified this
+                  threat as
+                  {` ${selectedThreat.severity} `}
+                  severity and automatically
+                  triggered defensive monitoring
+                  protocols.
+
+                </p>
 
               </div>
 
@@ -455,7 +700,9 @@ const ThreatFeed = () => {
       </AnimatePresence>
 
     </div>
+
   );
+
 };
 
 export default ThreatFeed;

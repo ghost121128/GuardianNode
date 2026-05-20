@@ -1,204 +1,263 @@
 import {
   FileText,
-  ShieldCheck,
   Download,
-  CalendarDays,
-  AlertTriangle,
+  ShieldCheck,
+  Calendar,
 } from "lucide-react";
 
 const reports = [
   {
     id: 1,
     title: "Weekly Threat Report",
-    date: "15 May 2026",
-    threats: 128,
-    status: "Generated",
+    date: "17 May 2026",
+    threats: 124,
   },
+
   {
     id: 2,
-    title: "Network Activity Report",
-    date: "14 May 2026",
-    threats: 87,
-    status: "Generated",
+    title: "Network Security Audit",
+    date: "15 May 2026",
+    threats: 82,
   },
+
   {
     id: 3,
-    title: "Security Audit Summary",
-    date: "13 May 2026",
-    threats: 42,
-    status: "Generated",
+    title: "Critical Incident Summary",
+    date: "12 May 2026",
+    threats: 34,
   },
 ];
 
-const Reports = () => {
+const Reports = ({
 
-  // Download CSV Report
-  const downloadCSV = async () => {
+  darkMode,
 
-    try {
+}) => {
 
-      const response = await fetch(
-        "http://127.0.0.1:5000/api/export/csv"
-      );
+  const downloadReport = () => {
 
-      const blob = await response.blob();
+    const reportContent = `
 
-      const url =
-        window.URL.createObjectURL(blob);
+GuardianNode Security Report
+============================
 
-      const link =
-        document.createElement("a");
+Generated: ${new Date().toLocaleString()}
 
-      link.href = url;
+Total Threats Blocked: 332
+Critical Alerts: 94
+System Health: 98%
 
-      link.download =
-        "threat_report.csv";
+Recent Incidents:
+- SQL Injection blocked
+- DDoS traffic detected
+- Malware signature detected
+- Firewall blocked malicious IP
 
-      document.body.appendChild(link);
+GuardianNode Enterprise Security Suite
+`;
 
-      link.click();
+    const blob = new Blob(
+      [reportContent],
+      {
+        type: "text/plain",
+      }
+    );
 
-      link.remove();
+    const url =
+      window.URL.createObjectURL(blob);
 
-    } catch (error) {
+    const link =
+      document.createElement("a");
 
-      console.log(
-        "Download failed:",
-        error
-      );
+    link.href = url;
 
-    }
+    link.download =
+      "GuardianNode_Report.txt";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    window.URL.revokeObjectURL(url);
 
   };
 
   return (
-    <div className="min-h-screen bg-[#050816] text-white p-8">
+
+    <div className={`min-h-screen p-8 transition-all duration-500 ${
+      darkMode
+
+        ? "bg-[#040816] text-white"
+
+        : "bg-white text-gray-900"
+    }`}>
 
       {/* Header */}
-      <div className="mb-10">
 
-        <h1 className="text-5xl font-bold mb-2">
-          Security Reports
-        </h1>
+      <div className="flex items-center justify-between mb-10">
 
-        <p className="text-gray-400 text-lg">
-          Threat intelligence and security audit reports
-        </p>
+        <div>
+
+          <h1 className="text-5xl font-black mb-2">
+
+            Reports
+
+          </h1>
+
+          <p className={`${
+            darkMode
+
+              ? "text-gray-400"
+
+              : "text-gray-500"
+          }`}>
+
+            Security reports and incident documentation
+
+          </p>
+
+        </div>
+
+        <button
+          onClick={downloadReport}
+
+          className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-6 py-3 rounded-2xl transition-all duration-300 flex items-center gap-3"
+        >
+
+          <Download size={18} />
+
+          Export Report
+
+        </button>
 
       </div>
 
-      {/* Top Stats */}
-      <div className="grid md:grid-cols-3 gap-6 mb-10">
+      {/* Top Cards */}
 
-        <div className="bg-[#0B1120] border border-gray-800 rounded-3xl p-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
 
-          <div className="flex items-center gap-3 mb-4">
+        {[
+          {
+            title: "Generated Reports",
+            value: "38",
+          },
 
-            <ShieldCheck className="text-green-400" />
+          {
+            title: "Threat Logs",
+            value: "2,431",
+          },
 
-            <p className="text-gray-400">
-              Security Score
+          {
+            title: "Resolved Incidents",
+            value: "192",
+          },
+        ].map((card, index) => (
+
+          <div
+            key={index}
+
+            className={`backdrop-blur-xl border rounded-[32px] p-6 shadow-xl ${
+              darkMode
+
+                ? "bg-[#0B1120]/80 border-[#1E293B]"
+
+                : "bg-gray-100 border-gray-200"
+            }`}
+          >
+
+            <div className="flex items-center justify-between mb-5">
+
+              <div className="bg-cyan-500/10 p-4 rounded-2xl">
+
+                <ShieldCheck className="text-cyan-400" />
+
+              </div>
+
+            </div>
+
+            <p className={`text-sm mb-2 ${
+              darkMode
+
+                ? "text-gray-400"
+
+                : "text-gray-500"
+            }`}>
+
+              {card.title}
+
             </p>
+
+            <h2 className="text-4xl font-black text-cyan-400">
+
+              {card.value}
+
+            </h2>
 
           </div>
 
-          <h2 className="text-5xl font-bold text-green-400">
-            92%
-          </h2>
-
-        </div>
-
-        <div className="bg-[#0B1120] border border-gray-800 rounded-3xl p-6">
-
-          <div className="flex items-center gap-3 mb-4">
-
-            <AlertTriangle className="text-red-400" />
-
-            <p className="text-gray-400">
-              Critical Threats
-            </p>
-
-          </div>
-
-          <h2 className="text-5xl font-bold text-red-400">
-            18
-          </h2>
-
-        </div>
-
-        <div className="bg-[#0B1120] border border-gray-800 rounded-3xl p-6">
-
-          <div className="flex items-center gap-3 mb-4">
-
-            <FileText className="text-cyan-400" />
-
-            <p className="text-gray-400">
-              Reports Generated
-            </p>
-
-          </div>
-
-          <h2 className="text-5xl font-bold text-cyan-400">
-            64
-          </h2>
-
-        </div>
+        ))}
 
       </div>
 
       {/* Reports List */}
-      <div className="bg-[#0B1120] border border-gray-800 rounded-3xl p-6">
 
-        <div className="flex items-center justify-between mb-8">
+      <div className="space-y-6">
 
-          <h2 className="text-3xl font-bold">
-            Recent Reports
-          </h2>
+        {reports.map((report) => (
 
-          {/* Generate Report Button */}
-          <button
-            onClick={downloadCSV}
-            className="bg-cyan-500 hover:bg-cyan-400 transition-all duration-300 px-5 py-3 rounded-2xl font-semibold text-black"
+          <div
+            key={report.id}
+
+            className={`backdrop-blur-xl border rounded-[32px] p-7 shadow-xl hover:border-cyan-500/40 transition-all duration-300 ${
+              darkMode
+
+                ? "bg-[#0B1120]/80 border-[#1E293B]"
+
+                : "bg-gray-100 border-gray-200"
+            }`}
           >
-            Generate CSV Report
-          </button>
 
-        </div>
+            <div className="flex items-center justify-between">
 
-        <div className="space-y-5">
+              {/* Left */}
 
-          {reports.map((report) => (
+              <div className="flex items-start gap-5">
 
-            <div
-              key={report.id}
-              className="bg-[#111827] border border-gray-800 rounded-2xl p-5 hover:border-cyan-500/40 transition-all duration-300"
-            >
+                <div className="bg-cyan-500/10 p-4 rounded-2xl">
 
-              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                  <FileText className="text-cyan-400" />
+
+                </div>
 
                 <div>
 
-                  <h3 className="text-2xl font-semibold mb-2">
-                    {report.title}
-                  </h3>
+                  <h2 className="text-2xl font-black mb-2">
 
-                  <div className="flex flex-wrap gap-6 text-gray-400">
+                    {report.title}
+
+                  </h2>
+
+                  <div className={`flex items-center gap-5 ${
+                    darkMode
+
+                      ? "text-gray-400"
+
+                      : "text-gray-500"
+                  }`}>
 
                     <div className="flex items-center gap-2">
 
-                      <CalendarDays size={18} />
+                      <Calendar size={16} />
 
-                      <span>{report.date}</span>
+                      {report.date}
 
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div>
 
-                      <AlertTriangle size={18} />
-
-                      <span>
-                        {report.threats} Threats
-                      </span>
+                      {report.threats} Threats Logged
 
                     </div>
 
@@ -206,28 +265,34 @@ const Reports = () => {
 
                 </div>
 
-                {/* Download Button */}
-                <button
-                  onClick={downloadCSV}
-                  className="bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500 px-4 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center"
-                >
-
-                  <Download className="text-cyan-400" />
-
-                </button>
-
               </div>
+
+              {/* Right */}
+
+              <button
+                onClick={downloadReport}
+
+                className="bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 px-5 py-3 rounded-2xl transition-all duration-300 flex items-center gap-3"
+              >
+
+                <Download size={18} />
+
+                Download
+
+              </button>
 
             </div>
 
-          ))}
+          </div>
 
-        </div>
+        ))}
 
       </div>
 
     </div>
+
   );
+
 };
 
 export default Reports;

@@ -1,115 +1,191 @@
 import {
-  User,
-  Bell,
   Shield,
-  KeyRound,
+  Bell,
+  Moon,
+  Lock,
+  Database,
   Save,
 } from "lucide-react";
 
-const Settings = () => {
+const Settings = ({
+
+  darkMode,
+  setDarkMode,
+
+}) => {
+
   return (
-    <div className="min-h-screen bg-[#050816] text-white p-8">
+
+    <div className={`min-h-screen p-8 transition-all duration-500 ${
+      darkMode
+
+        ? "bg-[#040816] text-white"
+
+        : "bg-white text-gray-900"
+    }`}>
 
       {/* Header */}
+
       <div className="mb-10">
 
-        <h1 className="text-5xl font-bold mb-2">
+        <h1 className="text-5xl font-black mb-2">
+
           Settings
+
         </h1>
 
-        <p className="text-gray-400 text-lg">
-          Configure your GuardianNode environment
+        <p className={`${
+          darkMode
+
+            ? "text-gray-400"
+
+            : "text-gray-500"
+        }`}>
+
+          Configure GuardianNode preferences and security settings
+
         </p>
 
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
+      {/* Settings Grid */}
 
-        {/* Profile Settings */}
-        <div className="bg-[#0B1120] border border-gray-800 rounded-3xl p-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
-          <div className="flex items-center gap-3 mb-6">
+        {/* Appearance */}
 
-            <User className="text-cyan-400" />
+        <div className={`backdrop-blur-xl border rounded-[32px] p-8 shadow-xl ${
+          darkMode
 
-            <h2 className="text-2xl font-bold">
-              Profile Settings
-            </h2>
+            ? "bg-[#0B1120]/80 border-[#1E293B]"
 
-          </div>
+            : "bg-gray-100 border-gray-200"
+        }`}>
 
-          <div className="space-y-5">
+          <div className="flex items-center gap-4 mb-6">
 
-            <div>
-              <label className="block mb-2 text-gray-400">
-                Full Name
-              </label>
+            <div className="bg-cyan-500/10 p-4 rounded-2xl">
 
-              <input
-                type="text"
-                placeholder="Kalpesh Hirudkar"
-                className="w-full bg-[#111827] border border-gray-700 rounded-2xl px-4 py-3 outline-none focus:border-cyan-500"
-              />
+              <Moon className="text-cyan-400" />
+
             </div>
 
             <div>
-              <label className="block mb-2 text-gray-400">
-                Email Address
-              </label>
 
-              <input
-                type="email"
-                placeholder="guardian@node.com"
-                className="w-full bg-[#111827] border border-gray-700 rounded-2xl px-4 py-3 outline-none focus:border-cyan-500"
-              />
+              <h2 className="text-3xl font-black">
+
+                Appearance
+
+              </h2>
+
+              <p className={`${
+                darkMode
+
+                  ? "text-gray-400"
+
+                  : "text-gray-500"
+              }`}>
+
+                Customize dashboard theme
+
+              </p>
+
             </div>
 
-            <button className="bg-cyan-500 hover:bg-cyan-400 transition-all duration-300 text-black font-semibold px-5 py-3 rounded-2xl flex items-center gap-2">
-
-              <Save size={18} />
-
-              Save Changes
-
-            </button>
-
           </div>
+
+          <button
+
+            onClick={() =>
+              setDarkMode(!darkMode)
+            }
+
+            className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-6 py-3 rounded-2xl transition-all duration-300"
+          >
+
+            Switch to {
+
+              darkMode
+                ? "Light"
+                : "Dark"
+
+            } Mode
+
+          </button>
 
         </div>
 
-        {/* Notification Settings */}
-        <div className="bg-[#0B1120] border border-gray-800 rounded-3xl p-6">
+        {/* Notifications */}
 
-          <div className="flex items-center gap-3 mb-6">
+        <div className={`backdrop-blur-xl border rounded-[32px] p-8 shadow-xl ${
+          darkMode
 
-            <Bell className="text-yellow-400" />
+            ? "bg-[#0B1120]/80 border-[#1E293B]"
 
-            <h2 className="text-2xl font-bold">
-              Notification Settings
-            </h2>
+            : "bg-gray-100 border-gray-200"
+        }`}>
+
+          <div className="flex items-center gap-4 mb-6">
+
+            <div className="bg-yellow-500/10 p-4 rounded-2xl">
+
+              <Bell className="text-yellow-400" />
+
+            </div>
+
+            <div>
+
+              <h2 className="text-3xl font-black">
+
+                Notifications
+
+              </h2>
+
+              <p className={`${
+                darkMode
+
+                  ? "text-gray-400"
+
+                  : "text-gray-500"
+              }`}>
+
+                Threat alert preferences
+
+              </p>
+
+            </div>
 
           </div>
 
-          <div className="space-y-5">
+          <div className="space-y-4">
 
             {[
-              "Email Notifications",
-              "Critical Threat Alerts",
-              "Weekly Security Reports",
-              "Live Threat Detection",
-            ].map((setting, index) => (
+              "Email Alerts",
+              "SMS Notifications",
+              "Live Threat Alerts",
+            ].map((item, index) => (
 
               <div
                 key={index}
-                className="flex justify-between items-center bg-[#111827] border border-gray-800 rounded-2xl p-4"
+
+                className={`flex items-center justify-between rounded-2xl px-5 py-4 border ${
+                  darkMode
+
+                    ? "bg-[#111827] border-[#1E293B]"
+
+                    : "bg-white border-gray-200"
+                }`}
               >
 
-                <span className="font-medium">
-                  {setting}
+                <span>
+
+                  {item}
+
                 </span>
 
-                <div className="w-14 h-7 bg-cyan-500 rounded-full flex items-center px-1">
+                <div className="w-12 h-6 bg-cyan-500 rounded-full flex items-center px-1">
 
-                  <div className="w-5 h-5 bg-white rounded-full ml-auto" />
+                  <div className="w-4 h-4 bg-white rounded-full ml-auto" />
 
                 </div>
 
@@ -121,46 +197,75 @@ const Settings = () => {
 
         </div>
 
-        {/* Security Settings */}
-        <div className="bg-[#0B1120] border border-gray-800 rounded-3xl p-6">
+        {/* Security */}
 
-          <div className="flex items-center gap-3 mb-6">
+        <div className={`backdrop-blur-xl border rounded-[32px] p-8 shadow-xl ${
+          darkMode
 
-            <Shield className="text-green-400" />
+            ? "bg-[#0B1120]/80 border-[#1E293B]"
 
-            <h2 className="text-2xl font-bold">
-              Security Settings
-            </h2>
+            : "bg-gray-100 border-gray-200"
+        }`}>
 
-          </div>
+          <div className="flex items-center gap-4 mb-6">
 
-          <div className="space-y-5">
+            <div className="bg-red-500/10 p-4 rounded-2xl">
 
-            <div className="bg-[#111827] border border-gray-800 rounded-2xl p-5">
-
-              <p className="text-lg font-semibold mb-2">
-                Multi-Factor Authentication
-              </p>
-
-              <p className="text-gray-400 mb-4">
-                Enhance account protection with MFA
-              </p>
-
-              <button className="bg-green-500/20 text-green-400 border border-green-500 px-4 py-2 rounded-xl font-semibold">
-                Enabled
-              </button>
+              <Shield className="text-red-400" />
 
             </div>
 
-            <div className="bg-[#111827] border border-gray-800 rounded-2xl p-5">
+            <div>
 
-              <p className="text-lg font-semibold mb-2">
-                Session Timeout
+              <h2 className="text-3xl font-black">
+
+                Security
+
+              </h2>
+
+              <p className={`${
+                darkMode
+
+                  ? "text-gray-400"
+
+                  : "text-gray-500"
+              }`}>
+
+                Access and protection settings
+
               </p>
 
-              <p className="text-gray-400">
-                Automatic logout after 30 minutes
-              </p>
+            </div>
+
+          </div>
+
+          <div className="space-y-4">
+
+            <div className={`rounded-2xl px-5 py-4 flex items-center gap-4 border ${
+              darkMode
+
+                ? "bg-[#111827] border-[#1E293B]"
+
+                : "bg-white border-gray-200"
+            }`}>
+
+              <Lock className="text-cyan-400" />
+
+              Two-Factor Authentication Enabled
+
+            </div>
+
+            <div className={`rounded-2xl px-5 py-4 flex items-center gap-4 border ${
+              darkMode
+
+                ? "bg-[#111827] border-[#1E293B]"
+
+                : "bg-white border-gray-200"
+            }`}>
+
+              <Database className="text-green-400" />
+
+              Encrypted Threat Database Active
 
             </div>
 
@@ -168,55 +273,56 @@ const Settings = () => {
 
         </div>
 
-        {/* API Settings */}
-        <div className="bg-[#0B1120] border border-gray-800 rounded-3xl p-6">
+        {/* Save Panel */}
 
-          <div className="flex items-center gap-3 mb-6">
+        <div className={`backdrop-blur-xl border rounded-[32px] p-8 shadow-xl flex flex-col justify-between ${
+          darkMode
 
-            <KeyRound className="text-purple-400" />
+            ? "bg-[#0B1120]/80 border-[#1E293B]"
 
-            <h2 className="text-2xl font-bold">
-              API Configuration
+            : "bg-gray-100 border-gray-200"
+        }`}>
+
+          <div>
+
+            <h2 className="text-3xl font-black mb-4">
+
+              Save Configuration
+
             </h2>
 
-          </div>
+            <p className={`mb-8 ${
+              darkMode
 
-          <div className="space-y-5">
+                ? "text-gray-400"
 
-            <div>
-              <label className="block mb-2 text-gray-400">
-                API Key
-              </label>
+                : "text-gray-500"
+            }`}>
 
-              <input
-                type="password"
-                value="GNODE_2026_SECURE_API"
-                readOnly
-                className="w-full bg-[#111827] border border-gray-700 rounded-2xl px-4 py-3 outline-none"
-              />
-            </div>
+              Save all dashboard configuration changes securely.
 
-            <div>
-              <label className="block mb-2 text-gray-400">
-                Webhook Endpoint
-              </label>
-
-              <input
-                type="text"
-                value="https://guardian-node/api/webhooks"
-                readOnly
-                className="w-full bg-[#111827] border border-gray-700 rounded-2xl px-4 py-3 outline-none"
-              />
-            </div>
+            </p>
 
           </div>
+
+          <button
+            className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-6 py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3"
+          >
+
+            <Save size={20} />
+
+            Save Settings
+
+          </button>
 
         </div>
 
       </div>
 
     </div>
+
   );
+
 };
 
 export default Settings;

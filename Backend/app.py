@@ -1,173 +1,547 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_socketio import SocketIO
-from flask import send_file
 
-from database.mongodb import threats_collection
+from pymongo import MongoClient
 
-import pandas as pd
+from datetime import datetime
+
 import random
 import threading
 import time
+import psutil
+import requests
+
+# =========================
+# Flask App
+# =========================
 
 app = Flask(__name__)
 
 CORS(app)
 
+# =========================
+# SocketIO
+# =========================
+
 socketio = SocketIO(
+
     app,
+
     cors_allowed_origins="*"
+
 )
 
-# Fake Threat Types
-threats = [
-    "SQL Injection Attempt",
-    "Port Scanning",
-    "Brute Force Login",
-    "Malware Activity",
-    "Unauthorized Access",
-    "DDoS Activity",
+# =========================
+# MongoDB Connection
+# =========================
+
+client = MongoClient(
+    "mongodb://localhost:27017/"
+)
+
+db = client["guardiannode"]
+
+threat_collection = db["threat_logs"]
+
+blocked_collection = db["blocked_ips"]
+
+# =========================
+# Threat Simulation Data
+# =========================
+
+attack_types = [
+
+    "DDoS Attack",
+
+    "Brute Force",
+
+    "Port Scan",
+
+    "Malware Traffic",
+
+    "SQL Injection",
+
+    "Suspicious Login",
+
 ]
 
-# Generate Live Threats
-def generate_threats():
+severity_levels = [
+
+    "Low",
+
+    "Medium",
+
+    "High",
+
+    "Critical",
+
+]
+
+# =========================
+# Random Public IP Generator
+# =========================
+
+def generate_random_ip():
+
+    first_octet = random.choice([
+
+        8,
+        23,
+        45,
+        66,
+        91,
+        103,
+        117,
+        142,
+        151,
+        185,
+        197,
+
+    ])
+
+    return ".".join([
+
+        str(first_octet),
+
+        str(random.randint(1, 255)),
+
+        str(random.randint(1, 255)),
+
+        str(random.randint(1, 255))
+
+    ])
+
+# =========================
+# IP Geolocation
+# =========================
+
+def get_ip_location(ip):
+
+    try:
+
+        response = requests.get(
+
+            f"http://ip-api.com/json/{ip}",
+
+            timeout=3
+
+        )
+
+        data = response.json()
+
+        if data["status"] == "success":
+
+            return {
+
+                "country":
+                data.get(
+                    "country",
+                    "Unknown"
+                ),
+
+                "city":
+                data.get(
+                    "city",
+                    "Unknown"
+                ),
+
+                "lat":
+                data.get(
+                    "lat",
+                    0
+                ),
+
+                "lon":
+                data.get(
+                    "lon",
+                    0
+                ),
+
+            }
+
+    except Exception as error:
+
+        print(
+            "Geolocation Error:",
+            error
+        )
+
+    return {
+
+        "country":
+        "Unknown",
+
+        "city":
+        "Unknown",
+
+        "lat":
+        0,
+
+        "lon":
+        0,
+
+    }
+
+# =========================
+# Threat Simulation Engine
+# =========================
+
+def simulate_threats():
 
     while True:
 
+        severity = random.choice(
+            severity_levels
+        )
+
+        ip_address = (
+            generate_random_ip()
+        )
+
+        # =========================
+        # Geolocation Lookup
+        # =========================
+
+        location = (
+            get_ip_location(
+                ip_address
+            )
+        )
+
+        # =========================
+        # Default Status
+        # =========================
+
+        status = "Monitoring"
+
+        # =========================
+        # IPS Auto Blocking
+        # =========================
+
+        if severity == "Critical":
+
+            status = "Blocked"
+
+            blocked_collection.insert_one({
+
+                "ip":
+                ip_address,
+
+                "reason":
+                "Critical Threat",
+
+                "country":
+                location["country"],
+
+                "city":
+                location["city"],
+
+                "timestamp":
+                datetime.now(),
+
+            })
+
+            print(
+                f"[IPS] Blocking IP {ip_address}"
+            )
+
+        # =========================
+        # Threat Object
+        # =========================
+
         threat = {
-            "type": random.choice(threats),
 
-            "ip": f"{random.randint(1,255)}."
-                  f"{random.randint(1,255)}."
-                  f"{random.randint(1,255)}."
-                  f"{random.randint(1,255)}",
+            "ip":
+            ip_address,
 
-            "severity": random.choice(
-                ["CRITICAL", "HIGH", "MEDIUM"]
+            "type":
+            random.choice(
+                attack_types
             ),
 
-            "time": "Just now",
+            "severity":
+            severity,
+
+            "status":
+            status,
+
+            "country":
+            location["country"],
+
+            "city":
+            location["city"],
+
+            "lat":
+            location["lat"],
+
+            "lon":
+            location["lon"],
+
+            "timestamp":
+            datetime.now(),
+
         }
 
-        # Save to MongoDB
-        threats_collection.insert_one(threat)
+        # =========================
+        # Save Threat
+        # =========================
 
-        # Emit to Frontend
+        threat_collection.insert_one(
+            threat
+        )
+
+        # =========================
+        # Emit Live Threat
+        # =========================
+
         socketio.emit(
+
             "new_threat",
+
+            {
+
+                "ip":
+                threat["ip"],
+
+                "type":
+                threat["type"],
+
+                "severity":
+                threat["severity"],
+
+                "country":
+                threat["country"],
+
+                "city":
+                threat["city"],
+
+                "lat":
+                threat["lat"],
+
+                "lon":
+                threat["lon"],
+
+            }
+
+        )
+
+        print(
+            "Threat Generated:",
             threat
         )
 
         time.sleep(5)
 
-# Background Thread
-thread = threading.Thread(
-    target=generate_threats
-)
-
-thread.daemon = True
-thread.start()
-
+# =========================
 # Home Route
+# =========================
+
 @app.route("/")
 def home():
 
-    return {
-        "message": "GuardianNode Backend Running"
-    }
+    return jsonify({
 
-# Fetch Threat History
-@app.route("/api/threats")
+        "message":
+        "GuardianNode Backend Running"
+
+    })
+
+# =========================
+# Get All Threats
+# =========================
+
+@app.route("/threats")
 def get_threats():
 
-    threats = list(
-        threats_collection.find(
-            {},
-            {"_id": 0}
-        )
+    threats = []
+
+    for threat in threat_collection.find().sort(
+        "timestamp",
+        -1
+    ):
+
+        threats.append({
+
+            "ip":
+            threat.get("ip"),
+
+            "type":
+            threat.get("type"),
+
+            "severity":
+            threat.get("severity"),
+
+            "status":
+            threat.get("status"),
+
+            "country":
+            threat.get("country"),
+
+            "city":
+            threat.get("city"),
+
+            "lat":
+            threat.get("lat"),
+
+            "lon":
+            threat.get("lon"),
+
+            "timestamp":
+            str(
+                threat.get(
+                    "timestamp"
+                )
+            )
+
+        })
+
+    return jsonify(threats)
+
+# =========================
+# Dashboard Analytics API
+# =========================
+
+@app.route("/dashboard-stats")
+def dashboard_stats():
+
+    total_threats = (
+        threat_collection.count_documents({})
     )
 
-    return threats[::-1]
-
-# Dashboard Stats API
-@app.route("/api/stats")
-def get_stats():
-
-    total_threats = threats_collection.count_documents({})
-
-    critical_threats = threats_collection.count_documents(
-        {"severity": "CRITICAL"}
+    critical_alerts = (
+        threat_collection.count_documents({
+            "severity": "Critical"
+        })
     )
 
-    high_threats = threats_collection.count_documents(
-        {"severity": "HIGH"}
+    blocked_attacks = (
+        threat_collection.count_documents({
+            "status": "Blocked"
+        })
     )
 
-    medium_threats = threats_collection.count_documents(
-        {"severity": "MEDIUM"}
+    monitoring_count = (
+        threat_collection.count_documents({
+            "status": "Monitoring"
+        })
     )
 
-    return {
-        "total_threats": total_threats,
-        "critical_threats": critical_threats,
-        "high_threats": high_threats,
-        "medium_threats": medium_threats,
-    }
+    return jsonify({
 
-# CSV Export
-@app.route("/api/export/csv")
-def export_csv():
+        "totalThreats":
+        total_threats,
 
-    threats = list(
-        threats_collection.find(
-            {},
-            {"_id": 0}
-        )
+        "criticalAlerts":
+        critical_alerts,
+
+        "blockedAttacks":
+        blocked_attacks,
+
+        "monitoringCount":
+        monitoring_count,
+
+    })
+
+# =========================
+# Blocked IPs API
+# =========================
+
+@app.route("/blocked-ips")
+def blocked_ips():
+
+    blocked = []
+
+    for ip in blocked_collection.find().sort(
+        "timestamp",
+        -1
+    ):
+
+        blocked.append({
+
+            "ip":
+            ip.get("ip"),
+
+            "reason":
+            ip.get("reason"),
+
+            "country":
+            ip.get("country"),
+
+            "city":
+            ip.get("city"),
+
+            "timestamp":
+            str(
+                ip.get(
+                    "timestamp"
+                )
+            )
+
+        })
+
+    return jsonify(blocked)
+
+# =========================
+# System Metrics API
+# =========================
+
+@app.route("/system-metrics")
+def system_metrics():
+
+    cpu = psutil.cpu_percent()
+
+    ram = psutil.virtual_memory().percent
+
+    disk = psutil.disk_usage("/").percent
+
+    uptime = time.time() - psutil.boot_time()
+
+    uptime_hours = round(
+        uptime / 3600,
+        1
     )
 
-    df = pd.DataFrame(threats)
+    return jsonify({
 
-    file_path = "threat_report.csv"
+        "cpu":
+        cpu,
 
-    df.to_csv(
-        file_path,
-        index=False
-    )
+        "ram":
+        ram,
 
-    return send_file(
-        file_path,
-        as_attachment=True
-    )
+        "disk":
+        disk,
 
-# JSON Export
-@app.route("/api/export/json")
-def export_json():
+        "uptime":
+        uptime_hours,
 
-    threats = list(
-        threats_collection.find(
-            {},
-            {"_id": 0}
-        )
-    )
+    })
 
-    file_path = "threat_report.json"
-
-    pd.DataFrame(threats).to_json(
-        file_path,
-        orient="records",
-        indent=4
-    )
-
-    return send_file(
-        file_path,
-        as_attachment=True
-    )
-
+# =========================
 # Run Server
+# =========================
+
 if __name__ == "__main__":
 
+    # Start Threat Simulation
+
+    simulation_thread = threading.Thread(
+        target=simulate_threats
+    )
+
+    simulation_thread.daemon = True
+
+    simulation_thread.start()
+
+    # Run Flask SocketIO
+
     socketio.run(
+
         app,
-        debug=False,
-        port=5000
+
+        debug=True,
+
+        use_reloader=False
+
     )
