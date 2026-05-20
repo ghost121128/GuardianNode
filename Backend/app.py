@@ -1,7 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_socketio import SocketIO
-
 from pymongo import MongoClient
 
 from datetime import datetime
@@ -11,6 +10,7 @@ import threading
 import time
 import psutil
 import requests
+import os
 
 # =========================
 # Flask App
@@ -36,9 +36,11 @@ socketio = SocketIO(
 # MongoDB Connection
 # =========================
 
-client = MongoClient(
-    "mongodb://localhost:27017/"
+MONGO_URI = os.environ.get(
+    "mongodb+srv://GuardianAdmin:GNode@cluster0.ifqkmq1.mongodb.net/?appName=Cluster0"
 )
+
+client = MongoClient(MONGO_URI)
 
 db = client["guardiannode"]
 
@@ -519,28 +521,39 @@ def system_metrics():
     })
 
 # =========================
+# Start Threat Simulation
+# =========================
+
+simulation_thread = threading.Thread(
+    target=simulate_threats
+)
+
+simulation_thread.daemon = True
+
+simulation_thread.start()
+
+# =========================
 # Run Server
 # =========================
 
 if __name__ == "__main__":
 
-    # Start Threat Simulation
-
-    simulation_thread = threading.Thread(
-        target=simulate_threats
+    port = int(
+        os.environ.get(
+            "PORT",
+            5000
+        )
     )
-
-    simulation_thread.daemon = True
-
-    simulation_thread.start()
-
-    # Run Flask SocketIO
 
     socketio.run(
 
         app,
 
-        debug=True,
+        host="0.0.0.0",
+
+        port=port,
+
+        debug=False,
 
         use_reloader=False
 
