@@ -47,7 +47,7 @@ const ThreatFeed = ({
 
       const response =
         await fetch(
-          "http://127.0.0.1:5000/threats"
+          "https://your-render-url.onrender.com/threats"
         );
 
       const data =

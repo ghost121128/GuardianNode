@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 const socket = io(
-  "http://127.0.0.1:5000"
+  "https://your-render-url.onrender.com"
 );
 
 const PacketMonitor = () => {

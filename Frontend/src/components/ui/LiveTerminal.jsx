@@ -14,7 +14,7 @@ const LiveTerminal = () => {
       try {
 
         const response = await fetch(
-          "http://127.0.0.1:5000/api/live-logs"
+          "https://your-render-url.onrender.com/api/live-logs"
         );
 
         const data = await response.json();

@@ -15,7 +15,7 @@ export default function Register() {
     try {
 
       const response = await fetch(
-        "http://127.0.0.1:5000/api/auth/register",
+        "https://your-render-url.onrender.com/api/auth/register",
         {
           method: "POST",
           headers: {

@@ -42,7 +42,7 @@ import Globe from "react-globe.gl";
 // =========================
 
 const socket = io(
-  "http://127.0.0.1:5000"
+  "https://your-render-url.onrender.com"
 );
 
 const Dashboard = ({
@@ -99,7 +99,7 @@ const Dashboard = ({
 
       const response =
         await fetch(
-          "http://127.0.0.1:5000/dashboard-stats"
+          "https://your-render-url.onrender.com/dashboard-stats"
         );
 
       const data =
@@ -127,7 +127,7 @@ const Dashboard = ({
 
       const response =
         await fetch(
-          "http://127.0.0.1:5000/system-metrics"
+          "https://your-render-url.onrender.com/system-metrics"
         );
 
       const data =
@@ -155,7 +155,7 @@ const Dashboard = ({
 
       const response =
         await fetch(
-          "http://127.0.0.1:5000/threats"
+          "https://your-render-url.onrender.com/threats"
         );
 
       const data =
