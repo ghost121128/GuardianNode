@@ -170,6 +170,50 @@ const Dashboard = ({ darkMode }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
+        {/* Globe Section */}
+
+<div className="mt-10">
+
+  <div className={`border rounded-[32px] p-8 shadow-2xl ${
+    darkMode
+      ? "bg-[#0B1120]/80 border-[#1E293B]"
+      : "bg-gray-100 border-gray-200"
+  }`}>
+
+    {/* Header */}
+
+    <div className="flex items-center justify-between mb-8">
+
+      <h2 className="text-4xl font-black text-cyan-400">
+
+        Global Cyber Activity
+
+      </h2>
+
+      <div className="bg-cyan-500/10 text-cyan-400 px-5 py-2 rounded-2xl font-bold">
+
+        LIVE
+
+      </div>
+
+    </div>
+
+    {/* Globe */}
+
+    <div className="w-full h-[600px] rounded-[32px] overflow-hidden">
+
+      <iframe
+        src="https://cybermap.kaspersky.com/en/widget/dynamic/dark"
+        title="Cyber Threat Map"
+        className="w-full h-full border-0 rounded-[32px]"
+      />
+
+    </div>
+
+  </div>
+
+</div>
+
         {/* Total Threats */}
 
         <div className="bg-[#0B1120] border border-cyan-500/20 rounded-3xl p-6">
