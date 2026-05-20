@@ -7,7 +7,7 @@ import {
   Activity,
 } from "lucide-react";
 
-import Globe from "../components/ui/Globe";
+import CyberGlobe from "../components/ui/Globe";
 
 const Dashboard = ({ darkMode }) => {
 
@@ -264,7 +264,7 @@ const Dashboard = ({ darkMode }) => {
 
   <div className="w-full h-[500px] md:h-[700px] flex items-center justify-center overflow-hidden">
 
-    <Globe />
+   <CyberGlobe />
 
   </div>
 

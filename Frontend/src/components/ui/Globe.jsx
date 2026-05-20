@@ -1,110 +1,104 @@
-import createGlobe from "cobe";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import Globe from "react-globe.gl";
 
-export default function Globe() {
+export default function CyberGlobe() {
 
-  const canvasRef = useRef(null);
-  const globeRef = useRef(null);
+  const [dimensions, setDimensions] = useState({
+    width: 800,
+    height: 800,
+  });
 
   useEffect(() => {
 
-    if (globeRef.current) return;
+    const updateSize = () => {
 
-    let phi = 0;
+      setDimensions({
 
-    const canvas = canvasRef.current;
+        width: window.innerWidth < 768
+          ? window.innerWidth - 40
+          : 900,
 
-    const size = 900;
+        height: window.innerWidth < 768
+          ? 400
+          : 700,
 
-    globeRef.current = createGlobe(canvas, {
-
-      devicePixelRatio: 2,
-
-      width: size * 2,
-
-      height: size * 2,
-
-      phi: 0,
-
-      theta: 0.3,
-
-      dark: 0.9,
-
-      diffuse: 2,
-
-      mapSamples: 16000,
-
-      mapBrightness: 8,
-
-      baseColor: [0.2, 0.2, 0.2],
-
-      markerColor: [0, 1, 1],
-
-      glowColor: [0, 1, 1],
-
-      atmosphereColor: [0, 1, 1],
-
-      atmosphereAltitude: 0.2,
-
-      markers: [
-
-        {
-          location: [28.6139, 77.2090],
-          size: 0.05,
-        },
-
-        {
-          location: [40.7128, -74.0060],
-          size: 0.05,
-        },
-
-        {
-          location: [51.5072, -0.1276],
-          size: 0.05,
-        },
-
-        {
-          location: [35.6762, 139.6503],
-          size: 0.05,
-        },
-
-      ],
-
-      onRender: (state) => {
-
-        state.phi = phi;
-
-        phi += 0.004;
-
-      },
-
-    });
-
-    return () => {
-
-      if (globeRef.current) {
-
-        globeRef.current.destroy();
-        globeRef.current = null;
-
-      }
+      });
 
     };
+
+    updateSize();
+
+    window.addEventListener(
+      "resize",
+      updateSize
+    );
+
+    return () =>
+      window.removeEventListener(
+        "resize",
+        updateSize
+      );
 
   }, []);
 
   return (
 
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full flex items-center justify-center">
 
-      <canvas
-        ref={canvasRef}
-        style={{
-          width: "100%",
-          height: "100%",
-          maxWidth: "850px",
-          aspectRatio: "1",
-        }}
+      <Globe
+
+        width={dimensions.width}
+
+        height={dimensions.height}
+
+        globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
+
+        bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
+
+        backgroundColor="rgba(0,0,0,0)"
+
+        atmosphereColor="#00ffff"
+
+        atmosphereAltitude={0.15}
+
+        arcsData={[
+
+          {
+
+            startLat: 28.6139,
+            startLng: 77.2090,
+
+            endLat: 40.7128,
+            endLng: -74.0060,
+
+            color: ["#00ffff", "#00ffff"],
+
+          },
+
+          {
+
+            startLat: 51.5072,
+            startLng: -0.1276,
+
+            endLat: 35.6762,
+            endLng: 139.6503,
+
+            color: ["#00ffff", "#00ffff"],
+
+          },
+
+        ]}
+
+        arcColor={"color"}
+
+        arcStroke={0.5}
+
+        arcDashLength={0.4}
+
+        arcDashGap={0.2}
+
+        arcDashAnimateTime={2000}
+
       />
 
     </div>
