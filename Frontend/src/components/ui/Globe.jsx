@@ -3,15 +3,13 @@ import { useEffect, useRef } from "react";
 
 export default function Globe() {
 
-  const canvasRef = useRef();
+  const canvasRef = useRef(null);
 
   useEffect(() => {
 
     let phi = 0;
 
-    const canvas = canvasRef.current;
-
-    const globe = createGlobe(canvas, {
+    const globe = createGlobe(canvasRef.current, {
 
       devicePixelRatio: 2,
 
@@ -21,35 +19,49 @@ export default function Globe() {
 
       phi: 0,
 
-      theta: 0.25,
+      theta: 0.3,
 
       dark: 1,
 
-      diffuse: 1.5,
+      diffuse: 1.8,
 
-      mapSamples: 20000,
+      mapSamples: 60000,
 
       mapBrightness: 1.2,
 
-      baseColor: [0.15, 0.15, 0.15],
+      baseColor: [0.3, 0.3, 0.3],
+
+      markerColor: [0, 1, 1],
 
       glowColor: [0, 0.8, 1],
 
       atmosphereColor: [0, 0.8, 1],
 
-      atmosphereAltitude: 0.15,
+      ambientLight: [1, 1, 1],
 
-      markerColor: [0, 1, 1],
+      atmosphereAltitude: 0.15,
 
       markers: [
 
-        { location: [28.6139, 77.2090], size: 0.05 },
+        {
+          location: [28.6139, 77.2090],
+          size: 0.08,
+        },
 
-        { location: [40.7128, -74.006], size: 0.05 },
+        {
+          location: [40.7128, -74.0060],
+          size: 0.08,
+        },
 
-        { location: [51.5072, -0.1276], size: 0.05 },
+        {
+          location: [51.5072, -0.1276],
+          size: 0.08,
+        },
 
-        { location: [35.6762, 139.6503], size: 0.05 },
+        {
+          location: [35.6762, 139.6503],
+          size: 0.08,
+        },
 
       ],
 
@@ -73,7 +85,11 @@ export default function Globe() {
 
       <canvas
         ref={canvasRef}
-        className="w-[700px] h-[700px] max-w-full max-h-full"
+        className="w-full h-full"
+        style={{
+          maxWidth: "900px",
+          aspectRatio: "1 / 1",
+        }}
       />
 
     </div>
