@@ -55,15 +55,15 @@ const Analytics = ({
 
       <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
 
-        <div className="min-w-0">
+        <div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-2 break-words">
+          <h1 className="text-3xl md:text-5xl font-black mb-2">
 
             Analytics
 
           </h1>
 
-          <p className={`text-sm md:text-base leading-relaxed ${
+          <p className={`text-sm md:text-base ${
             darkMode
 
               ? "text-gray-400"
@@ -77,7 +77,7 @@ const Analytics = ({
 
         </div>
 
-        <div className={`border rounded-2xl px-4 md:px-5 py-3 flex items-center gap-3 w-fit max-w-full ${
+        <div className={`border rounded-2xl px-4 md:px-5 py-3 flex items-center gap-3 w-fit ${
           darkMode
 
             ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -86,7 +86,7 @@ const Analytics = ({
         }`}>
 
           <TrendingUp
-            className="text-cyan-400 shrink-0"
+            className="text-cyan-400"
             size={
               isMobile
                 ? 18
@@ -94,7 +94,7 @@ const Analytics = ({
             }
           />
 
-          <span className="text-cyan-400 font-semibold text-sm md:text-base whitespace-nowrap">
+          <span className="text-cyan-400 font-semibold text-sm md:text-base">
 
             LIVE ANALYTICS
 
@@ -106,7 +106,7 @@ const Analytics = ({
 
       {/* Top Stats */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-10">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-10">
 
         {[
           {
@@ -141,7 +141,7 @@ const Analytics = ({
           <div
             key={index}
 
-            className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-6 shadow-xl overflow-hidden ${
+            className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-6 shadow-xl ${
               darkMode
 
                 ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -150,9 +150,9 @@ const Analytics = ({
             }`}
           >
 
-            <div className="flex items-center justify-between mb-4 md:mb-6 gap-4">
+            <div className="flex items-center justify-between mb-4 md:mb-6">
 
-              <div className={`p-3 md:p-4 rounded-2xl shrink-0 ${
+              <div className={`p-3 md:p-4 rounded-2xl ${
                 darkMode
 
                   ? "bg-black/20"
@@ -166,7 +166,7 @@ const Analytics = ({
 
             </div>
 
-            <p className={`text-xs md:text-sm mb-2 break-words ${
+            <p className={`text-xs md:text-sm mb-2 ${
               darkMode
 
                 ? "text-gray-400"
@@ -178,7 +178,7 @@ const Analytics = ({
 
             </p>
 
-            <h2 className={`text-2xl sm:text-3xl md:text-4xl font-black break-words ${card.color}`}>
+            <h2 className={`text-2xl md:text-4xl font-black ${card.color}`}>
 
               {card.value}
 
@@ -196,7 +196,7 @@ const Analytics = ({
 
         {/* Threat Trend */}
 
-        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl overflow-hidden ${
+        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl ${
           darkMode
 
             ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -204,13 +204,13 @@ const Analytics = ({
             : "bg-gray-100 border-gray-200"
         }`}>
 
-          <h2 className="text-2xl md:text-3xl font-black mb-6 md:mb-8 break-words">
+          <h2 className="text-2xl md:text-3xl font-black mb-6 md:mb-8">
 
             Threat Trend
 
           </h2>
 
-          <div className="h-[240px] sm:h-[280px] md:h-[320px] w-full">
+          <div className="h-[250px] md:h-[320px]">
 
             <ResponsiveContainer width="100%" height="100%">
 
@@ -244,16 +244,25 @@ const Analytics = ({
 
                 <XAxis
                   dataKey="day"
-                  stroke="#64748B"
+                  stroke={darkMode ? "#94A3B8" : "#475569"}
                   tick={{
-                    fontSize:
-                    isMobile
-                      ? 10
-                      : 14,
+                    fill: darkMode ? "#94A3B8" : "#475569",
+                    fontSize: isMobile ? 10 : 14,
                   }}
                 />
 
-                <Tooltip />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: darkMode
+                      ? "#0B1120"
+                      : "#ffffff",
+                    border: "1px solid #1E293B",
+                    borderRadius: "16px",
+                    color: darkMode
+                      ? "#ffffff"
+                      : "#000000",
+                  }}
+                />
 
                 <Area
                   type="monotone"
@@ -278,7 +287,7 @@ const Analytics = ({
 
         {/* Attack Sources */}
 
-        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl overflow-hidden ${
+        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl ${
           darkMode
 
             ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -286,13 +295,13 @@ const Analytics = ({
             : "bg-gray-100 border-gray-200"
         }`}>
 
-          <h2 className="text-2xl md:text-3xl font-black mb-6 md:mb-8 break-words">
+          <h2 className="text-2xl md:text-3xl font-black mb-6 md:mb-8">
 
             Attack Sources
 
           </h2>
 
-          <div className="h-[240px] sm:h-[280px] md:h-[320px] w-full">
+          <div className="h-[250px] md:h-[320px]">
 
             <ResponsiveContainer width="100%" height="100%">
 
@@ -300,16 +309,25 @@ const Analytics = ({
 
                 <XAxis
                   dataKey="country"
-                  stroke="#64748B"
+                  stroke={darkMode ? "#94A3B8" : "#475569"}
                   tick={{
-                    fontSize:
-                    isMobile
-                      ? 10
-                      : 14,
+                    fill: darkMode ? "#94A3B8" : "#475569",
+                    fontSize: isMobile ? 10 : 14,
                   }}
                 />
 
-                <Tooltip />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: darkMode
+                      ? "#0B1120"
+                      : "#ffffff",
+                    border: "1px solid #1E293B",
+                    borderRadius: "16px",
+                    color: darkMode
+                      ? "#ffffff"
+                      : "#000000",
+                  }}
+                />
 
                 <Bar
                   dataKey="attacks"
