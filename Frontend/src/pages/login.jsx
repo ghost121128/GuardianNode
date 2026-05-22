@@ -55,39 +55,46 @@ const Login = () => {
 
   return (
 
-    <div className="min-h-screen bg-[#040816] flex items-center justify-center p-6">
+    <div className="min-h-screen w-full overflow-x-hidden bg-[#040816] flex items-center justify-center px-4 py-8 sm:px-6 md:px-8">
 
-      <div className="w-full max-w-md bg-[#0B1120]/80 backdrop-blur-xl border border-[#1E293B] rounded-[40px] p-10 shadow-2xl">
+      <div className="w-full max-w-md bg-[#0B1120]/80 backdrop-blur-xl border border-[#1E293B] rounded-[28px] sm:rounded-[40px] p-6 sm:p-8 md:p-10 shadow-2xl">
 
         {/* Logo */}
-        <div className="text-center mb-10">
 
-          <div className="w-20 h-20 rounded-full bg-cyan-500/10 flex items-center justify-center mx-auto mb-6">
+        <div className="text-center mb-8 md:mb-10">
+
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-cyan-500/10 flex items-center justify-center mx-auto mb-5 md:mb-6">
 
             <Shield
-              size={40}
-              className="text-cyan-400"
+              size={32}
+              className="text-cyan-400 sm:w-10 sm:h-10"
             />
 
           </div>
 
-          <h1 className="text-5xl font-black text-white mb-3">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-3 break-words">
+
             GuardianNode
+
           </h1>
 
-          <p className="text-gray-400">
+          <p className="text-gray-400 text-sm sm:text-base">
+
             Enterprise Cybersecurity Access
+
           </p>
 
         </div>
 
         {/* Form */}
+
         <form
           onSubmit={handleLogin}
-          className="space-y-6"
+          className="space-y-5 sm:space-y-6"
         >
 
           {/* Username */}
+
           <div>
 
             <label className="text-sm text-gray-400 mb-3 block">
@@ -96,9 +103,9 @@ const Login = () => {
 
             </label>
 
-            <div className="bg-[#111827] border border-[#1E293B] rounded-2xl px-5 py-4 flex items-center gap-4">
+            <div className="bg-[#111827] border border-[#1E293B] rounded-2xl px-4 sm:px-5 py-3 sm:py-4 flex items-center gap-3 sm:gap-4">
 
-              <User className="text-cyan-400" />
+              <User className="text-cyan-400 shrink-0" />
 
               <input
                 type="text"
@@ -112,7 +119,7 @@ const Login = () => {
                   )
                 }
 
-                className="bg-transparent outline-none w-full text-white"
+                className="bg-transparent outline-none w-full text-white text-sm sm:text-base"
               />
 
             </div>
@@ -120,6 +127,7 @@ const Login = () => {
           </div>
 
           {/* Password */}
+
           <div>
 
             <label className="text-sm text-gray-400 mb-3 block">
@@ -128,9 +136,9 @@ const Login = () => {
 
             </label>
 
-            <div className="bg-[#111827] border border-[#1E293B] rounded-2xl px-5 py-4 flex items-center gap-4">
+            <div className="bg-[#111827] border border-[#1E293B] rounded-2xl px-4 sm:px-5 py-3 sm:py-4 flex items-center gap-3 sm:gap-4">
 
-              <Lock className="text-cyan-400" />
+              <Lock className="text-cyan-400 shrink-0" />
 
               <input
                 type="password"
@@ -144,7 +152,7 @@ const Login = () => {
                   )
                 }
 
-                className="bg-transparent outline-none w-full text-white"
+                className="bg-transparent outline-none w-full text-white text-sm sm:text-base"
               />
 
             </div>
@@ -152,10 +160,11 @@ const Login = () => {
           </div>
 
           {/* Button */}
+
           <button
             type="submit"
 
-            className="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-black py-4 rounded-2xl transition-all duration-300 text-lg"
+            className="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-black py-3 sm:py-4 rounded-2xl transition-all duration-300 text-base sm:text-lg"
           >
 
             ACCESS DASHBOARD
@@ -165,14 +174,17 @@ const Login = () => {
         </form>
 
         {/* Demo Credentials */}
-        <div className="mt-8 text-center">
 
-          <p className="text-gray-400 text-sm">
+        <div className="mt-6 sm:mt-8 text-center">
+
+          <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
 
             Demo Login:
             {" "}
-            <span className="text-cyan-400">
+            <span className="text-cyan-400 break-all">
+
               admin / admin123
+
             </span>
 
           </p>

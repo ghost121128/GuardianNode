@@ -28,9 +28,50 @@ body,
 
 }
 
+html {
+
+  scroll-behavior: smooth;
+
+}
+
 body {
 
   overflow-x: hidden;
+  overscroll-behavior-x: none;
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+#root {
+
+  overflow-x: hidden;
+
+}
+
+/* =========================
+Responsive Media Defaults
+========================= */
+
+img,
+video,
+canvas,
+svg {
+
+  max-width: 100%;
+  height: auto;
+  display: block;
+
+}
+
+/* =========================
+Text Rendering
+========================= */
+
+body {
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
 }
 
@@ -41,6 +82,7 @@ Scrollbar
 ::-webkit-scrollbar {
 
   width: 8px;
+  height: 8px;
 
 }
 
@@ -58,6 +100,27 @@ Scrollbar
 }
 
 /* =========================
+Prevent Overflow Issues
+========================= */
+
+.globe-container,
+.recharts-wrapper,
+.recharts-responsive-container {
+
+  max-width: 100% !important;
+
+}
+
+input,
+textarea,
+select,
+button {
+
+  font: inherit;
+
+}
+
+/* =========================
 Theme Switch
 ========================= */
 
@@ -70,6 +133,7 @@ Theme Switch
   height: 2.2em;
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 
 }
 
@@ -179,5 +243,39 @@ Theme Switch
 .switch input:checked ~ .slider .cloud {
 
   opacity: 1;
+
+}
+
+/* =========================
+Mobile Optimizations
+========================= */
+
+@media (max-width: 640px) {
+
+  html {
+
+    font-size: 14px;
+
+  }
+
+  body {
+
+    overflow-x: hidden;
+
+  }
+
+}
+
+/* =========================
+Tablet Optimizations
+========================= */
+
+@media (min-width: 641px) and (max-width: 1024px) {
+
+  body {
+
+    overflow-x: hidden;
+
+  }
 
 }

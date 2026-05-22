@@ -178,7 +178,7 @@ const ThreatFeed = ({
 
   return (
 
-    <div className={`min-h-screen p-4 md:p-8 transition-colors duration-300 ${
+    <div className={`min-h-screen w-full overflow-x-hidden p-4 md:p-8 pb-28 md:pb-8 transition-colors duration-300 ${
       darkMode
         ? "bg-[#050816] text-white"
         : "bg-gray-100 text-gray-900"
@@ -186,7 +186,7 @@ const ThreatFeed = ({
 
       {/* Popup Alerts */}
 
-      <div className="fixed top-4 md:top-6 right-4 md:right-6 z-50 space-y-4">
+      <div className="fixed top-4 right-3 sm:right-4 md:right-6 z-50 space-y-4 max-w-[90vw]">
 
         {popups.map((popup) => (
 
@@ -213,7 +213,7 @@ const ThreatFeed = ({
               duration: 0.25,
             }}
 
-            className="bg-red-500 text-white px-4 md:px-6 py-3 md:py-4 rounded-2xl shadow-2xl max-w-[280px] md:max-w-none"
+            className="bg-red-500 text-white px-4 md:px-6 py-3 md:py-4 rounded-2xl shadow-2xl w-full max-w-[280px] sm:max-w-sm"
           >
 
             <div className="flex items-center gap-3">
@@ -234,7 +234,7 @@ const ThreatFeed = ({
 
                 </h2>
 
-                <p className="text-xs md:text-sm">
+                <p className="text-xs md:text-sm break-words">
 
                   {popup.type || "Unknown Threat"}
 
@@ -256,7 +256,7 @@ const ThreatFeed = ({
 
         <div>
 
-          <h1 className="text-3xl md:text-5xl font-black mb-3">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-3 break-words">
 
             Threat Feed
 
@@ -276,18 +276,18 @@ const ThreatFeed = ({
 
         {/* Search + Filter */}
 
-        <div className="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
+        <div className="flex flex-col sm:flex-row gap-4 w-full xl:w-auto xl:min-w-[500px]">
 
           {/* Search */}
 
-          <div className={`border rounded-2xl px-4 md:px-5 py-3 flex items-center gap-3 shadow-lg w-full ${
+          <div className={`border rounded-2xl px-4 md:px-5 py-3 flex items-center gap-3 shadow-lg w-full min-w-0 ${
             darkMode
               ? "bg-[#0B1120] border-[#1E293B]"
               : "bg-white border-gray-200"
           }`}>
 
             <Search
-              className="text-gray-400"
+              className="text-gray-400 shrink-0"
               size={18}
             />
 
@@ -317,7 +317,7 @@ const ThreatFeed = ({
               )
             }
 
-            className={`rounded-2xl px-4 md:px-5 py-3 shadow-lg border text-sm md:text-base ${
+            className={`rounded-2xl px-4 md:px-5 py-3 shadow-lg border text-sm md:text-base w-full sm:w-[180px] ${
               darkMode
                 ? "bg-[#0B1120] border-[#1E293B] text-white"
                 : "bg-white border-gray-200 text-black"
@@ -401,7 +401,7 @@ const ThreatFeed = ({
 
                       <div>
 
-                        <h2 className="text-2xl md:text-3xl font-black mb-2">
+                        <h2 className="text-2xl sm:text-3xl font-black mb-2 break-words">
 
                           {threat.type || "Unknown Threat"}
 
@@ -459,7 +459,7 @@ const ThreatFeed = ({
 
                         </p>
 
-                        <h3 className="text-base md:text-xl font-bold text-green-500">
+                        <h3 className="text-base md:text-xl font-bold text-green-500 break-words">
 
                           {threat.status || "Monitoring"}
 
@@ -494,7 +494,7 @@ const ThreatFeed = ({
 
           ) : (
 
-            <div className={`rounded-[28px] p-10 text-center border ${
+            <div className={`rounded-[28px] p-8 md:p-10 text-center border ${
               darkMode
                 ? "bg-[#0B1120] border-[#1E293B]"
                 : "bg-white border-gray-200"
@@ -506,7 +506,7 @@ const ThreatFeed = ({
 
               </h1>
 
-              <p className="text-gray-400">
+              <p className="text-gray-400 leading-relaxed">
 
                 GuardianNode is currently monitoring your infrastructure.
 
@@ -540,7 +540,7 @@ const ThreatFeed = ({
               opacity: 0,
             }}
 
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 md:p-6 overflow-y-auto"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start md:items-center justify-center p-3 md:p-6 overflow-y-auto"
           >
 
             <motion.div
@@ -560,7 +560,7 @@ const ThreatFeed = ({
                 y: 40,
               }}
 
-              className={`border p-5 md:p-8 w-full max-w-3xl rounded-[32px] shadow-2xl relative ${
+              className={`border p-5 md:p-8 w-full max-w-3xl rounded-[32px] shadow-2xl relative my-10 md:my-0 overflow-hidden ${
                 darkMode
                   ? "bg-[#0B1120] border-[#1E293B]"
                   : "bg-white border-gray-200"
@@ -575,7 +575,7 @@ const ThreatFeed = ({
                   setSelectedThreat(null)
                 }
 
-                className="absolute top-4 right-4 bg-red-500 text-white w-9 h-9 md:w-10 md:h-10 rounded-full font-black"
+                className="absolute top-4 right-4 bg-red-500 text-white w-9 h-9 md:w-10 md:h-10 rounded-full font-black shrink-0"
               >
 
                 X
@@ -586,7 +586,7 @@ const ThreatFeed = ({
 
               <div className="mb-8">
 
-                <h1 className="text-3xl md:text-5xl font-black mb-3 pr-10">
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-black mb-3 pr-10 break-words">
 
                   {selectedThreat.type || "Unknown Threat"}
 
@@ -628,7 +628,7 @@ const ThreatFeed = ({
 
                   </p>
 
-                  <h2 className="text-lg md:text-2xl font-black text-orange-500">
+                  <h2 className="text-lg md:text-2xl font-black text-orange-500 break-words">
 
                     {selectedThreat.severity || "N/A"}
 
@@ -644,7 +644,7 @@ const ThreatFeed = ({
 
                   </p>
 
-                  <h2 className="text-lg md:text-2xl font-black text-green-500">
+                  <h2 className="text-lg md:text-2xl font-black text-green-500 break-words">
 
                     {selectedThreat.status || "Monitoring"}
 
@@ -680,7 +680,7 @@ const ThreatFeed = ({
 
                 </h2>
 
-                <p className={`${darkMode ? "text-gray-300" : "text-gray-700"} leading-relaxed text-sm md:text-base`}>
+                <p className={`${darkMode ? "text-gray-300" : "text-gray-700"} leading-relaxed text-sm md:text-base break-words`}>
 
                   GuardianNode detected suspicious
                   network activity matching

@@ -1,28 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
 import Globe from "react-globe.gl";
 
 export default function CyberGlobe() {
 
-  const [dimensions, setDimensions] = useState({
-    width: 800,
-    height: 800,
-  });
+  const [dimensions, setDimensions] =
+    useState({
+      width: 800,
+      height: 800,
+    });
 
   useEffect(() => {
 
     const updateSize = () => {
 
-      setDimensions({
+      const screenWidth =
+        window.innerWidth;
 
-        width: window.innerWidth < 768
-          ? window.innerWidth - 40
-          : 900,
+      // Mobile
+      if (screenWidth < 640) {
 
-        height: window.innerWidth < 768
-          ? 400
-          : 700,
+        setDimensions({
+          width: screenWidth - 32,
+          height: 320,
+        });
 
-      });
+      }
+
+      // Tablet
+      else if (screenWidth < 1024) {
+
+        setDimensions({
+          width: screenWidth - 80,
+          height: 500,
+        });
+
+      }
+
+      // Desktop
+      else {
+
+        setDimensions({
+          width: Math.min(
+            screenWidth - 350,
+            1000
+          ),
+          height: 700,
+        });
+
+      }
 
     };
 
@@ -43,63 +72,69 @@ export default function CyberGlobe() {
 
   return (
 
-    <div className="w-full flex items-center justify-center">
+    <div className="w-full h-full flex items-center justify-center overflow-hidden">
 
-      <Globe
+      <div className="w-full flex items-center justify-center scale-[0.92] sm:scale-100 transition-all duration-500">
 
-        width={dimensions.width}
+        <Globe
 
-        height={dimensions.height}
+          width={dimensions.width}
 
-        globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
+          height={dimensions.height}
 
-        bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
+          globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
 
-        backgroundColor="rgba(0,0,0,0)"
+          bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
 
-        atmosphereColor="#00ffff"
+          backgroundColor="rgba(0,0,0,0)"
 
-        atmosphereAltitude={0.15}
+          atmosphereColor="#00ffff"
 
-        arcsData={[
+          atmosphereAltitude={0.15}
 
-          {
+          enablePointerInteraction={false}
 
-            startLat: 28.6139,
-            startLng: 77.2090,
+          arcsData={[
 
-            endLat: 40.7128,
-            endLng: -74.0060,
+            {
 
-            color: ["#00ffff", "#00ffff"],
+              startLat: 28.6139,
+              startLng: 77.2090,
 
-          },
+              endLat: 40.7128,
+              endLng: -74.0060,
 
-          {
+              color: ["#00ffff", "#00ffff"],
 
-            startLat: 51.5072,
-            startLng: -0.1276,
+            },
 
-            endLat: 35.6762,
-            endLng: 139.6503,
+            {
 
-            color: ["#00ffff", "#00ffff"],
+              startLat: 51.5072,
+              startLng: -0.1276,
 
-          },
+              endLat: 35.6762,
+              endLng: 139.6503,
 
-        ]}
+              color: ["#00ffff", "#00ffff"],
 
-        arcColor={"color"}
+            },
 
-        arcStroke={0.5}
+          ]}
 
-        arcDashLength={0.4}
+          arcColor={"color"}
 
-        arcDashGap={0.2}
+          arcStroke={0.5}
 
-        arcDashAnimateTime={2000}
+          arcDashLength={0.4}
 
-      />
+          arcDashGap={0.2}
+
+          arcDashAnimateTime={2000}
+
+        />
+
+      </div>
 
     </div>
 

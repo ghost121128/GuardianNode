@@ -43,7 +43,7 @@ const Analytics = ({
 
   return (
 
-    <div className={`min-h-screen p-4 md:p-8 transition-all duration-500 ${
+    <div className={`min-h-screen w-full overflow-x-hidden p-4 md:p-8 pb-28 md:pb-8 transition-all duration-500 ${
       darkMode
 
         ? "bg-[#040816] text-white"
@@ -55,15 +55,15 @@ const Analytics = ({
 
       <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
 
-        <div>
+        <div className="min-w-0">
 
-          <h1 className="text-3xl md:text-5xl font-black mb-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-2 break-words">
 
             Analytics
 
           </h1>
 
-          <p className={`text-sm md:text-base ${
+          <p className={`text-sm md:text-base leading-relaxed ${
             darkMode
 
               ? "text-gray-400"
@@ -77,7 +77,7 @@ const Analytics = ({
 
         </div>
 
-        <div className={`border rounded-2xl px-4 md:px-5 py-3 flex items-center gap-3 w-fit ${
+        <div className={`border rounded-2xl px-4 md:px-5 py-3 flex items-center gap-3 w-fit max-w-full ${
           darkMode
 
             ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -86,7 +86,7 @@ const Analytics = ({
         }`}>
 
           <TrendingUp
-            className="text-cyan-400"
+            className="text-cyan-400 shrink-0"
             size={
               isMobile
                 ? 18
@@ -94,7 +94,7 @@ const Analytics = ({
             }
           />
 
-          <span className="text-cyan-400 font-semibold text-sm md:text-base">
+          <span className="text-cyan-400 font-semibold text-sm md:text-base whitespace-nowrap">
 
             LIVE ANALYTICS
 
@@ -106,7 +106,7 @@ const Analytics = ({
 
       {/* Top Stats */}
 
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-10">
 
         {[
           {
@@ -141,7 +141,7 @@ const Analytics = ({
           <div
             key={index}
 
-            className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-6 shadow-xl ${
+            className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-6 shadow-xl overflow-hidden ${
               darkMode
 
                 ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -150,9 +150,9 @@ const Analytics = ({
             }`}
           >
 
-            <div className="flex items-center justify-between mb-4 md:mb-6">
+            <div className="flex items-center justify-between mb-4 md:mb-6 gap-4">
 
-              <div className={`p-3 md:p-4 rounded-2xl ${
+              <div className={`p-3 md:p-4 rounded-2xl shrink-0 ${
                 darkMode
 
                   ? "bg-black/20"
@@ -166,7 +166,7 @@ const Analytics = ({
 
             </div>
 
-            <p className={`text-xs md:text-sm mb-2 ${
+            <p className={`text-xs md:text-sm mb-2 break-words ${
               darkMode
 
                 ? "text-gray-400"
@@ -178,7 +178,7 @@ const Analytics = ({
 
             </p>
 
-            <h2 className={`text-2xl md:text-4xl font-black ${card.color}`}>
+            <h2 className={`text-2xl sm:text-3xl md:text-4xl font-black break-words ${card.color}`}>
 
               {card.value}
 
@@ -196,7 +196,7 @@ const Analytics = ({
 
         {/* Threat Trend */}
 
-        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl ${
+        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl overflow-hidden ${
           darkMode
 
             ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -204,13 +204,13 @@ const Analytics = ({
             : "bg-gray-100 border-gray-200"
         }`}>
 
-          <h2 className="text-2xl md:text-3xl font-black mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl font-black mb-6 md:mb-8 break-words">
 
             Threat Trend
 
           </h2>
 
-          <div className="h-[250px] md:h-[320px]">
+          <div className="h-[240px] sm:h-[280px] md:h-[320px] w-full">
 
             <ResponsiveContainer width="100%" height="100%">
 
@@ -278,7 +278,7 @@ const Analytics = ({
 
         {/* Attack Sources */}
 
-        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl ${
+        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl overflow-hidden ${
           darkMode
 
             ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -286,13 +286,13 @@ const Analytics = ({
             : "bg-gray-100 border-gray-200"
         }`}>
 
-          <h2 className="text-2xl md:text-3xl font-black mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl font-black mb-6 md:mb-8 break-words">
 
             Attack Sources
 
           </h2>
 
-          <div className="h-[250px] md:h-[320px]">
+          <div className="h-[240px] sm:h-[280px] md:h-[320px] w-full">
 
             <ResponsiveContainer width="100%" height="100%">
 

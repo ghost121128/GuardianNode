@@ -89,7 +89,7 @@ GuardianNode Enterprise Security Suite
 
   return (
 
-    <div className={`min-h-screen p-4 md:p-8 transition-all duration-500 ${
+    <div className={`min-h-screen w-full overflow-x-hidden p-4 md:p-8 pb-28 md:pb-8 transition-all duration-500 ${
       darkMode
 
         ? "bg-[#040816] text-white"
@@ -101,15 +101,15 @@ GuardianNode Enterprise Security Suite
 
       <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
 
-        <div>
+        <div className="min-w-0">
 
-          <h1 className="text-3xl md:text-5xl font-black mb-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-2 break-words">
 
             Reports
 
           </h1>
 
-          <p className={`text-sm md:text-base ${
+          <p className={`text-sm md:text-base leading-relaxed ${
             darkMode
 
               ? "text-gray-400"
@@ -126,7 +126,7 @@ GuardianNode Enterprise Security Suite
         <button
           onClick={downloadReport}
 
-          className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-4 md:px-6 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 w-full sm:w-fit text-sm md:text-base"
+          className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-4 md:px-6 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 w-full sm:w-fit text-sm md:text-base shrink-0"
         >
 
           <Download
@@ -145,7 +145,7 @@ GuardianNode Enterprise Security Suite
 
       {/* Top Cards */}
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 mb-10">
 
         {[
           {
@@ -167,7 +167,7 @@ GuardianNode Enterprise Security Suite
           <div
             key={index}
 
-            className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-6 shadow-xl ${
+            className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-6 shadow-xl overflow-hidden ${
               darkMode
 
                 ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -176,9 +176,9 @@ GuardianNode Enterprise Security Suite
             }`}
           >
 
-            <div className="flex items-center justify-between mb-4 md:mb-5">
+            <div className="flex items-center justify-between mb-4 md:mb-5 gap-4">
 
-              <div className="bg-cyan-500/10 p-3 md:p-4 rounded-2xl">
+              <div className="bg-cyan-500/10 p-3 md:p-4 rounded-2xl shrink-0">
 
                 <ShieldCheck
                   className="text-cyan-400"
@@ -193,7 +193,7 @@ GuardianNode Enterprise Security Suite
 
             </div>
 
-            <p className={`text-xs md:text-sm mb-2 ${
+            <p className={`text-xs md:text-sm mb-2 break-words ${
               darkMode
 
                 ? "text-gray-400"
@@ -205,7 +205,7 @@ GuardianNode Enterprise Security Suite
 
             </p>
 
-            <h2 className="text-2xl md:text-4xl font-black text-cyan-400">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-cyan-400 break-words">
 
               {card.value}
 
@@ -226,7 +226,7 @@ GuardianNode Enterprise Security Suite
           <div
             key={report.id}
 
-            className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-7 shadow-xl hover:border-cyan-500/40 transition-all duration-300 ${
+            className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-7 shadow-xl hover:border-cyan-500/40 transition-all duration-300 overflow-hidden ${
               darkMode
 
                 ? "bg-[#0B1120]/80 border-[#1E293B]"
@@ -239,9 +239,9 @@ GuardianNode Enterprise Security Suite
 
               {/* Left */}
 
-              <div className="flex items-start gap-4 md:gap-5">
+              <div className="flex items-start gap-4 md:gap-5 min-w-0">
 
-                <div className="bg-cyan-500/10 p-3 md:p-4 rounded-2xl">
+                <div className="bg-cyan-500/10 p-3 md:p-4 rounded-2xl shrink-0">
 
                   <FileText
                     className="text-cyan-400"
@@ -254,9 +254,9 @@ GuardianNode Enterprise Security Suite
 
                 </div>
 
-                <div>
+                <div className="min-w-0">
 
-                  <h2 className="text-lg md:text-2xl font-black mb-3">
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-black mb-3 break-words">
 
                     {report.title}
 
@@ -270,7 +270,7 @@ GuardianNode Enterprise Security Suite
                       : "text-gray-500"
                   }`}>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 break-words">
 
                       <Calendar
                         size={
@@ -278,13 +278,18 @@ GuardianNode Enterprise Security Suite
                             ? 14
                             : 16
                         }
+                        className="shrink-0"
                       />
 
-                      {report.date}
+                      <span className="break-words">
+
+                        {report.date}
+
+                      </span>
 
                     </div>
 
-                    <div>
+                    <div className="break-words">
 
                       {report.threats} Threats Logged
 
@@ -301,7 +306,7 @@ GuardianNode Enterprise Security Suite
               <button
                 onClick={downloadReport}
 
-                className="bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 px-4 md:px-5 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 text-sm md:text-base w-full sm:w-fit"
+                className="bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 px-4 md:px-5 py-3 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 text-sm md:text-base w-full sm:w-fit shrink-0"
               >
 
                 <Download
