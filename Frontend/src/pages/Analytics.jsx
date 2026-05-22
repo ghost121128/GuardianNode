@@ -46,9 +46,7 @@ const Analytics = ({
 
     <div className={`min-h-screen w-full overflow-x-hidden p-4 md:p-8 pb-28 md:pb-8 transition-all duration-500 ${
       darkMode
-
         ? "bg-[#040816] text-white"
-
         : "bg-white text-gray-900"
     }`}>
 
@@ -184,11 +182,11 @@ const Analytics = ({
 
       {/* Charts */}
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8 items-stretch">
 
         {/* Threat Trend */}
 
-        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl min-w-0 ${
+        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl min-w-0 flex flex-col ${
           darkMode
             ? "bg-[#0B1120]/80 border-[#1E293B]"
             : "bg-gray-100 border-gray-200"
@@ -200,7 +198,7 @@ const Analytics = ({
 
           </h2>
 
-          <div className="w-full h-[250px] md:h-[320px] min-w-0">
+          <div className="relative w-full flex-1 min-h-[250px] md:min-h-[320px]">
 
             <ResponsiveContainer width="100%" height="100%">
 
@@ -282,7 +280,7 @@ const Analytics = ({
 
         {/* Attack Sources */}
 
-        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl min-w-0 ${
+        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl min-w-0 flex flex-col ${
           darkMode
             ? "bg-[#0B1120]/80 border-[#1E293B]"
             : "bg-gray-100 border-gray-200"
@@ -294,7 +292,7 @@ const Analytics = ({
 
           </h2>
 
-          <div className="w-full h-[250px] md:h-[320px] min-w-0">
+          <div className="relative w-full flex-1 min-h-[250px] md:min-h-[320px]">
 
             <ResponsiveContainer width="100%" height="100%">
 
