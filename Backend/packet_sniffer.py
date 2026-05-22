@@ -1,111 +1,222 @@
 from scapy.all import sniff
-from scapy.layers.inet import IP
-
+from scapy.layers.inet import IP, TCP, ICMP
 import requests
 import time
+import threading
+import subprocess
 
 BACKEND_URL = "https://your-render-url.onrender.com/api/add-log"
 
 # ====================================
-# Track IP Requests
+# Config
+# ====================================
+
+THRESHOLD = 20
+
+WHITELIST = {
+    "127.0.0.1",
+    "192.168.1.1"
+}
+
+# ====================================
+# Runtime Memory
 # ====================================
 
 ip_counter = {}
-
-# ====================================
-# Blocked IPs
-# ====================================
-
 blocked_ips = set()
+last_reset = time.time()
 
 # ====================================
-# Detection Threshold
+# Send Logs
 # ====================================
 
-THRESHOLD = 15
+def send_log(log_type, message):
+
+    payload = {
+
+        "type": log_type,
+        "log": message,
+        "timestamp": time.strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
+
+    }
+
+    try:
+
+        requests.post(
+            BACKEND_URL,
+            json=payload,
+            timeout=1
+        )
+
+    except Exception as e:
+
+        print(
+            "[ERROR]",
+            e
+        )
 
 # ====================================
-# Process Packets
+# Firewall Block
 # ====================================
 
-def process_packet(packet):
+def block_ip(ip):
 
-    if packet.haslayer(IP):
+    if ip in blocked_ips:
 
-        src_ip = packet[IP].src
-        dst_ip = packet[IP].dst
+        return
 
-        # Skip blocked IPs
-        if src_ip in blocked_ips:
+    blocked_ips.add(ip)
 
-            return
+    print(
+        f"[IPS] Blocking IP: {ip}"
+    )
 
-        # Count packets
-        if src_ip not in ip_counter:
+    # WINDOWS
 
-            ip_counter[src_ip] = 1
+    subprocess.run([
+        "netsh",
+        "advfirewall",
+        "firewall",
+        "add",
+        "rule",
+        f"name=GuardianNode_Block_{ip}",
+        "dir=in",
+        "action=block",
+        f"remoteip={ip}"
+    ])
 
-        else:
+    send_log(
+        "CRITICAL",
+        f"IP BLOCKED → {ip}"
+    )
 
-            ip_counter[src_ip] += 1
+# ====================================
+# Reset Counters
+# ====================================
 
-        # ====================================
-        # Threat Detection
-        # ====================================
+def reset_counters():
 
-        if ip_counter[src_ip] > THRESHOLD:
+    global ip_counter
+    global last_reset
 
-            blocked_ips.add(src_ip)
+    while True:
 
-            threat_log = f"[CRITICAL] IP BLOCKED → {src_ip}"
+        time.sleep(60)
 
-            print(threat_log)
+        ip_counter.clear()
 
-            try:
+        last_reset = time.time()
 
-                requests.post(
+        print(
+            "[INFO] Counters Reset"
+        )
 
-                    BACKEND_URL,
+# ====================================
+# Threat Detection
+# ====================================
 
-                    json={
+def detect_threat(packet):
 
-                        "log": threat_log
+    if not packet.haslayer(IP):
 
-                    }
+        return
 
-                )
+    src_ip = packet[IP].src
+    dst_ip = packet[IP].dst
 
-            except Exception as e:
+    # Ignore whitelist
 
-                print(e)
+    if src_ip in WHITELIST:
 
-            return
+        return
 
-        # ====================================
-        # Normal Traffic
-        # ====================================
+    # Ignore blocked
 
-        log = f"[PACKET] {src_ip} → {dst_ip}"
+    if src_ip in blocked_ips:
+
+        return
+
+    # ====================================
+    # Count Packets
+    # ====================================
+
+    ip_counter[src_ip] = (
+        ip_counter.get(src_ip, 0) + 1
+    )
+
+    packet_count = ip_counter[src_ip]
+
+    # ====================================
+    # SYN FLOOD DETECTION
+    # ====================================
+
+    if packet.haslayer(TCP):
+
+        flags = packet[TCP].flags
+
+        if flags == "S":
+
+            log = (
+                f"[SYN] "
+                f"{src_ip} → {dst_ip}"
+            )
+
+            print(log)
+
+            send_log(
+                "WARNING",
+                log
+            )
+
+    # ====================================
+    # ICMP FLOOD DETECTION
+    # ====================================
+
+    if packet.haslayer(ICMP):
+
+        log = (
+            f"[ICMP] "
+            f"{src_ip} → {dst_ip}"
+        )
 
         print(log)
 
-        try:
+        send_log(
+            "WARNING",
+            log
+        )
 
-            requests.post(
+    # ====================================
+    # THRESHOLD DETECTION
+    # ====================================
 
-                BACKEND_URL,
+    if packet_count > THRESHOLD:
 
-                json={
+        block_ip(src_ip)
 
-                    "log": log
+        return
 
-                }
+    # ====================================
+    # Normal Packet
+    # ====================================
 
-            )
+    log = (
+        f"[PACKET] "
+        f"{src_ip} → {dst_ip}"
+    )
 
-        except Exception as e:
+    print(log)
 
-            print(e)
+# ====================================
+# Start Threads
+# ====================================
+
+threading.Thread(
+    target=reset_counters,
+    daemon=True
+).start()
 
 # ====================================
 # Start Sniffer
@@ -116,9 +227,6 @@ print(
 )
 
 sniff(
-
-    prn=process_packet,
-
+    prn=detect_threat,
     store=False
-
 )

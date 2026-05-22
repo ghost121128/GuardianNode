@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_socketio import SocketIO
 from pymongo import MongoClient
@@ -316,6 +316,9 @@ def simulate_threats():
                 "severity":
                 threat["severity"],
 
+                "status":
+                threat["status"],
+
                 "country":
                 threat["country"],
 
@@ -350,6 +353,160 @@ def home():
 
         "message":
         "GuardianNode Backend Running"
+
+    })
+
+# =========================
+# REAL THREAT API
+# =========================
+
+@app.route(
+    "/api/add-threat",
+    methods=["POST"]
+)
+def add_threat():
+
+    data = request.json
+
+    if not data:
+
+        return jsonify({
+            "error": "No data"
+        }), 400
+
+    ip_address = data.get(
+        "ip",
+        "Unknown"
+    )
+
+    # =========================
+    # Get Location
+    # =========================
+
+    location = get_ip_location(
+        ip_address
+    )
+
+    threat = {
+
+        "ip":
+        ip_address,
+
+        "type":
+        data.get(
+            "type",
+            "Unknown Threat"
+        ),
+
+        "severity":
+        data.get(
+            "severity",
+            "Medium"
+        ),
+
+        "status":
+        data.get(
+            "status",
+            "Monitoring"
+        ),
+
+        "country":
+        location["country"],
+
+        "city":
+        location["city"],
+
+        "lat":
+        location["lat"],
+
+        "lon":
+        location["lon"],
+
+        "timestamp":
+        datetime.now(),
+
+    }
+
+    # =========================
+    # Save Threat
+    # =========================
+
+    threat_collection.insert_one(
+        threat
+    )
+
+    # =========================
+    # Save Blocked IP
+    # =========================
+
+    if threat["status"] == "Blocked":
+
+        blocked_collection.insert_one({
+
+            "ip":
+            threat["ip"],
+
+            "reason":
+            threat["type"],
+
+            "country":
+            threat["country"],
+
+            "city":
+            threat["city"],
+
+            "timestamp":
+            datetime.now(),
+
+        })
+
+    # =========================
+    # Emit Socket Event
+    # =========================
+
+    socketio.emit(
+
+        "new_threat",
+
+        {
+
+            "ip":
+            threat["ip"],
+
+            "type":
+            threat["type"],
+
+            "severity":
+            threat["severity"],
+
+            "status":
+            threat["status"],
+
+            "country":
+            threat["country"],
+
+            "city":
+            threat["city"],
+
+            "lat":
+            threat["lat"],
+
+            "lon":
+            threat["lon"],
+
+        }
+
+    )
+
+    print(
+        "[REAL THREAT]",
+        threat
+    )
+
+    return jsonify({
+
+        "message":
+        "Threat Added"
 
     })
 
