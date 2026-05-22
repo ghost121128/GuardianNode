@@ -13,6 +13,7 @@ import {
   Tooltip,
   BarChart,
   Bar,
+  CartesianGrid,
 } from "recharts";
 
 const threatData = [
@@ -65,9 +66,7 @@ const Analytics = ({
 
           <p className={`text-sm md:text-base ${
             darkMode
-
               ? "text-gray-400"
-
               : "text-gray-500"
           }`}>
 
@@ -79,9 +78,7 @@ const Analytics = ({
 
         <div className={`border rounded-2xl px-4 md:px-5 py-3 flex items-center gap-3 w-fit ${
           darkMode
-
             ? "bg-[#0B1120]/80 border-[#1E293B]"
-
             : "bg-gray-100 border-gray-200"
         }`}>
 
@@ -136,6 +133,7 @@ const Analytics = ({
             icon: <TrendingUp className="text-orange-400" />,
             color: "text-orange-400",
           },
+
         ].map((card, index) => (
 
           <div
@@ -143,9 +141,7 @@ const Analytics = ({
 
             className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-6 shadow-xl ${
               darkMode
-
                 ? "bg-[#0B1120]/80 border-[#1E293B]"
-
                 : "bg-gray-100 border-gray-200"
             }`}
           >
@@ -154,9 +150,7 @@ const Analytics = ({
 
               <div className={`p-3 md:p-4 rounded-2xl ${
                 darkMode
-
                   ? "bg-black/20"
-
                   : "bg-black/5"
               }`}>
 
@@ -168,9 +162,7 @@ const Analytics = ({
 
             <p className={`text-xs md:text-sm mb-2 ${
               darkMode
-
                 ? "text-gray-400"
-
                 : "text-gray-500"
             }`}>
 
@@ -196,11 +188,9 @@ const Analytics = ({
 
         {/* Threat Trend */}
 
-        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl ${
+        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl min-w-0 ${
           darkMode
-
             ? "bg-[#0B1120]/80 border-[#1E293B]"
-
             : "bg-gray-100 border-gray-200"
         }`}>
 
@@ -210,7 +200,7 @@ const Analytics = ({
 
           </h2>
 
-          <div className="h-[250px] md:h-[320px]">
+          <div className="w-full h-[250px] md:h-[320px] min-w-0">
 
             <ResponsiveContainer width="100%" height="100%">
 
@@ -241,6 +231,11 @@ const Analytics = ({
                   </linearGradient>
 
                 </defs>
+
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke={darkMode ? "#1E293B" : "#CBD5E1"}
+                />
 
                 <XAxis
                   dataKey="day"
@@ -287,11 +282,9 @@ const Analytics = ({
 
         {/* Attack Sources */}
 
-        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl ${
+        <div className={`backdrop-blur-xl border rounded-[28px] md:rounded-[32px] p-4 md:p-8 shadow-xl min-w-0 ${
           darkMode
-
             ? "bg-[#0B1120]/80 border-[#1E293B]"
-
             : "bg-gray-100 border-gray-200"
         }`}>
 
@@ -301,11 +294,16 @@ const Analytics = ({
 
           </h2>
 
-          <div className="h-[250px] md:h-[320px]">
+          <div className="w-full h-[250px] md:h-[320px] min-w-0">
 
             <ResponsiveContainer width="100%" height="100%">
 
               <BarChart data={attackSources}>
+
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke={darkMode ? "#1E293B" : "#CBD5E1"}
+                />
 
                 <XAxis
                   dataKey="country"
