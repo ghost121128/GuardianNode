@@ -9,6 +9,8 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import Home from "./pages/Home";
+
 import Dashboard from "./pages/Dashboard";
 import ThreatFeed from "./pages/ThreatFeed";
 import Analytics from "./pages/Analytics";
@@ -36,7 +38,7 @@ const ProtectedLayout = ({
 
   if (!isAuth) {
 
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
 
   }
 
@@ -125,10 +127,17 @@ function App() {
 
     <Routes>
 
-      {/* Login */}
+      {/* Landing Page */}
 
       <Route
         path="/"
+        element={<Home />}
+      />
+
+      {/* Login */}
+
+      <Route
+        path="/login"
         element={<Login />}
       />
 
