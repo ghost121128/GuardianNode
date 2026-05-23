@@ -36,8 +36,6 @@ const socket = io(
 
     timeout: 20000,
 
-    forceNew: true,
-
   }
 );
 
@@ -64,52 +62,53 @@ const ThreatFeed = ({
     window.innerWidth < 768;
 
   // =========================
-  // Fetch Threats
-  // =========================
-
-  const fetchThreats = async () => {
-
-    try {
-
-      const response =
-        await fetch(
-          "https://guardiannode-1.onrender.com/threats"
-        );
-
-      if (!response.ok) {
-
-        throw new Error(
-          "Failed to fetch threats"
-        );
-
-      }
-
-      const data =
-        await response.json();
-
-      setThreats(
-        Array.isArray(data)
-          ? data
-          : []
-      );
-
-    }
-
-    catch (error) {
-
-      console.log(error);
-
-    }
-
-  };
-
-  // =========================
-  // Socket.IO Events
+  // Realtime Threat System
   // =========================
 
   useEffect(() => {
 
-    fetchThreats();
+    // =========================
+    // Initial Threat Load
+    // =========================
+
+    const loadThreats =
+      async () => {
+
+        try {
+
+          const response =
+            await fetch(
+              "https://guardiannode-1.onrender.com/threats"
+            );
+
+          const data =
+            await response.json();
+
+          if (
+            Array.isArray(data)
+          ) {
+
+            setThreats(
+              data.slice(0, 20)
+            );
+
+          }
+
+        }
+
+        catch (error) {
+
+          console.log(error);
+
+        }
+
+      };
+
+    loadThreats();
+
+    // =========================
+    // Socket Connected
+    // =========================
 
     socket.on(
       "connect",
@@ -122,56 +121,63 @@ const ThreatFeed = ({
       }
     );
 
-    socket.on(
-      "connect_error",
-      (err) => {
-
-        console.log(
-          "SOCKET ERROR:",
-          err
-        );
-
-      }
-    );
-
-    socket.on(
-      "disconnect",
-      () => {
-
-        console.log(
-          "SOCKET DISCONNECTED"
-        );
-
-      }
-    );
+    // =========================
+    // Live Threat Event
+    // =========================
 
     socket.on(
       "new_threat",
       (newThreat) => {
 
         console.log(
-          "NEW THREAT:",
+          "LIVE THREAT:",
           newThreat
         );
 
+        const threatData = {
+
+          ...newThreat,
+
+          timestamp:
+            new Date().toLocaleString(),
+
+        };
+
         // =========================
-        // Add Live Threat
+        // Add Threat Instantly
         // =========================
 
-        setThreats((prev) => [
+        setThreats((prev) => {
 
-          {
+          const exists =
+            prev.some(
+              (t) =>
 
-            ...newThreat,
+                t.ip ===
+                threatData.ip
 
-            timestamp:
-              new Date().toLocaleString(),
+                &&
 
-          },
+                t.type ===
+                threatData.type
 
-          ...prev,
+            );
 
-        ]);
+          if (exists) {
+
+            return prev;
+
+          }
+
+          return [
+
+            threatData,
+
+            ...prev.slice(0, 49),
+
+          ];
+
+        });
 
         // =========================
         // Popup Alert
@@ -182,7 +188,7 @@ const ThreatFeed = ({
 
         const popup = {
 
-          ...newThreat,
+          ...threatData,
 
           id: popupId,
 
@@ -197,7 +203,7 @@ const ThreatFeed = ({
         ]);
 
         // =========================
-        // Auto Remove Popup
+        // Remove Popup
         // =========================
 
         setTimeout(() => {
@@ -211,27 +217,23 @@ const ThreatFeed = ({
 
           );
 
-        }, 5000);
+        }, 4000);
 
       }
     );
 
-    return () => {
+    // =========================
+    // Cleanup
+    // =========================
 
-      socket.off(
-        "new_threat"
-      );
+    return () => {
 
       socket.off(
         "connect"
       );
 
       socket.off(
-        "connect_error"
-      );
-
-      socket.off(
-        "disconnect"
+        "new_threat"
       );
 
     };
@@ -545,8 +547,6 @@ const ThreatFeed = ({
                     }`}
                   >
 
-                    {/* Top */}
-
                     <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
 
                       <div>
@@ -577,11 +577,7 @@ const ThreatFeed = ({
 
                     </div>
 
-                    {/* Grid */}
-
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
-
-                      {/* IP */}
 
                       <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-4 md:p-5`}>
 
@@ -599,8 +595,6 @@ const ThreatFeed = ({
 
                       </div>
 
-                      {/* Status */}
-
                       <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-4 md:p-5`}>
 
                         <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
@@ -616,8 +610,6 @@ const ThreatFeed = ({
                         </h3>
 
                       </div>
-
-                      {/* Timestamp */}
 
                       <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-4 md:p-5`}>
 
@@ -719,8 +711,6 @@ const ThreatFeed = ({
               }`}
             >
 
-              {/* Close */}
-
               <button
 
                 onClick={() =>
@@ -734,15 +724,11 @@ const ThreatFeed = ({
 
               </button>
 
-              {/* Title */}
-
               <h1 className="text-3xl md:text-5xl font-black mb-4 pr-10 break-words">
 
                 {selectedThreat.type}
 
               </h1>
-
-              {/* Grid */}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
