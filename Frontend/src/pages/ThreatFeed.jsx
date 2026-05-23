@@ -22,10 +22,22 @@ import { io } from "socket.io-client";
 const socket = io(
   "https://guardiannode-1.onrender.com",
   {
-    transports: ["websocket"],
+
+    transports: [
+      "polling",
+      "websocket"
+    ],
+
     reconnection: true,
-    reconnectionAttempts: 10,
+
+    reconnectionAttempts: 20,
+
     reconnectionDelay: 1000,
+
+    timeout: 20000,
+
+    forceNew: true,
+
   }
 );
 
@@ -103,8 +115,36 @@ const ThreatFeed = ({
     );
 
     socket.on(
+      "connect_error",
+      (err) => {
+
+        console.log(
+          "SOCKET ERROR:",
+          err
+        );
+
+      }
+    );
+
+    socket.on(
+      "disconnect",
+      () => {
+
+        console.log(
+          "SOCKET DISCONNECTED"
+        );
+
+      }
+    );
+
+    socket.on(
       "new_threat",
       (newThreat) => {
+
+        console.log(
+          "NEW THREAT RECEIVED",
+          newThreat
+        );
 
         // =========================
         // Add Threat Realtime
@@ -176,6 +216,14 @@ const ThreatFeed = ({
 
       socket.off(
         "connect"
+      );
+
+      socket.off(
+        "connect_error"
+      );
+
+      socket.off(
+        "disconnect"
       );
 
     };
@@ -363,238 +411,6 @@ const ThreatFeed = ({
           {threats.length}
 
         </div>
-
-      </div>
-
-      {/* =========================
-          Search + Filter
-      ========================= */}
-
-      <div className="flex flex-col sm:flex-row gap-4 w-full mb-8">
-
-        {/* Search */}
-
-        <div className={`border rounded-2xl px-4 md:px-5 py-3 flex items-center gap-3 shadow-lg w-full min-w-0 ${
-          darkMode
-            ? "bg-[#0B1120] border-[#1E293B]"
-            : "bg-white border-gray-200"
-        }`}>
-
-          <Search
-            className="text-gray-400 shrink-0"
-            size={18}
-          />
-
-          <input
-            type="text"
-            placeholder="Search threats..."
-            value={search}
-            onChange={(e) =>
-              setSearch(
-                e.target.value
-              )
-            }
-            className="bg-transparent outline-none w-full text-sm md:text-base"
-          />
-
-        </div>
-
-        {/* Filter */}
-
-        <select
-
-          value={filter}
-
-          onChange={(e) =>
-            setFilter(
-              e.target.value
-            )
-          }
-
-          className={`rounded-2xl px-4 md:px-5 py-3 shadow-lg border text-sm md:text-base w-full sm:w-[180px] ${
-            darkMode
-              ? "bg-[#0B1120] border-[#1E293B] text-white"
-              : "bg-white border-gray-200 text-black"
-          }`}
-        >
-
-          <option value="ALL">
-            All
-          </option>
-
-          <option value="HIGH">
-            High
-          </option>
-
-          <option value="MEDIUM">
-            Medium
-          </option>
-
-          <option value="CRITICAL">
-            Critical
-          </option>
-
-          <option value="LOW">
-            Low
-          </option>
-
-        </select>
-
-      </div>
-
-      {/* =========================
-          Threat Cards
-      ========================= */}
-
-      <div className="space-y-5">
-
-        {
-
-          filteredThreats.length > 0 ? (
-
-            filteredThreats
-              .slice(0, 20)
-              .map(
-                (
-                  threat,
-                  index
-                ) => (
-
-                  <motion.div
-
-                    key={index}
-
-                    initial={{
-                      opacity: 0,
-                      y: 15,
-                    }}
-
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-
-                    transition={{
-                      duration: 0.2,
-                    }}
-
-                    onClick={() =>
-                      setSelectedThreat(threat)
-                    }
-
-                    className={`cursor-pointer border rounded-[28px] p-4 md:p-6 shadow-xl hover:shadow-2xl transition-all duration-300 ${
-                      darkMode
-                        ? "bg-[#0B1120]/80 border-[#1E293B]"
-                        : "bg-white border-gray-200"
-                    }`}
-                  >
-
-                    <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
-
-                      <div>
-
-                        <h2 className="text-2xl sm:text-3xl font-black mb-2 break-words">
-
-                          {threat.type}
-
-                        </h2>
-
-                        <p className={`text-sm md:text-base ${
-                          darkMode
-                            ? "text-gray-400"
-                            : "text-gray-500"
-                        }`}>
-
-                          Real-time suspicious activity detected
-
-                        </p>
-
-                      </div>
-
-                      <div className="bg-orange-500/10 text-orange-500 px-4 md:px-5 py-2 rounded-full font-bold w-fit text-sm md:text-base">
-
-                        {threat.severity}
-
-                      </div>
-
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
-
-                      <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-4 md:p-5`}>
-
-                        <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
-
-                          IP Address
-
-                        </p>
-
-                        <h3 className="text-base md:text-xl font-bold break-all">
-
-                          {threat.ip}
-
-                        </h3>
-
-                      </div>
-
-                      <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-4 md:p-5`}>
-
-                        <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
-
-                          Status
-
-                        </p>
-
-                        <h3 className="text-base md:text-xl font-bold text-green-500 break-words">
-
-                          {threat.status}
-
-                        </h3>
-
-                      </div>
-
-                      <div className={`${darkMode ? "bg-[#111827]" : "bg-gray-100"} rounded-2xl p-4 md:p-5`}>
-
-                        <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-2 text-sm`}>
-
-                          Timestamp
-
-                        </p>
-
-                        <h3 className="text-xs md:text-sm font-bold break-all">
-
-                          {threat.timestamp}
-
-                        </h3>
-
-                      </div>
-
-                    </div>
-
-                  </motion.div>
-
-                )
-              )
-
-          ) : (
-
-            <div className={`rounded-[28px] p-8 md:p-10 text-center border ${
-              darkMode
-                ? "bg-[#0B1120] border-[#1E293B]"
-                : "bg-white border-gray-200"
-            }`}>
-
-              <h1 className="text-2xl md:text-4xl font-black mb-4">
-
-                No Threats Found
-
-              </h1>
-
-            </div>
-
-          )
-
-        }
 
       </div>
 
