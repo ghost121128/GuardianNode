@@ -28,7 +28,13 @@ socketio = SocketIO(
 
     app,
 
-    cors_allowed_origins="*"
+    cors_allowed_origins="*",
+
+    async_mode="threading",
+
+    ping_timeout=60,
+
+    ping_interval=25
 
 )
 
@@ -336,6 +342,10 @@ def simulate_threats():
         )
 
         print(
+            "[SOCKET EVENT EMITTED]"
+        )
+
+        print(
             "Threat Generated:",
             threat
         )
@@ -353,6 +363,58 @@ def home():
 
         "message":
         "GuardianNode Backend Running"
+
+    })
+
+# =========================
+# TEST ALERT ROUTE
+# =========================
+
+@app.route("/test-alert")
+def test_alert():
+
+    socketio.emit(
+
+        "new_threat",
+
+        {
+
+            "ip":
+            "192.168.1.10",
+
+            "type":
+            "Manual Test Threat",
+
+            "severity":
+            "Critical",
+
+            "status":
+            "Blocked",
+
+            "country":
+            "India",
+
+            "city":
+            "Mumbai",
+
+            "lat":
+            19.0760,
+
+            "lon":
+            72.8777,
+
+        }
+
+    )
+
+    print(
+        "[TEST ALERT SENT]"
+    )
+
+    return jsonify({
+
+        "message":
+        "Alert Sent"
 
     })
 
@@ -496,6 +558,10 @@ def add_threat():
 
         }
 
+    )
+
+    print(
+        "[SOCKET EVENT EMITTED]"
     )
 
     print(
