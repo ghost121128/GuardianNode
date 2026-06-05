@@ -43,11 +43,7 @@ const ProtectedLayout = ({
 
   }
 
-  if (loading) {
-
-  return <Loader />;
-
-}
+ 
 
   return (
 
@@ -148,6 +144,14 @@ function App() {
     );
 
   }, [darkMode]);
+
+
+
+   if (loading) {
+
+  return <Loader />;
+
+}
 
   return (
 
