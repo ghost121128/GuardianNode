@@ -59,6 +59,13 @@ const Login = () => {
 
       <div className="w-full max-w-md bg-[#0B1120]/80 backdrop-blur-xl border border-[#1E293B] rounded-[28px] sm:rounded-[40px] p-6 sm:p-8 md:p-10 shadow-2xl">
 
+
+
+       <img
+  src="/logos/guardiannode-full-logo.svg"
+  alt="GuardianNode"
+  className="w-56 mx-auto mb-6"
+/>
         {/* Logo */}
 
         <div className="text-center mb-8 md:mb-10">

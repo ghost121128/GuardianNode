@@ -27,7 +27,7 @@ const Home = () => {
         <div className="flex items-center gap-4">
 
           <img
-            src="/logos/guardiannode-full-logo.png"
+            src="/logos/guardiannode-full-logo.svg"
             alt="GuardianNode"
             className="w-[180px] object-contain"
           />
@@ -299,7 +299,7 @@ const Home = () => {
           <div>
 
             <img
-              src="/logos/guardiannode-full-logo.png"
+              src="/logos/guardiannode-full-logo.svg"
               alt="GuardianNode"
               className="w-[180px]"
             />
