@@ -7,7 +7,7 @@ const Loader = () => {
     <div className="fixed inset-0 bg-[#040816] flex flex-col items-center justify-center z-[9999]">
 
       <img
-        src="/logos/guardiannode-logo.png"
+        src="/logos/guardiannode-full-logo.svg"
         alt="GuardianNode"
         className="w-28 h-28 animate-pulse"
       />
