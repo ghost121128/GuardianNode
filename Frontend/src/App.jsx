@@ -17,6 +17,7 @@ import Analytics from "./pages/Analytics";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Login from "./pages/login";
+import Loader from "./components/Loader";
 
 import Sidebar from "./components/ui/Sidebar";
 import BottomNav from "./components/ui/BottomNav";
@@ -41,6 +42,12 @@ const ProtectedLayout = ({
     return <Navigate to="/login" />;
 
   }
+
+  if (loading) {
+
+  return <Loader />;
+
+}
 
   return (
 
@@ -88,6 +95,25 @@ const ProtectedLayout = ({
 // =========================
 
 function App() {
+
+
+  const [loading, setLoading] =
+  useState(true);
+
+  useEffect(() => {
+
+  const timer =
+    setTimeout(() => {
+
+      setLoading(false);
+
+    }, 2500);
+
+  return () =>
+    clearTimeout(timer);
+
+}, []);
+
 
   // =========================
   // Global Theme State
