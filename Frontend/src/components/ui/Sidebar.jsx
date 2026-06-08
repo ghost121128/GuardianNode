@@ -123,7 +123,7 @@ const Sidebar = ({
         <div className="p-4 md:p-6 xl:p-8 flex justify-center">
 
   <img
-    src="/logos/guardiannode-full-logo.png"
+    src="/logos/guardiannode-logo.svg"
     alt="GuardianNode"
     className={`object-contain ${
       isMobile
