@@ -72,10 +72,6 @@ const Login = () => {
 
           <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-cyan-500/10 flex items-center justify-center mx-auto mb-5 md:mb-6">
 
-            <Shield
-              size={32}
-              className="text-cyan-400 sm:w-10 sm:h-10"
-            />
 
           </div>
 

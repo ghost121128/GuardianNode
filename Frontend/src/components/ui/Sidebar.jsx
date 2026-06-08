@@ -120,39 +120,19 @@ const Sidebar = ({
 
         {/* Logo */}
 
-        <div className="p-4 md:p-6 xl:p-8">
+        <div className="p-4 md:p-6 xl:p-8 flex justify-center">
 
-          <h1 className={`font-black text-cyan-400 break-words leading-tight ${
-            isMobile
+  <img
+    src="/logos/guardiannode-full-logo.png"
+    alt="GuardianNode"
+    className={`object-contain ${
+      isMobile
+        ? "w-14"
+        : "w-48 xl:w-56"
+    }`}
+  />
 
-              ? "text-lg text-center"
-
-              : "text-3xl xl:text-4xl"
-          }`}>
-
-            GuardianNode
-
-          </h1>
-
-          <p className={`mt-2 text-sm leading-relaxed ${
-            isMobile
-
-              ? "hidden"
-
-              :
-
-            darkMode
-
-              ? "text-gray-400"
-
-              : "text-gray-600"
-          }`}>
-
-            Cyber Defense Platform
-
-          </p>
-
-        </div>
+</div>
 
         {/* Navigation */}
 
